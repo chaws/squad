@@ -448,16 +448,21 @@ def attachment(request, group_slug, project_slug, build_version, job_id, fname):
 
 @auth
 def metrics(request, group_slug, project_slug):
+    import time
     project = request.project
-
+    print('starting request to metrics page ')
+    begining = time.time()
     environments = [{"name": e.slug} for e in project.environments.order_by('id').all()]
     metrics = get_metrics_list(project)
 
+    start_time = time.time()
     data = get_metric_data(
         project,
         request.GET.getlist('metric'),
         request.GET.getlist('environment')
     )
+    print('It took %s to get all metric data' % (time.time() - start_time))
+    start_time = time.time()
 
     context = {
         "project": project,
@@ -467,7 +472,23 @@ def metrics(request, group_slug, project_slug):
             'name', 'value')),
         "data": data,
     }
-    return render(request, 'squad/metrics.jinja2', context)
+    print('It took %s to generate context' % (time.time() - start_time))
+    start_time = time.time()
+    text = render(request, 'squad/metrics.jinja2', context)
+    print('It took %s to render the template' % (time.time() - start_time))
+    print('length of rendered response %d' % len(text.content))
+    print('Calling GC')
+    import gc
+    start_time = time.time()
+    gc.collect()
+    print('It took %s to garbage collection' % (time.time() - start_time))
+    print('Total time %s' % (time.time() - begining))
+    print('*'*42)
+    print()
+    print()
+
+
+    return text
 
 
 @auth
