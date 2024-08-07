@@ -6,18 +6,18 @@ from squad.plugins.lib.base_log_parser import BaseLogParser, REGEX_NAME, REGEX_E
 logger = logging.getLogger()
 
 MULTILINERS = [
-    ('check-kernel-exception', r'-+\[? cut here \]?-+.*?-+\[? end trace \w* \]?-+', r"\d][^\+\n]*"),
-    ('check-kernel-kasan', r'=+\n\[[\s\.\d]+\]\s+BUG: KASAN:.*?=+', r"BUG: KASAN:[^\+\n]*"),
-    ('check-kernel-kfence', r'=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*?=+', r"BUG: KFENCE:[^\+\n]*"),
+    ('exception', r'-+\[? cut here \]?-+.*?-+\[? end trace \w* \]?-+', r"\d][^\+\n]*"),
+    ('kasan', r'=+\n\[[\s\.\d]+\]\s+BUG: KASAN:.*?=+', r"BUG: KASAN:[^\+\n]*"),
+    ('kfence', r'=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*?=+', r"BUG: KFENCE:[^\+\n]*"),
 ]
 
 ONELINERS = [
-    ('check-kernel-oops', r'^[^\n]+Oops(?: -|:).*?$', r"Oops[^\+\n]*"),
-    ('check-kernel-fault', r'^[^\n]+Unhandled fault.*?$', r"Unhandled [^\+\n]*"),
-    ('check-kernel-warning', r'^[^\n]+WARNING:.*?$', r"WARNING: [^\+\n]*"),
-    ('check-kernel-bug', r'^[^\n]+(?: kernel BUG at|BUG:).*?$', r"BUG[^\+\n]*"),
-    ('check-kernel-invalid-opcode', r'^[^\n]+invalid opcode:.*?$', r"invalid opcode: [^\+\n]*"),
-    ('check-kernel-panic', r'Kernel panic - not syncing.*?$', r"Kernel [^\+\n]*"),
+    ('oops', r'^[^\n]+Oops(?: -|:).*?$', r"Oops[^\+\n]*"),
+    ('fault', r'^[^\n]+Unhandled fault.*?$', r"Unhandled [^\+\n]*"),
+    ('warning', r'^[^\n]+WARNING:.*?$', r"WARNING:[^\+\n]*"),
+    ('bug', r'^[^\n]+(?: kernel BUG at|BUG:).*?$', r"BUG[^\+\n]*"),
+    ('invalid-opcode', r'^[^\n]+invalid opcode:.*?$', r"invalid opcode:[^\+\n]*"),
+    ('panic', r'Kernel panic - not syncing.*?$', r"Kernel [^\+\n]*"),
 ]
 
 # Tip: broader regexes should come first
