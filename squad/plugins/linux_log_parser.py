@@ -6,9 +6,9 @@ from squad.plugins.lib.base_log_parser import BaseLogParser, REGEX_NAME, REGEX_E
 logger = logging.getLogger()
 
 MULTILINERS = [
-    ('exception', r'-+\[? cut here \]?-+.*?-+\[? end trace \w* \]?-+', r"\d][^\+\n]*"),
-    ('kasan', r'=+\n\[[\s\.\d]+\]\s+BUG: KASAN:.*?=+', r"BUG: KASAN:[^\+\n]*"),
-    ('kfence', r'=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*?=+', r"BUG: KFENCE:[^\+\n]*"),
+    ('exception', r'-+\[? cut here \]?-+.*?\[[\s\.\d]+\]\s+-+\[? end trace \w* \]?-+', r"\n\[[\s\.\d][^\+\n]*"),
+    ('kasan', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KASAN:.*\n*?\[[\s\.\d]+\]\s+=+', r"BUG: KASAN:[^\+\n]*"),
+    ('kfence', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*\[[\s\.\d]+\]\s+=+', r"BUG: KFENCE:[^\+\n]*"),
 ]
 
 ONELINERS = [
