@@ -5,10 +5,28 @@ stages:
   - test
 
 
-test:
+#test:
+#  stage: test
+#  script:
+#    - env
+#    - pip install -r requirements-dev.txt
+#    - export SQUAD_EXCLUDE_TEST_TAGS=skip_sqlite
+#    - ./manage.py test
+
+
+test-with-postgres:
   stage: test
+  services:
+    - postgres
+  variables:
+    POSTGRES_DB: squad
+    POSTGRES_USER: squad
+    POSTGRES_PASSWORD: squad
+    POSTGRES_HOST_AUTH_METHOD: trust
+    TZ: UTC
+    PGTZ: UTC
+    DATABASE: "ENGINE=django.db.backends.postgresql_psycopg2:NAME=squad:USER=squad:PASSWORD=squad:HOST=postgres:PORT=5432"
   script:
     - env
     - pip install -r requirements-dev.txt
-    - export SQUAD_EXCLUDE_TEST_TAGS=skip_sqlite
     - ./manage.py test
