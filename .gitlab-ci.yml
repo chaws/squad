@@ -10,4 +10,5 @@ test:
   script:
     - env
     - pip install -r requirements-dev.txt
+    - export SQUAD_EXCLUDE_TEST_TAGS=skip_sqlite
     - ./manage.py test
