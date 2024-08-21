@@ -1,0 +1,13 @@
+image: python:3.9
+
+
+stages:
+  - test
+
+
+test:
+  stage: test
+  script:
+    - env
+    - pip install -r requirements-dev.txt
+    - ./manage.py test
