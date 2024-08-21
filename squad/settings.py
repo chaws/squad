@@ -37,17 +37,21 @@ if not os.access(DATA_DIR, os.W_OK):
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-secret_key_file = os.getenv('SECRET_KEY_FILE', None)
-if secret_key_file is None:
-    secret_key_file = os.path.join(DATA_DIR, 'secret.dat')
+secret_key = os.getenv('SECRET_KEY', None)
+if secret_key:
+    SECRET_KEY = secret_key
+else:
+    secret_key_file = os.getenv('SECRET_KEY_FILE', None)
+    if secret_key_file is None:
+        secret_key_file = os.path.join(DATA_DIR, 'secret.dat')
 
-if not os.path.exists(secret_key_file):
-    from squad.core.utils import random_key
-    fd = os.open(secret_key_file, os.O_WRONLY | os.O_CREAT, 0o600)
-    with os.fdopen(fd, 'w') as f:
-        f.write(random_key(64))
+    if not os.path.exists(secret_key_file):
+        from squad.core.utils import random_key
+        fd = os.open(secret_key_file, os.O_WRONLY | os.O_CREAT, 0o600)
+        with os.fdopen(fd, 'w') as f:
+            f.write(random_key(64))
 
-SECRET_KEY = open(secret_key_file).read()
+    SECRET_KEY = open(secret_key_file).read()
 
 DEBUG = os.getenv('ENV') not in ['production', 'staging']
 
