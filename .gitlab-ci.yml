@@ -11,7 +11,7 @@ test-in-docker:
   services:
     - docker:dind
   script:
-    - env
+    - env | sort
     - ./dev-docker ./manage.py test -v 3
 
 
@@ -28,6 +28,6 @@ test-in-docker:
 #    PGTZ: UTC
 #    DATABASE: "ENGINE=django.db.backends.postgresql_psycopg2:NAME=squad:USER=squad:PASSWORD=squad:HOST=postgres:PORT=5432"
 #  script:
-#    - env
+#    - env | sort
 #    - pip install -r requirements-dev.txt
 #    - ./manage.py test
