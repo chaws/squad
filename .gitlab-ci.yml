@@ -3,6 +3,8 @@ image: python:3.9
 
 stages:
   - test
+  - build
+  - publish
 
 
 test-in-docker:
@@ -15,19 +17,48 @@ test-in-docker:
     - ./dev-docker ./manage.py test -v 3
 
 
-#test-with-postgres:
-#  stage: test
-#  services:
-#    - postgres
-#  variables:
-#    POSTGRES_DB: squad
-#    POSTGRES_USER: squad
-#    POSTGRES_PASSWORD: squad
-#    POSTGRES_HOST_AUTH_METHOD: trust
-#    TZ: UTC
-#    PGTZ: UTC
-#    DATABASE: "ENGINE=django.db.backends.postgresql_psycopg2:NAME=squad:USER=squad:PASSWORD=squad:HOST=postgres:PORT=5432"
-#  script:
-#    - env | sort
-#    - pip install -r requirements-dev.txt
-#    - ./manage.py test
+test-with-postgres:
+  stage: test
+  services:
+    - postgres
+  variables:
+    POSTGRES_DB: squad
+    POSTGRES_USER: squad
+    POSTGRES_PASSWORD: squad
+    POSTGRES_HOST_AUTH_METHOD: trust
+    TZ: UTC
+    PGTZ: UTC
+    DATABASE: "ENGINE=django.db.backends.postgresql_psycopg2:NAME=squad:USER=squad:PASSWORD=squad:HOST=postgres:PORT=5432"
+  script:
+    - env | sort
+    - pip install -r requirements-dev.txt
+    - ./manage.py test
+    - ./manage.py compilemessages
+
+
+build-new-release:
+  image: docker
+  stage: build
+  services:
+    - docker:dind
+  variables:
+    SQUAD_RELEASE: 1
+  script:
+    - env | sort
+    - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+    - ./scripts/build "$VERSION"
+    - ./scripts/upload "$VERSION"
+
+
+publish-new-release:
+  image: docker
+  stage: publish
+  services:
+    - docker:dind
+  variables:
+    SQUAD_RELEASE: 1
+  script:
+    - env | sort
+    - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+    - ./scripts/build "$VERSION"
+    - ./scripts/upload "$VERSION"
