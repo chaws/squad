@@ -105,7 +105,7 @@ def add_test_run(request, group_slug, project_slug, version, environment_slug):
     if 'attachment' in request.FILES:
         attachments = {}
         for f in request.FILES.getlist('attachment'):
-            attachments[f.name] = read_file_upload(f)
+            attachments[f.name] = f
         test_run_data['attachments'] = attachments
 
     receive = ReceiveTestRun(project)

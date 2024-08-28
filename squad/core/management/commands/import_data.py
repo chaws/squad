@@ -2,6 +2,7 @@ from glob import glob
 import os
 import re
 from django.core.management.base import BaseCommand
+from django.core.files import File
 
 
 from squad.core.models import Build
@@ -123,7 +124,7 @@ class Command(BaseCommand):
         for f in glob(os.path.join(directory, '*')):
             name = os.path.basename(f)
             if name not in ['metrics.json', 'metadata.json', 'tests.json']:
-                attachments[name] = open(f, 'rb').read()
+                attachments[name] = File(open(f, 'rb'))
 
         if not self.options['silent']:
             print("Importing test run: %s" % directory)

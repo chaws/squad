@@ -172,9 +172,9 @@ class ReceiveTestRun(object):
         if log_file is not None:
             testrun.save_log_file(log_file)
 
-        for filename, data in attachments.items():
-            attachment = testrun.attachments.create(filename=filename, length=len(data))
-            attachment.save_file(filename, data)
+        for filename, file in attachments.items():
+            attachment = testrun.attachments.create(filename=filename, length=file.size)
+            attachment.save_file(filename, file)
 
         testrun.refresh_from_db()
 

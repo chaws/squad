@@ -909,8 +909,8 @@ class Attachment(models.Model):
                 self.__data__ = b''
         return self.__data__
 
-    def save_file(self, filename, contents):
-        storage_save(self, self.storage, filename, contents)
+    def save_file(self, filename, file):
+        storage_save(self, self.storage, filename, file)
 
 
 class SuiteMetadata(models.Model):
