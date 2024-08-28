@@ -175,23 +175,6 @@ class TestLinuxLogParser(TestCase):
         self.assertNotIn('Oops', test_fault.log)
         self.assertIn('Unhandled fault:', test_fault.log)
 
-    def test_pass_if_nothing_is_found(self):
-        testrun = self.new_testrun('/dev/null')
-        self.plugin.postprocess_testrun(testrun)
-
-        tests = testrun.tests
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic')
-        test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception')
-        test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning')
-        test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops')
-        test_fault = tests.get(suite__slug='log-parser-test', metadata__name='fault')
-
-        self.assertTrue(test_panic.result)
-        self.assertTrue(test_exception.result)
-        self.assertTrue(test_warning.result)
-        self.assertTrue(test_oops.result)
-        self.assertTrue(test_fault.result)
-
     def test_two_testruns_distinct_test_names(self):
         testrun1 = self.new_testrun('/dev/null', 'job1')
         testrun2 = self.new_testrun('/dev/null', 'job2')
@@ -206,16 +189,8 @@ class TestLinuxLogParser(TestCase):
         self.plugin.postprocess_testrun(testrun)
 
         tests = testrun.tests
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic')
-        test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception')
         test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-suspicious-rcu-usage')
-        test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops')
-        test_fault = tests.get(suite__slug='log-parser-test', metadata__name='fault')
 
-        self.assertTrue(test_panic.result)
-        self.assertTrue(test_exception.result)
-        self.assertTrue(test_oops.result)
-        self.assertTrue(test_fault.result)
         self.assertFalse(test_warning.result)
 
         self.assertIn('WARNING: suspicious RCU usage', test_warning.log)

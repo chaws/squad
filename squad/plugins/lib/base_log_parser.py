@@ -56,11 +56,6 @@ class BaseLogParser:
         tests_without_shas_to_create = defaultdict(set)
         tests_with_shas_to_create = defaultdict(set)
 
-        # If there are no lines, use the default name and create a passing
-        # test. For example "check-kernel-oops"
-        if not lines:
-            tests_without_shas_to_create[test_name] = []
-
         # If there are lines, then create the tests for these.
         for line in lines:
             extracted_name = self.create_name(line, test_regex)
