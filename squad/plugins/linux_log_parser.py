@@ -8,6 +8,7 @@ logger = logging.getLogger()
 MULTILINERS = [
     ('exception', r'-+\[? cut here \]?-+.*?\[[\s\.\d]+\]\s+-+\[? end trace \w* \]?-+', r"\n\[[\s\.\d][^\+\n]*"),
     ('kasan', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KASAN:.*\n*?\[[\s\.\d]+\]\s+=+', r"BUG: KASAN:[^\+\n]*"),
+    ('kcsan', r'=+\n\[[\s\.\d]+\].*?BUG: KCSAN:.*?=+', r"BUG: KCSAN:[^\+\n]*"),
     ('kfence', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*\[[\s\.\d]+\]\s+=+', r"BUG: KFENCE:[^\+\n]*"),
 ]
 

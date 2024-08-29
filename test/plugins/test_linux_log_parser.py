@@ -85,6 +85,33 @@ class TestLinuxLogParser(TestCase):
         self.assertIn('Write of size 1 at addr c6aaf473 by task kunit_try_catch/191', test.log)
         self.assertNotIn('Internal error: Oops', test.log)
 
+    def test_detects_kernel_kcsan_simple(self):
+        testrun = self.new_testrun('kcsan_simple.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='kcsan-bug-kcsan-data-race-in-do_page_fault-spectre_v_enable_task_mitigation')
+
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertNotIn('Booting Linux', test.log)
+        self.assertIn('==================================================================', test.log)
+        self.assertIn('BUG: KCSAN: data-race in do_page_fault spectre_v4_enable_task_mitigation', test.log)
+        self.assertIn('write to 0xffff80000f00bfb8 of 8 bytes by task 93 on cpu 0:', test.log)
+        self.assertNotIn('Internal error: Oops', test.log)
+
+    def test_detects_kernel_kcsan_full_log(self):
+        testrun = self.new_testrun('kcsan_full_log.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='kcsan-bug-kcsan-data-race-in-set_nlink-set_nlink')
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertNotIn('Booting Linux', test.log)
+        self.assertIn('==================================================================', test.log)
+        self.assertIn('BUG: KCSAN: data-race in set_nlink / set_nlink', test.log)
+        self.assertIn('read to 0xffff54a501072a08 of 4 bytes by task 137 on cpu 1:', test.log)
+        self.assertNotIn('BUG: KCSAN: data-race in __hrtimer_run_queues / hrtimer_active', test.log)
+
     def test_detects_kernel_kfence(self):
         testrun = self.new_testrun('kfence.log')
         self.plugin.postprocess_testrun(testrun)
