@@ -8,6 +8,20 @@ tmpdir="$basedir"/tmp
 datadir="$tmpdir"/data
 mkdir -p "$datadir"
 
+has_input=
+TTY="-i"
+if [ -t 1 ];
+then
+  TTY="-it"
+  has_input=yes
+fi
+
+user=squad
+if [ ! -z "${USER-}" ]
+then
+  user=${USER}
+fi
+
 dockerfile="$datadir"/../Dockerfile.dev
 (
   sed -e '1,/# Prepare the environment/!d' "$basedir"/Dockerfile
@@ -25,11 +39,16 @@ dockerfile="$datadir"/../Dockerfile.dev
 		nodejs \
 		ruby-foreman \
 		procps && \'
-  echo "    groupadd -g $(id -g) $(id -gn) && \\"
-  echo "    useradd -m -u $(id -u) -g $(id -g) -s /bin/bash ${USER}"
-  echo "RUN pip3 install --no-dependencies django-bootstrap3"
+  echo "    pip3 install --no-dependencies django-bootstrap3"
+
+  if [ ! -z "${has_input}" ]
+  then
+    echo "RUN groupadd -g $(id -g) $(id -gn) && \\"
+    echo "    useradd -m -u $(id -u) -g $(id -g) -s /bin/bash ${user}"
+    echo "USER ${user}"
+  fi
+
   echo "WORKDIR /app"
-  echo "USER ${USER}"
   echo 'CMD ["bash"]'
 ) > "$dockerfile"
 
@@ -43,12 +62,6 @@ for v in $HOME/.gitconfig $HOME/.config/git; do
     extra_volumes="$extra_volumes --volume=$v:$v"
   fi
 done
-
-TTY="-i"
-if [ -t 1 ];
-then
-  TTY="-it"
-fi
 
 PORT=${PORT:-8000}
 

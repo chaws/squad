@@ -1,0 +1,69 @@
+image: python:3.9
+
+
+stages:
+  - test
+  - release
+
+
+test-in-docker:
+  image: docker
+  stage: test
+  services:
+    - docker:dind
+  script:
+    - env | sort
+    - ./dev-docker ./manage.py test -v 3
+
+
+test-with-postgres:
+  stage: test
+  services:
+    - postgres
+  variables:
+    POSTGRES_DB: squad
+    POSTGRES_USER: squad
+    POSTGRES_PASSWORD: squad
+    POSTGRES_HOST_AUTH_METHOD: trust
+    TZ: UTC
+    PGTZ: UTC
+    DATABASE: "ENGINE=django.db.backends.postgresql_psycopg2:NAME=squad:USER=squad:PASSWORD=squad:HOST=postgres:PORT=5432"
+  script:
+    - env | sort
+    - apt update && apt install -y gettext
+    - pip install -r requirements-dev.txt
+    - ./manage.py test
+    - ./manage.py compilemessages
+
+
+release-docker:
+  image: docker
+  stage: release
+  services:
+    - docker:dind
+  variables:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+.*$/
+      when: on_success
+
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: on_success
+
+    - when: never
+  script:
+    - env | sort
+    - export TAG=latest
+    - if [ "$CI_COMMIT_BRANCH" == "main" ]; then export TAG=master; else export TAG=${CI_COMMIT_TAG:1}; fi
+    - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+    - docker build -t squadproject/squad:${TAG} .
+    - docker push squadproject/squad:${TAG}
+
+#release-pypi:
+#  stage: release
+#  variables:
+#    SQUAD_RELEASE: 1
+#  script:
+#    - env | sort
+#    - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+#    - ./scripts/build "$VERSION"
+#    - ./scripts/upload "$VERSION"
