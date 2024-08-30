@@ -1,3 +1,10 @@
+# 1.90
+
+This 1.90 release makes linux-log-parser more plugable, meaning that it could be
+moved away from SQUAD into its separate package.
+
+This release also improves performance when uploading testrun attachments.
+
 # 1.89
 
 This 1.89 release comes with quite several changes:
