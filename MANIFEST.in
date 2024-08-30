@@ -21,7 +21,6 @@ include .mailmap
 include .readthedocs.yml
 include .coveragerc
 include squad.svg
-include .github/workflows/*.yml
 include test/integration/plugins/tradefed-output-20220608105250.tar.xz
 
 include           squad/core/management/commands/import_data.rst
@@ -37,6 +36,7 @@ recursive-include .reuse/ *
 include babel.cfg
 recursive-include squad/ *.mo *.po *.pot
 
+exclude           .gitlab-ci.yml
 exclude           squad/local_settings.py
 exclude           squad/local_settings.py.off
 recursive-exclude squad/frontend/static/vendor/ *
