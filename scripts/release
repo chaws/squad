@@ -40,9 +40,12 @@ if [ "${TEST:-yes}" != "no" ]; then
     ./dev-docker ./manage.py test
 fi
 
-# Build squad pip package and docker container
+# Check squad pip package build
 ./scripts/build "v$v"
 rm -rf build/ dist/ *.egg-info/
+
+# Check docker container build
+docker build -t squadproject/squad:$v .
 
 # Commit changes and push the new tag
 git commit --message "New release: ${v}" CHANGELOG.md squad/version.py || true
