@@ -125,6 +125,18 @@ class TestLinuxLogParser(TestCase):
         self.assertNotIn('note: swapper/0[1] exited with preempt_count 1', test.log)
         self.assertNotIn('Internal error: Oops', test.log)
 
+    def test_detects_kernel_internel_error_oops(self):
+        testrun = self.new_testrun('internal-error-oops.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='internal-error-oops-oops-bti-preempt-smp')
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertNotIn('Booting Linux', test.log)
+        self.assertIn('Internal error: Oops - BTI: 0000000036000002 [#1] PREEMPT SMP', test.log)
+        self.assertIn('Modules linked in: pl111_drm drm_dma_helper panel_simple arm_spe_pmu crct10dif_ce drm_kms_helper fuse drm backlight dm_mod ip_tables x_tables', test.log)
+        self.assertNotIn('ok 1 - selftest-setup: selftest: setup: smp: number of CPUs matches expectation', test.log)
+
     def test_detects_kernel_kfence(self):
         testrun = self.new_testrun('kfence.log')
         self.plugin.postprocess_testrun(testrun)
@@ -255,7 +267,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('oops.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='oops-oops-bug-preempt-smp')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='internal-error-oops-oops-bug-preempt-smp')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Linux version 4.4.89-01529-gb29bace', test.log)
@@ -266,7 +278,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('oops.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='oops-oops-bug-preempt-smp')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='internal-error-oops-oops-bug-preempt-smp')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Linux version 4.4.89-01529-gb29bace', test.log)
@@ -274,7 +286,7 @@ class TestLinuxLogParser(TestCase):
         self.assertNotIn('Kernel panic', test.log)
 
         # Now check if a test with sha digest in the name
-        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='oops-oops-bug-preempt-smp-a1acf2f0467782c9c2f6aeadb1d1d3cec136642b13d7231824a66ef63ee62220')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='internal-error-oops-oops-bug-preempt-smp-112aca90e0eaf87ac104ae4e9aeea46f2757ac81faf013c77696d081c109aecc')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertIn('Internal error: Oops - BUG: 0 [#0] PREEMPT SMP', test.log)

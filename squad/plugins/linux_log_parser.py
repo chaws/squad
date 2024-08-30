@@ -11,6 +11,7 @@ MULTILINERS = [
     ('kcsan', r'=+\n\[[\s\.\d]+\].*?BUG: KCSAN:.*?=+', r"BUG: KCSAN:[^\+\n]*"),
     ('kfence', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*\[[\s\.\d]+\]\s+=+', r"BUG: KFENCE:[^\+\n]*"),
     ('panic-multiline', r'\[[\s\.\d]+\]\s+Kernel panic - [^\n]+\n.*?-+\[? end Kernel panic - [^\n]+ \]?-*', r"Kernel [^\+\n]*"),
+    ('internal-error-oops', r'\[[\s\.\d]+\]\s+Internal error: Oops.*?-+\[? end trace \w+ \]?-+', r"Oops[^\+\n]*"),
 ]
 
 ONELINERS = [
