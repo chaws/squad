@@ -52,6 +52,7 @@ release-docker:
     - when: never
   script:
     - env | sort
+    - git fetch --tags
     - export TAG=latest
     - if [ "$CI_COMMIT_BRANCH" == "master" ]; then export TAG=master; else export TAG=${CI_COMMIT_TAG:1}; fi
     - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
