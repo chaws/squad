@@ -30,6 +30,7 @@ test-with-postgres:
     DATABASE: "ENGINE=django.db.backends.postgresql_psycopg2:NAME=squad:USER=squad:PASSWORD=squad:HOST=postgres:PORT=5432"
   script:
     - env | sort
+    - apt update && apt install -y gettext
     - pip install -r requirements-dev.txt
     - ./manage.py test
     - ./manage.py compilemessages
