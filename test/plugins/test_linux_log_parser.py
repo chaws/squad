@@ -37,10 +37,10 @@ class TestLinuxLogParser(TestCase):
         self.assertNotIn('Kernel panic', test.log)
 
     def test_detects_kernel_panic(self):
-        testrun = self.new_testrun('kernelpanic.log')
+        testrun = self.new_testrun('kernelpanic-single-and-multiline.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='panic-kernel-panic-not-syncing-attempted-to-kill-the-idle-task')
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-attempted-to-kill-the-idle-task')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -112,6 +112,19 @@ class TestLinuxLogParser(TestCase):
         self.assertIn('read to 0xffff54a501072a08 of 4 bytes by task 137 on cpu 1:', test.log)
         self.assertNotIn('BUG: KCSAN: data-race in __hrtimer_run_queues / hrtimer_active', test.log)
 
+    def test_detects_kernel_panic_multiline(self):
+        testrun = self.new_testrun('kernelpanic-multiline.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-attempted-to-kill-init-exitcode')
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertNotIn('Booting Linux', test.log)
+        self.assertIn(' Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b', test.log)
+        self.assertIn('SMP: stopping secondary CPUs', test.log)
+        self.assertNotIn('note: swapper/0[1] exited with preempt_count 1', test.log)
+        self.assertNotIn('Internal error: Oops', test.log)
+
     def test_detects_kernel_kfence(self):
         testrun = self.new_testrun('kfence.log')
         self.plugin.postprocess_testrun(testrun)
@@ -164,7 +177,7 @@ class TestLinuxLogParser(TestCase):
         self.plugin.postprocess_testrun(testrun)
 
         tests = testrun.tests
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc')
+        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc')
         test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_objectc-radeon_ttm_bo_destroy')
         test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversregulatorcorec-_regulator_putpart')
         test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops-oops-preempt-smp')
@@ -272,7 +285,8 @@ class TestLinuxLogParser(TestCase):
         self.plugin.postprocess_testrun(testrun)
 
         tests = testrun.tests
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc-ab2f1708a36efc4f90943d58fb240d435fcb3d05f7fac9b00163483fe77209eb')
+
+        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc-18fbe2dd02a2df7ba9e8d2ef289ca7b76beb8f8f8253621ff47902378ee6df11')
         test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_objectc-radeon_ttm_bo_destroy-77251099bfa081e5c942070a569fe31163336e61a80bda7304cd59f0f4b82080')
         test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversregulatorcorec-_regulator_putpart-d44949024d5373185a7381cb9dd291b13c117d6b93feb576a431e5376025004f')
         test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops-oops-preempt-smp-4e1ddddb2c142178a8977e7d973c2a13db2bb978aa471c0049ee39fe3fe4d74c')

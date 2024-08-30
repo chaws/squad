@@ -10,6 +10,7 @@ MULTILINERS = [
     ('kasan', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KASAN:.*\n*?\[[\s\.\d]+\]\s+=+', r"BUG: KASAN:[^\+\n]*"),
     ('kcsan', r'=+\n\[[\s\.\d]+\].*?BUG: KCSAN:.*?=+', r"BUG: KCSAN:[^\+\n]*"),
     ('kfence', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*\[[\s\.\d]+\]\s+=+', r"BUG: KFENCE:[^\+\n]*"),
+    ('panic-multiline', r'\[[\s\.\d]+\]\s+Kernel panic - [^\n]+\n.*?-+\[? end Kernel panic - [^\n]+ \]?-*', r"Kernel [^\+\n]*"),
 ]
 
 ONELINERS = [
