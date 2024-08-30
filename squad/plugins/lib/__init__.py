@@ -1,1 +1,1 @@
-from squad.plugins import Plugin
+from squad.plugins import Plugin # noqa
