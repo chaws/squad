@@ -6,12 +6,12 @@ from squad.plugins.lib.base_log_parser import BaseLogParser, REGEX_NAME, REGEX_E
 logger = logging.getLogger()
 
 MULTILINERS = [
-    ('exception', r'-+\[? cut here \]?-+.*?\[[\s\.\d]+\]\s+-+\[? end trace \w* \]?-+', r"\n\[[\s\.\d][^\+\n]*"),
-    ('kasan', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KASAN:.*\n*?\[[\s\.\d]+\]\s+=+', r"BUG: KASAN:[^\+\n]*"),
-    ('kcsan', r'=+\n\[[\s\.\d]+\].*?BUG: KCSAN:.*?=+', r"BUG: KCSAN:[^\+\n]*"),
-    ('kfence', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*\[[\s\.\d]+\]\s+=+', r"BUG: KFENCE:[^\+\n]*"),
-    ('panic-multiline', r'\[[\s\.\d]+\]\s+Kernel panic - [^\n]+\n.*?-+\[? end Kernel panic - [^\n]+ \]?-*', r"Kernel [^\+\n]*"),
-    ('internal-error-oops', r'\[[\s\.\d]+\]\s+Internal error: Oops.*?-+\[? end trace \w+ \]?-+', r"Oops[^\+\n]*"),
+    ('exception', r'-+\[? cut here \]?-+.*?\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+-+\[? end trace \w* \]?-+', r"\n\[[\s\.\d][^\+\n]*"),
+    ('kasan', r'\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+=+\n\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+BUG: KASAN:.*\n*?\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+=+', r"BUG: KASAN:[^\+\n]*"),
+    ('kcsan', r'\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+=+\n\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+BUG: KCSAN:.*?=+', r"BUG: KCSAN:[^\+\n]*"),
+    ('kfence', r'\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+=+\n\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+BUG: KFENCE:.*\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+=+', r"BUG: KFENCE:[^\+\n]*"),
+    ('panic-multiline', r'\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+Kernel panic - [^\n]+\n.*?-+\[? end Kernel panic - [^\n]+ \]?-*', r"Kernel [^\+\n]*"),
+    ('internal-error-oops', r'\[[\s\.\d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])?\s+Internal error: Oops.*?-+\[? end trace \w+ \]?-+', r"Oops[^\+\n]*"),
 ]
 
 ONELINERS = [
@@ -41,7 +41,7 @@ class Plugin(BasePlugin, BaseLogParser):
         return boot_log, test_log
 
     def __kernel_msgs_only(self, log):
-        kernel_msgs = re.findall(r'(\[[ \d]+\.[ \d]+\] .*?)$', log, re.S | re.M)
+        kernel_msgs = re.findall(r'(\[[ \d]+\.[ \d]+\](?:\s*?\[\s*?[CT]\d+\s*?\])? .*?)$', log, re.S | re.M)
         return '\n'.join(kernel_msgs)
 
     def postprocess_testrun(self, testrun):
