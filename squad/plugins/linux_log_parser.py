@@ -7,9 +7,9 @@ logger = logging.getLogger()
 
 MULTILINERS = [
     ('exception', f'-+\[? cut here \]?-+.*?{tstamp}{pid}?\s+-+\[? end trace \w* \]?-+', f"\n{tstamp}{not_newline_or_plus}*"), # noqa
-    ('kasan', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KASAN:.*\n*?{tstamp}{pid}?\s+=+', f"BUG: KASAN:{not_newline_or_plus}*"), # noqa
+    ('kasan', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KASAN:.*?\n*?{tstamp}{pid}?\s+=+', f"BUG: KASAN:{not_newline_or_plus}*"), # noqa
     ('kcsan', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KCSAN:.*?=+', f"BUG: KCSAN:{not_newline_or_plus}*"), # noqa
-    ('kfence', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KFENCE:.*{tstamp}{pid}?\s+=+', f"BUG: KFENCE:{not_newline_or_plus}*"), # noqa
+    ('kfence', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KFENCE:.*?{tstamp}{pid}?\s+=+', f"BUG: KFENCE:{not_newline_or_plus}*"), # noqa
     ('panic-multiline', f'{tstamp}{pid}?\s+Kernel panic - [^\n]+\n.*?-+\[? end Kernel panic - [^\n]+ \]?-*', f"Kernel {not_newline_or_plus}*"), # noqa
     ('internal-error-oops', f'{tstamp}{pid}?\s+Internal error: Oops.*?-+\[? end trace \w+ \]?-+', f"Oops{not_newline_or_plus}*"), # noqa
 ]
