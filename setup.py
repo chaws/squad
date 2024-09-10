@@ -18,7 +18,7 @@ if os.getenv('REQ_IGNORE_VERSIONS'):
     requirements = [req.split('>=')[0] for req in requirements]
 
 extras_require = {
-    'postgres': 'psycopg2',
+    'postgres': 'psycopg2-binary',
 }
 
 
