@@ -52,6 +52,7 @@ urlpatterns = [
     url(r'^(%s)/(%s)/build/([^/]+)/attachments/testrun/([^/]+)/([^/]+)$' % group_and_project, views.build_attachment, name='build_attachments'),
     url(r'^(%s)/(%s)/build/([^/]+)/testrun/([^/]+)/suite/([^/]+)/tests/$' % group_and_project, views.test_run_suite_tests, name='testrun_suite_tests'),
     url(r'^(%s)/(%s)/build/([^/]+)/testrun/([^/]+)/suite/([^/]+)/test/([^/]+)/history/$' % group_and_project, tests.test_history, name='test_history'),
+    url(r'^(%s)/(%s)/build/([^/]+)/testrun/([^/]+)/suite/([^/]+)/test/([^/]+)/$' % group_and_project, views.test_run_suite_test_details, name='testrun_suite_test_details'),
     url(r'^(%s)/(%s)/build/([^/]+)/testrun/([^/]+)/suite/([^/]+)/test/([^/]+)/details/$' % group_and_project, views.test_run_suite_test_details, name='testrun_suite_test_details'),
     url(r'^(%s)/(%s)/build/([^/]+)/testrun/([^/]+)/suite/([^/]+)/metrics/$' % group_and_project, views.test_run_suite_metrics, name='testrun_suite_metrics'),
     url(r'^(%s)/(%s)/build/([^/]+)/testrun/([^/]+)/suite/([^/]+)/test/([^/]+)/log$' % group_and_project, views.test_details_log, name='test_details_log'),

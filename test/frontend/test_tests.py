@@ -215,3 +215,5 @@ class TestRunTestsTest(TestCase):
     def test_testrun_test_details(self):
         response = self.client.get('/mygroup/myproject/build/1/testrun/%s/suite/suite1/test/test1/details/' % self.test_run.id)
         self.assertEqual(200, response.status_code)
+        response = self.client.get('/mygroup/myproject/build/1/testrun/%s/suite/suite1/test/test1/' % self.test_run.id)
+        self.assertEqual(200, response.status_code)
