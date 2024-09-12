@@ -73,14 +73,25 @@ def submit_job(request, group_slug, project_slug, version, environment_slug):
 @csrf_exempt
 @auth_privileged
 def watch_job(request, group_slug, project_slug, version, environment_slug):
+
+    # testjob_id points to the backend's test job
+    testjob_id = request.POST.get('testjob_id', None)
+    if testjob_id is None:
+        return HttpResponseBadRequest("testjob_id is required")
+
     backend_name = request.POST.get('backend')
     if backend_name is None:
         return HttpResponseBadRequest("backend field is required")
+
     backend = None
     try:
         backend = Backend.objects.get(name=request.POST.get('backend'))
     except Backend.DoesNotExist:
         return HttpResponseBadRequest("requested backend does not exist")
+
+    check = backend.get_implementation().check_job_id(testjob_id)
+    if check is not True:
+        return HttpResponseBadRequest(check)
 
     # project has to exist or request will result with 400
     project = request.project
@@ -89,12 +100,6 @@ def watch_job(request, group_slug, project_slug, version, environment_slug):
 
     # create Build object
     build, _ = project.builds.get_or_create(version=version)
-
-    # testjob_id points to the backend's test job
-    testjob_id = request.POST.get('testjob_id', None)
-
-    if testjob_id is None:
-        return HttpResponseBadRequest("testjob_id is required")
 
     # create TestJob object
     test_job = TestJob(

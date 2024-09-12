@@ -1688,3 +1688,11 @@ class TuxSuiteTest(TestCase):
             self.assertEqual(build_logs, logs)
 
         mock_fetch_from_results_input.assert_not_called()
+
+    def test_check_job_id(self):
+        impl = self.backend.get_implementation()
+        self.assertTrue(impl.check_job_id('TEST:tuxgroup@tuxproject#123'))
+        self.assertTrue(impl.check_job_id('BUILD:tuxgroup@tuxproject#123'))
+        self.assertTrue(impl.check_job_id('OEBUILD:tuxgroup@tuxproject#123'))
+        self.assertEqual('Job id "PLAN:tuxgroup@tuxproject#123" does not match "^(OEBUILD|BUILD|TEST):([0-9a-z_\\-.]+@[0-9a-z_\\-.]+)#([a-zA-Z0-9]+)$"', impl.check_job_id('PLAN:tuxgroup@tuxproject#123'))
+        self.assertEqual('Job id "123" does not match "^(OEBUILD|BUILD|TEST):([0-9a-z_\\-.]+@[0-9a-z_\\-.]+)#([a-zA-Z0-9]+)$"', impl.check_job_id('123'))

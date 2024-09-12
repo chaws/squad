@@ -120,6 +120,13 @@ class Backend(BaseBackend):
         # The regex below is supposed to find only one match
         return matches[0]
 
+    def check_job_id(self, job_id):
+        try:
+            self.parse_job_id(job_id)
+            return True
+        except FetchIssue as e:
+            return str(e)
+
     def generate_job_id(self, result_type, result):
         """
             The job id for TuxSuite results is generated using 3 pieces of info:

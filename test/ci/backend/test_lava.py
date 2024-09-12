@@ -448,6 +448,12 @@ class LavaTest(TestCase):
         check = lava.check_job_definition(definition)
         self.assertIn('found unexpected end of stream', check)
 
+    def test_check_job_id(self):
+        lava = LAVABackend(None)
+        self.assertTrue(lava.check_job_id(1))
+        self.assertTrue(lava.check_job_id('1'))
+        self.assertEqual("LAVA job id should be an integer", lava.check_job_id("abc"))
+
     def test_lava_job_name(self):
         lava = LAVABackend(None)
         self.assertIsNone(lava._Backend__lava_job_name('no name:'))

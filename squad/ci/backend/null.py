@@ -143,6 +143,12 @@ class Backend:
         """
         raise NotImplementedError
 
+    def check_job_id(self, job_id):
+        """
+        Returns True if job id matches what the backend expect, else returns the error message
+        """
+        raise NotImplementedError
+
     def format_message(self, msg):
         if self.data and hasattr(self.data, "name"):
             return self.data.name + ': ' + msg

@@ -156,6 +156,15 @@ class CiApiTest(TestCase):
         r = self.client.post('/api/submitjob/mygroup/myproject/1/myenv', args)
         self.assertEqual(400, r.status_code)
 
+    @patch('squad.ci.backend.fake.Backend.check_job_id', return_value='bad definition')
+    def test_bad_job_id(self, check_job_id):
+        args = {
+            'backend': 'lava',
+            'testjob_id': 'invalid job id'
+        }
+        r = self.client.post('/api/submitjob/mygroup/myproject/1/myenv', args)
+        self.assertEqual(400, r.status_code)
+
     def test_disabled_environment(self):
         args = {
             'backend': 'lava',

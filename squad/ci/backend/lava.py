@@ -785,6 +785,11 @@ class Backend(BaseBackend):
         except yaml.YAMLError as e:
             return str(e)
 
+    def check_job_id(self, job_id):
+        if re.match(r"^\d+$", str(job_id)) is not None:
+            return True
+        return "LAVA job id should be an integer"
+
     def get_job_definition(self, job_id):
         if self.use_xml_rpc:
             return self.proxy.scheduler.jobs.definition(job_id)
