@@ -683,7 +683,7 @@ class Backend(BaseBackend):
                         if clone_measurements_to_tests:
                             res_value = result['result']
                             results.update({res_name: res_value})
-                elif result['name'] == 'auto-login-action' and handle_lava_boot:
+                elif 'login-action' in result['name'] and handle_lava_boot:
                     # add artificial 'boot' test result for each test job
                     # by default the boot test is named after the device_type
                     boot = "boot-%s" % test_job.name
