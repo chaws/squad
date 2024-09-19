@@ -37,10 +37,10 @@ class TestLinuxLogParser(TestCase):
         self.assertNotIn('Kernel panic', test.log)
 
     def test_detects_kernel_panic(self):
-        testrun = self.new_testrun('kernelpanic.log')
+        testrun = self.new_testrun('kernelpanic-single-and-multiline.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='panic-kernel-panic-not-syncing-attempted-to-kill-the-idle-task')
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-attempted-to-kill-the-idle-task')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -84,6 +84,58 @@ class TestLinuxLogParser(TestCase):
         self.assertIn('BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0x190/0x3b8', test.log)
         self.assertIn('Write of size 1 at addr c6aaf473 by task kunit_try_catch/191', test.log)
         self.assertNotIn('Internal error: Oops', test.log)
+
+    def test_detects_kernel_kcsan_simple(self):
+        testrun = self.new_testrun('kcsan_simple.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='kcsan-bug-kcsan-data-race-in-do_page_fault-spectre_v_enable_task_mitigation')
+
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertNotIn('Booting Linux', test.log)
+        self.assertIn('==================================================================', test.log)
+        self.assertIn('BUG: KCSAN: data-race in do_page_fault spectre_v4_enable_task_mitigation', test.log)
+        self.assertIn('write to 0xffff80000f00bfb8 of 8 bytes by task 93 on cpu 0:', test.log)
+        self.assertNotIn('Internal error: Oops', test.log)
+
+    def test_detects_kernel_kcsan_full_log(self):
+        testrun = self.new_testrun('kcsan_full_log.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='kcsan-bug-kcsan-data-race-in-set_nlink-set_nlink')
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertNotIn('Booting Linux', test.log)
+        self.assertIn('==================================================================', test.log)
+        self.assertIn('BUG: KCSAN: data-race in set_nlink / set_nlink', test.log)
+        self.assertIn('read to 0xffff54a501072a08 of 4 bytes by task 137 on cpu 1:', test.log)
+        self.assertNotIn('BUG: KCSAN: data-race in __hrtimer_run_queues / hrtimer_active', test.log)
+
+    def test_detects_kernel_panic_multiline(self):
+        testrun = self.new_testrun('kernelpanic-multiline.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-attempted-to-kill-init-exitcode')
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertNotIn('Booting Linux', test.log)
+        self.assertIn(' Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b', test.log)
+        self.assertIn('SMP: stopping secondary CPUs', test.log)
+        self.assertNotIn('note: swapper/0[1] exited with preempt_count 1', test.log)
+        self.assertNotIn('Internal error: Oops', test.log)
+
+    def test_detects_kernel_internel_error_oops(self):
+        testrun = self.new_testrun('internal-error-oops.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='internal-error-oops-oops-bti-preempt-smp')
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertNotIn('Booting Linux', test.log)
+        self.assertIn('Internal error: Oops - BTI: 0000000036000002 [#1] PREEMPT SMP', test.log)
+        self.assertIn('Modules linked in: pl111_drm drm_dma_helper panel_simple arm_spe_pmu crct10dif_ce drm_kms_helper fuse drm backlight dm_mod ip_tables x_tables', test.log)
+        self.assertNotIn('ok 1 - selftest-setup: selftest: setup: smp: number of CPUs matches expectation', test.log)
 
     def test_detects_kernel_kfence(self):
         testrun = self.new_testrun('kfence.log')
@@ -137,7 +189,7 @@ class TestLinuxLogParser(TestCase):
         self.plugin.postprocess_testrun(testrun)
 
         tests = testrun.tests
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc')
+        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc')
         test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_objectc-radeon_ttm_bo_destroy')
         test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversregulatorcorec-_regulator_putpart')
         test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops-oops-preempt-smp')
@@ -215,7 +267,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('oops.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='oops-oops-bug-preempt-smp')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='internal-error-oops-oops-bug-preempt-smp')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Linux version 4.4.89-01529-gb29bace', test.log)
@@ -226,7 +278,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('oops.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='oops-oops-bug-preempt-smp')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='internal-error-oops-oops-bug-preempt-smp')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Linux version 4.4.89-01529-gb29bace', test.log)
@@ -234,7 +286,7 @@ class TestLinuxLogParser(TestCase):
         self.assertNotIn('Kernel panic', test.log)
 
         # Now check if a test with sha digest in the name
-        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='oops-oops-bug-preempt-smp-a1acf2f0467782c9c2f6aeadb1d1d3cec136642b13d7231824a66ef63ee62220')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='internal-error-oops-oops-bug-preempt-smp-112aca90e0eaf87ac104ae4e9aeea46f2757ac81faf013c77696d081c109aecc')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertIn('Internal error: Oops - BUG: 0 [#0] PREEMPT SMP', test.log)
@@ -245,7 +297,8 @@ class TestLinuxLogParser(TestCase):
         self.plugin.postprocess_testrun(testrun)
 
         tests = testrun.tests
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc-ab2f1708a36efc4f90943d58fb240d435fcb3d05f7fac9b00163483fe77209eb')
+
+        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc-18fbe2dd02a2df7ba9e8d2ef289ca7b76beb8f8f8253621ff47902378ee6df11')
         test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_objectc-radeon_ttm_bo_destroy-77251099bfa081e5c942070a569fe31163336e61a80bda7304cd59f0f4b82080')
         test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversregulatorcorec-_regulator_putpart-d44949024d5373185a7381cb9dd291b13c117d6b93feb576a431e5376025004f')
         test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops-oops-preempt-smp-4e1ddddb2c142178a8977e7d973c2a13db2bb978aa471c0049ee39fe3fe4d74c')

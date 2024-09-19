@@ -8,6 +8,11 @@ REGEX_NAME = 0
 REGEX_BODY = 1
 REGEX_EXTRACT_NAME = 2
 
+tstamp = r"\[[ \d]+\.[ \d]+\]"
+pid = r"(?:\s*?\[\s*?[CT]\d+\s*?\])"
+not_newline_or_plus = r"[^\+\n]"
+square_brackets_and_contents = r"\[[^\]]+\]"
+
 
 class BaseLogParser:
     def compile_regexes(self, regexes):
@@ -15,8 +20,13 @@ class BaseLogParser:
         return re.compile(r"|".join(combined), re.S | re.M)
 
     def remove_numbers_and_time(self, snippet):
+        # [ 1067.461794][  T132] BUG: KCSAN: data-race in do_page_fault spectre_v4_enable_task_mitigation
+        # -> [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
         without_numbers = re.sub(r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\d+)", "", snippet)
-        without_time = re.sub(r"^\[[^\]]+\]", "", without_numbers)
+
+        # [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
+        # ->  BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
+        without_time = re.sub(f"^{square_brackets_and_contents}({square_brackets_and_contents})?", "", without_numbers) # noqa
 
         return without_time
 

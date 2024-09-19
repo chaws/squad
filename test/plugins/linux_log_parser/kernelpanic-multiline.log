@@ -1,0 +1,1742 @@
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x000f0510]
+[    0.000000] Linux version 6.9.9-rc1 (tuxmake@tuxmake) (aarch64-linux-gnu-gcc (Debian 13.2.0-12) 13.2.0, GNU ld (GNU Binutils for Debian) 2.42) #1 SMP PREEMPT @1720525660
+[    0.000000] KASLR enabled
+[    0.000000] random: crng init done
+[    0.000000] Machine model: linux,dummy-virt
+[    0.000000] efi: UEFI not found.
+[    0.000000] earlycon: pl11 at MMIO 0x0000000009000000 (options '')
+[    0.000000] printk: legacy bootconsole [pl11] enabled
+[    0.000000] NUMA: No NUMA configuration found
+[    0.000000] NUMA: Faking a node at [mem 0x0000000040000000-0x000000013fffffff]
+[    0.000000] NUMA: NODE_DATA [mem 0x13f6139c0-0x13f615fff]
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000040000000-0x00000000ffffffff]
+[    0.000000]   DMA32    empty
+[    0.000000]   Normal   [mem 0x0000000100000000-0x000000013fffffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000040000000-0x000000013fffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000040000000-0x000000013fffffff]
+[    0.000000] cma: Reserved 32 MiB at 0x00000000fe000000 on node -1
+[    0.000000] kasan: KernelAddressSanitizer initialized (generic)
+[    0.000000] psci: probing for conduit method from DT.
+[    0.000000] psci: PSCIv1.1 detected in firmware.
+[    0.000000] psci: Using standard PSCI v0.2 function IDs
+[    0.000000] psci: Trusted OS migration not required
+[    0.000000] psci: SMC Calling Convention v1.0
+[    0.000000] percpu: Embedded 33 pages/cpu s98024 r8192 d28952 u135168
+[    0.000000] pcpu-alloc: s98024 r8192 d28952 u135168 alloc=33*4096
+[    0.000000] pcpu-alloc: [0] 0 [0] 1 
+[    0.000000] Detected PIPT I-cache on CPU0
+[    0.000000] CPU features: detected: Address authentication (IMP DEF algorithm)
+[    0.000000] CPU features: detected: GIC system register CPU interface
+[    0.000000] CPU features: detected: HCRX_EL2 register
+[    0.000000] CPU features: detected: 52-bit Virtual Addressing (LPA2)
+[    0.000000] CPU features: detected: Virtualization Host Extensions
+[    0.000000] CPU features: detected: Memory Tagging Extension
+[    0.000000] CPU features: detected: Asymmetric MTE Tag Check Fault
+[    0.000000] CPU features: detected: Spectre-v4
+[    0.000000] alternatives: applying boot alternatives
+[    0.000000] Kernel command line: console=ttyAMA0,115200 rootwait root=/dev/vda debug verbose console_msg_format=syslog systemd.log_level=warning rw earlycon
+<5>[    0.000000] Unknown kernel command line parameters "verbose", will be passed to user space.
+<6>[    0.000000] Dentry cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+<6>[    0.000000] Inode-cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+<6>[    0.000000] Fallback order for Node 0: 0 
+<6>[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 1032192
+<6>[    0.000000] Policy zone: Normal
+<6>[    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
+<6>[    0.000000] stackdepot: allocating hash table via alloc_large_system_hash
+<6>[    0.000000] stackdepot hash table entries: 1048576 (order: 12, 16777216 bytes, linear)
+<6>[    0.000000] software IO TLB: area num 2.
+<6>[    0.000000] software IO TLB: mapped [mem 0x00000000fa000000-0x00000000fe000000] (64MB)
+<6>[    0.000000] Memory: 3297852K/4194304K available (55744K kernel code, 27556K rwdata, 26852K rodata, 40640K init, 1131K bss, 863684K reserved, 32768K cma-reserved)
+<6>[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+<6>[    0.000000] ftrace: allocating 80113 entries in 313 pages
+<6>[    0.000000] ftrace: allocated 313 pages with 5 groups
+<6>[    0.000000] trace event string verifier disabled
+<6>[    0.000000] rcu: Preemptible hierarchical RCU implementation.
+<6>[    0.000000] rcu: 	RCU event tracing is enabled.
+<6>[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=512 to nr_cpu_ids=2.
+<6>[    0.000000] 	Trampoline variant of Tasks RCU enabled.
+<6>[    0.000000] 	Rude variant of Tasks RCU enabled.
+<6>[    0.000000] 	Tracing variant of Tasks RCU enabled.
+<6>[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+<6>[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+<6>[    0.000000] RCU Tasks: Setting shift to 1 and lim to 1 rcu_task_cb_adjust=1.
+<6>[    0.000000] RCU Tasks Rude: Setting shift to 1 and lim to 1 rcu_task_cb_adjust=1.
+<6>[    0.000000] RCU Tasks Trace: Setting shift to 1 and lim to 1 rcu_task_cb_adjust=1.
+<6>[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+<6>[    0.000000] GICv3: GIC: Using split EOI/Deactivate mode
+<6>[    0.000000] GICv3: 256 SPIs implemented
+<6>[    0.000000] GICv3: 0 Extended SPIs implemented
+<6>[    0.000000] Root IRQ handler: gic_handle_irq
+<6>[    0.000000] GICv3: GICv3 features: 16 PPIs
+<6>[    0.000000] GICv3: CPU0: found redistributor 0 region 0:0x00000000080a0000
+<6>[    0.000000] ITS [mem 0x08080000-0x0809ffff]
+<6>[    0.000000] ITS@0x0000000008080000: allocated 8192 Devices @100880000 (indirect, esz 8, psz 64K, shr 1)
+<6>[    0.000000] ITS@0x0000000008080000: allocated 8192 Interrupt Collections @100890000 (flat, esz 8, psz 64K, shr 1)
+<6>[    0.000000] GICv3: using LPI property table @0x00000001008a0000
+<6>[    0.000000] GICv3: CPU0: using allocated LPI pending table @0x00000001008b0000
+<6>[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+<6>[    0.000000] arch_timer: cp15 timer(s) running at 62.50MHz (phys).
+<6>[    0.000000] clocksource: arch_sys_counter: mask: 0x1ffffffffffffff max_cycles: 0x1cd42e208c, max_idle_ns: 881590405314 ns
+<6>[    0.000140] sched_clock: 57 bits at 63MHz, resolution 16ns, wraps every 4398046511096ns
+<6>[    0.008371] kfence: initialized - using 2097152 bytes for 255 objects at 0x(____ptrval____)-0x(____ptrval____)
+<6>[    0.051487] Console: colour dummy device 80x25
+<6>[    0.066988] Calibrating delay loop (skipped), value calculated using timer frequency.. 125.00 BogoMIPS (lpj=250000)
+<6>[    0.070099] pid_max: default: 32768 minimum: 301
+<6>[    0.076434] LSM: initializing lsm=capability
+<6>[    0.088510] Mount-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+<6>[    0.089823] Mountpoint-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+<4>[    0.195636] cacheinfo: Unable to detect cache hierarchy for CPU 0
+<6>[    0.245094] rcu: Hierarchical SRCU implementation.
+<6>[    0.245723] rcu: 	Max phase no-delay instances is 1000.
+<6>[    0.291001] Platform MSI: its@8080000 domain created
+<6>[    0.293364] PCI/MSI: /intc@8000000/its@8080000 domain created
+<6>[    0.296034] fsl-mc MSI: its@8080000 domain created
+<6>[    0.304556] EFI services will not be available.
+<6>[    0.310926] smp: Bringing up secondary CPUs ...
+<6>[    0.338706] Detected PIPT I-cache on CPU1
+<6>[    0.348897] GICv3: CPU1: found redistributor 1 region 0:0x00000000080c0000
+<6>[    0.350866] GICv3: CPU1: using allocated LPI pending table @0x00000001008c0000
+<6>[    0.356040] CPU1: Booted secondary processor 0x0000000001 [0x000f0510]
+<6>[    0.374143] smp: Brought up 1 node, 2 CPUs
+<6>[    0.376851] SMP: Total of 2 processors activated.
+<6>[    0.377626] CPU: All CPU(s) started at EL2
+<6>[    0.378898] CPU features: detected: Branch Target Identification
+<6>[    0.379838] CPU features: detected: 32-bit EL0 Support
+<6>[    0.380503] CPU features: detected: 32-bit EL1 Support
+<6>[    0.381141] CPU features: detected: ARMv8.4 Translation Table Level
+<6>[    0.381906] CPU features: detected: Data cache clean to the PoU not required for I/D coherence
+<6>[    0.383798] CPU features: detected: Common not Private translations
+<6>[    0.384478] CPU features: detected: CRC32 instructions
+<6>[    0.385114] CPU features: detected: Data independent timing control (DIT)
+<6>[    0.385844] CPU features: detected: E0PD
+<6>[    0.386386] CPU features: detected: Enhanced Privileged Access Never
+<6>[    0.387414] CPU features: detected: Enhanced Virtualization Traps
+<6>[    0.388155] CPU features: detected: Fine Grained Traps
+<6>[    0.389065] CPU features: detected: Generic authentication (IMP DEF algorithm)
+<6>[    0.390101] CPU features: detected: RCpc load-acquire (LDAPR)
+<6>[    0.390941] CPU features: detected: 52-bit Virtual Addressing for KVM (LPA2)
+<6>[    0.393592] CPU features: detected: LSE atomic instructions
+<6>[    0.394177] CPU features: detected: Memory Copy and Memory Set instructions
+<6>[    0.394960] CPU features: detected: Privileged Access Never
+<6>[    0.395611] CPU features: detected: RAS Extension Support
+<6>[    0.396647] CPU features: detected: Random Number Generator
+<6>[    0.397321] CPU features: detected: Speculation barrier (SB)
+<6>[    0.397979] CPU features: detected: Stage-2 Force Write-Back
+<6>[    0.398650] CPU features: detected: Trap EL0 IMPLEMENTATION DEFINED functionality
+<6>[    0.399678] CPU features: detected: TLB range maintenance instructions
+<6>[    0.401806] CPU features: detected: Scalable Matrix Extension
+<6>[    0.402679] CPU features: detected: FA64
+<6>[    0.403070] CPU features: detected: Speculative Store Bypassing Safe (SSBS)
+<6>[    0.403580] CPU features: detected: Scalable Vector Extension
+<6>[    0.448770] alternatives: applying system-wide alternatives
+<6>[    0.495515] CPU features: detected: Hardware dirty bit management on CPU0-1
+<6>[    0.498799] SVE: maximum available vector length 256 bytes per vector
+<6>[    0.499560] SVE: default vector length 64 bytes per vector
+<6>[    0.504805] SME: minimum available vector length 16 bytes per vector
+<6>[    0.505537] SME: maximum available vector length 256 bytes per vector
+<6>[    0.506493] SME: default vector length 32 bytes per vector
+<6>[    0.651585] devtmpfs: initialized
+<6>[    1.055858] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+<6>[    1.058706] futex hash table entries: 512 (order: 3, 32768 bytes, linear)
+<6>[    1.094429] pinctrl core: initialized pinctrl subsystem
+<6>[    1.149462] DMI not present or invalid.
+<6>[    1.229422] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+<6>[    1.278747] DMA: preallocated 512 KiB GFP_KERNEL pool for atomic allocations
+<6>[    1.283390] DMA: preallocated 512 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+<6>[    1.290798] DMA: preallocated 512 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+<6>[    1.293232] audit: initializing netlink subsys (disabled)
+<5>[    1.302031] audit: type=2000 audit(1.124:1): state=initialized audit_enabled=0 res=1
+<6>[    1.340782] thermal_sys: Registered thermal governor 'step_wise'
+<6>[    1.341046] thermal_sys: Registered thermal governor 'power_allocator'
+<6>[    1.344762] cpuidle: using governor menu
+<6>[    1.354013] hw-breakpoint: found 6 breakpoint and 4 watchpoint registers.
+<6>[    1.357170] ASID allocator initialised with 65536 entries
+<6>[    1.436509] Serial: AMBA PL011 UART driver
+<6>[    1.915790] 9000000.pl011: ttyAMA0 at MMIO 0x9000000 (irq = 14, base_baud = 0) is a PL011 rev1
+<6>[    1.925640] printk: legacy console [ttyAMA0] enabled
+<6>[    1.925640] printk: legacy console [ttyAMA0] enabled
+<6>[    1.928249] printk: legacy bootconsole [pl11] disabled
+<6>[    1.928249] printk: legacy bootconsole [pl11] disabled
+<6>[    2.010599] Modules: 2G module region forced by RANDOMIZE_MODULE_REGION_FULL
+<6>[    2.011932] Modules: 0 pages in range for non-PLT usage
+<6>[    2.012095] Modules: 486240 pages in range for PLT usage
+<6>[    2.052573] HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+<6>[    2.056393] HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+<6>[    2.057531] HugeTLB: registered 32.0 MiB page size, pre-allocated 0 pages
+<6>[    2.058313] HugeTLB: 0 KiB vmemmap can be freed for a 32.0 MiB page
+<6>[    2.059148] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+<6>[    2.059926] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+<6>[    2.061931] HugeTLB: registered 64.0 KiB page size, pre-allocated 0 pages
+<6>[    2.063336] HugeTLB: 0 KiB vmemmap can be freed for a 64.0 KiB page
+<6>[    2.102337] Demotion targets for Node 0: null
+<6>[    2.152659] cryptd: max_cpu_qlen set to 1000
+<6>[    2.222474] ACPI: Interpreter disabled.
+<6>[    2.384285] iommu: Default domain type: Translated
+<6>[    2.385312] iommu: DMA domain TLB invalidation policy: strict mode
+<5>[    2.403757] SCSI subsystem initialized
+<7>[    2.414305] libata version 3.00 loaded.
+<6>[    2.432468] usbcore: registered new interface driver usbfs
+<6>[    2.436099] usbcore: registered new interface driver hub
+<6>[    2.439344] usbcore: registered new device driver usb
+<6>[    2.490118] mc: Linux media interface: v0.10
+<6>[    2.494328] videodev: Linux video capture interface: v2.00
+<6>[    2.498957] pps_core: LinuxPPS API ver. 1 registered
+<6>[    2.500126] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+<6>[    2.503099] PTP clock support registered
+<6>[    2.514158] EDAC MC: Ver: 3.0.0
+<6>[    2.550072] scmi_core: SCMI protocol bus registered
+<6>[    2.609050] FPGA manager framework
+<6>[    2.618782] Advanced Linux Sound Architecture Driver Initialized.
+<6>[    2.702490] vgaarb: loaded
+<6>[    2.732797] clocksource: Switched to clocksource arch_sys_counter
+<5>[    2.803998] VFS: Disk quotas dquot_6.6.0
+<6>[    2.807735] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+<6>[    2.830192] pnp: PnP ACPI: disabled
+<6>[    3.147759] NET: Registered PF_INET protocol family
+<6>[    3.158493] IP idents hash table entries: 65536 (order: 7, 524288 bytes, linear)
+<6>[    3.209850] tcp_listen_portaddr_hash hash table entries: 2048 (order: 3, 32768 bytes, linear)
+<6>[    3.212919] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+<6>[    3.215539] TCP established hash table entries: 32768 (order: 6, 262144 bytes, linear)
+<6>[    3.218655] TCP bind hash table entries: 32768 (order: 8, 1048576 bytes, linear)
+<6>[    3.223692] TCP: Hash tables configured (established 32768 bind 32768)
+<6>[    3.243735] MPTCP token hash table entries: 4096 (order: 4, 98304 bytes, linear)
+<6>[    3.247606] UDP hash table entries: 2048 (order: 4, 65536 bytes, linear)
+<6>[    3.250131] UDP-Lite hash table entries: 2048 (order: 4, 65536 bytes, linear)
+<6>[    3.259261] NET: Registered PF_UNIX/PF_LOCAL protocol family
+<6>[    3.290703] RPC: Registered named UNIX socket transport module.
+<6>[    3.296046] RPC: Registered udp transport module.
+<6>[    3.297118] RPC: Registered tcp transport module.
+<6>[    3.297997] RPC: Registered tcp-with-tls transport module.
+<6>[    3.299380] RPC: Registered tcp NFSv4.1 backchannel transport module.
+<6>[    3.300968] PCI: CLS 0 bytes, default 64
+<6>[    3.474201] kvm [1]: nv: 477 coarse grained trap handlers
+<6>[    3.498248] kvm [1]: nv: 668 fine grained trap handlers
+<6>[    3.511686] kvm [1]: IPA Size Limit: 52 bits
+<6>[    3.514820] kvm [1]: GICv3: no GICV resource entry
+<6>[    3.516229] kvm [1]: disabling GICv2 emulation
+<6>[    3.517888] kvm [1]: GIC system register CPU interface enabled
+<6>[    3.523515] kvm [1]: vgic interrupt IRQ9
+<6>[    3.527132] kvm [1]: VHE mode initialized successfully
+<5>[    3.594152] Initialise system trusted keyrings
+<6>[    3.604912] workingset: timestamp_bits=42 max_order=20 bucket_order=0
+<6>[    3.639194] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+<5>[    3.656997] NFS: Registering the id_resolver key type
+<5>[    3.659743] Key type id_resolver registered
+<5>[    3.661566] Key type id_legacy registered
+<6>[    3.665009] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+<6>[    3.667737] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
+<6>[    3.676749] 9p: Installing v9fs 9p2000 file system support
+<6>[    4.068970] NET: Registered PF_ALG protocol family
+<5>[    4.072310] Key type asymmetric registered
+<5>[    4.074315] Asymmetric key parser 'x509' registered
+<6>[    4.078369] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 244)
+<6>[    4.080325] io scheduler mq-deadline registered
+<6>[    4.081489] io scheduler kyber registered
+<6>[    4.693222] pl061_gpio 9030000.pl061: PL061 GPIO chip registered
+<6>[    4.823906] pci-host-generic 4010000000.pcie: host bridge /pcie@10000000 ranges:
+<6>[    4.829358] pci-host-generic 4010000000.pcie:       IO 0x003eff0000..0x003effffff -> 0x0000000000
+<6>[    4.834387] pci-host-generic 4010000000.pcie:      MEM 0x0010000000..0x003efeffff -> 0x0010000000
+<6>[    4.837081] pci-host-generic 4010000000.pcie:      MEM 0x8000000000..0xffffffffff -> 0x8000000000
+<4>[    4.841464] pci-host-generic 4010000000.pcie: Memory resource size exceeds max for 32 bits
+<6>[    5.218237] pci-host-generic 4010000000.pcie: ECAM at [mem 0x4010000000-0x401fffffff] for [bus 00-ff]
+<6>[    5.232304] pci-host-generic 4010000000.pcie: PCI host bridge to bus 0000:00
+<6>[    5.234715] pci_bus 0000:00: root bus resource [bus 00-ff]
+<6>[    5.237252] pci_bus 0000:00: root bus resource [io  0x0000-0xffff]
+<6>[    5.239340] pci_bus 0000:00: root bus resource [mem 0x10000000-0x3efeffff]
+<6>[    5.240493] pci_bus 0000:00: root bus resource [mem 0x8000000000-0xffffffffff]
+<6>[    5.249828] pci 0000:00:00.0: [1b36:0008] type 00 class 0x060000 conventional PCI endpoint
+<6>[    7.098141] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+<6>[    7.287777] msm_serial: driver initialized
+<6>[    7.303372] SuperH (H)SCI(F) driver initialized
+<6>[    7.311257] STM32 USART driver initialized
+<6>[    7.696647] loop: module loaded
+<6>[    7.702711] virtio_blk virtio0: 1/0/0 default/read/poll queues
+<5>[    7.734791] virtio_blk virtio0: [vda] 5293056 512-byte logical blocks (2.71 GB/2.52 GiB)
+<6>[    7.895133] megasas: 07.727.03.00-rc1
+<5>[    8.081739] physmap-flash 0.flash: physmap platform flash device: [mem 0x00000000-0x03ffffff]
+<6>[    8.089234] 0.flash: Found 2 x16 devices at 0x0 in 32-bit bank. Manufacturer ID 0x000000 Chip ID 0x000000
+<6>[    8.097833] Intel/Sharp Extended Query Table at 0x0031
+<6>[    8.101971] Using buffer write method
+<7>[    8.105756] erase region 0: offset=0x0,size=0x40000,blocks=256
+<5>[    8.212738] physmap-flash 0.flash: physmap platform flash device: [mem 0x04000000-0x07ffffff]
+<6>[    8.215580] 0.flash: Found 2 x16 devices at 0x0 in 32-bit bank. Manufacturer ID 0x000000 Chip ID 0x000000
+<6>[    8.218052] Intel/Sharp Extended Query Table at 0x0031
+<6>[    8.220271] Using buffer write method
+<7>[    8.221811] erase region 0: offset=0x0,size=0x40000,blocks=256
+<5>[    8.224179] Concatenating MTD devices:
+<5>[    8.225459] (0): "0.flash"
+<5>[    8.225982] (1): "0.flash"
+<5>[    8.226572] into device "0.flash"
+<6>[    8.704118] thunder_xcv, ver 1.0
+<6>[    8.706864] thunder_bgx, ver 1.0
+<6>[    8.709262] nicpf, ver 1.0
+<6>[    8.775647] hns3: Hisilicon Ethernet Network Driver for Hip08 Family - version
+<6>[    8.777129] hns3: Copyright (c) 2017 Huawei Corporation.
+<6>[    8.781689] hclge is initializing
+<6>[    8.784794] e1000: Intel(R) PRO/1000 Network Driver
+<6>[    8.786279] e1000: Copyright (c) 1999-2006 Intel Corporation.
+<6>[    8.789379] e1000e: Intel(R) PRO/1000 Network Driver
+<6>[    8.795086] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
+<6>[    8.798344] igb: Intel(R) Gigabit Ethernet Network Driver
+<6>[    8.799742] igb: Copyright (c) 2007-2014 Intel Corporation.
+<6>[    8.802313] igbvf: Intel(R) Gigabit Virtual Function Network Driver
+<6>[    8.804125] igbvf: Copyright (c) 2009 - 2012 Intel Corporation.
+<6>[    8.827947] sky2: driver version 1.30
+<6>[    8.909669] VFIO - User Level meta-driver version: 0.3
+<6>[    9.069847] usbcore: registered new interface driver usb-storage
+<6>[    9.254462] rtc-pl031 9010000.pl031: registered as rtc0
+<6>[    9.258574] rtc-pl031 9010000.pl031: setting system clock to 2024-07-09T12:29:08 UTC (1720528148)
+<6>[    9.301307] i2c_dev: i2c /dev entries driver
+<6>[    9.676885] sdhci: Secure Digital Host Controller Interface driver
+<6>[    9.679169] sdhci: Copyright(c) Pierre Ossman
+<6>[    9.715815] Synopsys Designware Multimedia Card Interface Driver
+<6>[    9.767819] sdhci-pltfm: SDHCI platform and OF driver helper
+<6>[    9.884238] ledtrig-cpu: registered to indicate activity on CPUs
+<6>[   10.054659] usbcore: registered new interface driver usbhid
+<6>[   10.055803] usbhid: USB HID core driver
+<6>[   10.216622] hw perfevents: enabled with armv8_pmuv3 PMU driver, 7 counters available
+<6>[   10.277741]  cs_system_cfg: CoreSight Configuration manager initialised
+<6>[   10.517698] NET: Registered PF_INET6 protocol family
+<6>[   10.567775] Segment Routing with IPv6
+<6>[   10.571703] In-situ OAM (IOAM) with IPv6
+<6>[   10.576756] NET: Registered PF_PACKET protocol family
+<6>[   10.585935] 9pnet: Installing 9P2000 support
+<5>[   10.589883] Key type dns_resolver registered
+<6>[   11.257716] Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+<6>[   11.265895] registered taskstats version 1
+<5>[   11.272873] Loading compiled-in X.509 certificates
+<6>[   11.652162] input: gpio-keys as /devices/platform/gpio-keys/input/input0
+<6>[   11.685106] clk: Disabling unused clocks
+<6>[   11.686618] PM: genpd: Disabling unused power domains
+<6>[   11.689527] ALSA device list:
+<6>[   11.690509]   No soundcards found.
+<6>[   11.692506] KTAP version 1
+<6>[   11.692950] 1..91
+<6>[   11.697200]     KTAP version 1
+<6>[   11.697694]     # Subtest: example_init
+<6>[   11.699629]     # module: kunit_example_test
+<6>[   11.700836]     # is_init: true
+<6>[   11.701692]     1..1
+<6>[   11.711540]     ok 1 example_init_test
+<6>[   11.712283] ok 1 example_init
+<6>[   11.714239]     KTAP version 1
+<6>[   11.714709]     # Subtest: time_test_cases
+<6>[   11.716152]     # module: time_test
+<6>[   11.716297]     1..1
+<6>[   27.823271]     # time64_to_tm_test_date_range.speed: slow
+<6>[   27.823756]     ok 1 time64_to_tm_test_date_range
+<6>[   27.825036] ok 2 time_test_cases
+<6>[   27.828263]     KTAP version 1
+<6>[   27.828790]     # Subtest: hw_breakpoint
+<6>[   27.829362]     # module: hw_breakpoint_test
+<6>[   27.829652]     1..9
+<6>[   27.866805]     ok 1 test_one_cpu
+<6>[   27.881810]     ok 2 test_many_cpus
+<3>[   27.891825]     # test_one_task_on_all_cpus: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
+<3>[   27.891825]     Expected IS_ERR(bp) to be false, but is true
+<6>[   27.898685]     not ok 3 test_one_task_on_all_cpus
+<3>[   27.901781]     # test_two_tasks_on_all_cpus: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
+<3>[   27.901781]     Expected IS_ERR(bp) to be false, but is true
+<6>[   27.908460]     not ok 4 test_two_tasks_on_all_cpus
+<3>[   27.912307]     # test_one_task_on_one_cpu: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
+<3>[   27.912307]     Expected IS_ERR(bp) to be false, but is true
+<6>[   27.917846]     not ok 5 test_one_task_on_one_cpu
+<3>[   27.921038]     # test_one_task_mixed: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
+<3>[   27.921038]     Expected IS_ERR(bp) to be false, but is true
+<6>[   27.927328]     not ok 6 test_one_task_mixed
+<3>[   27.929951]     # test_two_tasks_on_one_cpu: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
+<3>[   27.929951]     Expected IS_ERR(bp) to be false, but is true
+<6>[   27.937508]     not ok 7 test_two_tasks_on_one_cpu
+<3>[   27.940982]     # test_two_tasks_on_one_all_cpus: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
+<3>[   27.940982]     Expected IS_ERR(bp) to be false, but is true
+<6>[   27.948000]     not ok 8 test_two_tasks_on_one_all_cpus
+<3>[   27.950494]     # test_task_on_all_and_one_cpu: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
+<3>[   27.950494]     Expected IS_ERR(bp) to be false, but is true
+<6>[   27.957246]     not ok 9 test_task_on_all_and_one_cpu
+<6>[   27.957570] # hw_breakpoint: pass:2 fail:7 skip:0 total:9
+<6>[   27.958677] # Totals: pass:2 fail:7 skip:0 total:9
+<6>[   27.960336] not ok 3 hw_breakpoint
+<6>[   27.962306]     KTAP version 1
+<6>[   27.962751]     # Subtest: resource
+<6>[   27.964238]     # module: resource_kunit
+<6>[   27.964529]     1..2
+<6>[   27.971262]     ok 1 resource_test_union
+<6>[   27.977655]     ok 2 resource_test_intersection
+<6>[   27.978545] # resource: pass:2 fail:0 skip:0 total:2
+<6>[   27.980126] # Totals: pass:2 fail:0 skip:0 total:2
+<6>[   27.981054] ok 4 resource
+<6>[   27.983761]     KTAP version 1
+<6>[   27.984253]     # Subtest: sysctl_test
+<6>[   27.985026]     # module: sysctl_test
+<6>[   27.985435]     1..10
+<6>[   27.993554]     ok 1 sysctl_test_api_dointvec_null_tbl_data
+<6>[   27.999455]     ok 2 sysctl_test_api_dointvec_table_maxlen_unset
+<6>[   28.006124]     ok 3 sysctl_test_api_dointvec_table_len_is_zero
+<6>[   28.013936]     ok 4 sysctl_test_api_dointvec_table_read_but_position_set
+<6>[   28.021851]     ok 5 sysctl_test_dointvec_read_happy_single_positive
+<6>[   28.029310]     ok 6 sysctl_test_dointvec_read_happy_single_negative
+<6>[   28.036791]     ok 7 sysctl_test_dointvec_write_happy_single_positive
+<6>[   28.044142]     ok 8 sysctl_test_dointvec_write_happy_single_negative
+<6>[   28.051931]     ok 9 sysctl_test_api_dointvec_write_single_less_int_min
+<6>[   28.058442]     ok 10 sysctl_test_api_dointvec_write_single_greater_int_max
+<6>[   28.060593] # sysctl_test: pass:10 fail:0 skip:0 total:10
+<6>[   28.061873] # Totals: pass:10 fail:0 skip:0 total:10
+<6>[   28.063402] ok 5 sysctl_test
+<6>[   28.068084]     KTAP version 1
+<6>[   28.069234]     # Subtest: kasan
+<6>[   28.069985]     # module: kasan_test
+<6>[   28.070447]     1..71
+<3>[   28.075552] ==================================================================
+<3>[   28.077176] BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0x38c/0x3b0
+<3>[   28.079081] Write of size 1 at addr fff00000c5a85573 by task kunit_try_catch/120
+<3>[   28.080711] 
+<3>[   28.082234] CPU: 0 PID: 120 Comm: kunit_try_catch Tainted: G                 N 6.9.9-rc1 #1
+<3>[   28.083592] Hardware name: linux,dummy-virt (DT)
+<3>[   28.085169] Call trace:
+<3>[   28.085620]  dump_backtrace+0x9c/0x128
+<3>[   28.086458]  show_stack+0x20/0x38
+<3>[   28.087240]  dump_stack_lvl+0x8c/0xd0
+<3>[   28.088016]  print_report+0x118/0x5e0
+<3>[   28.088785]  kasan_report+0xc8/0x118
+<3>[   28.089475]  __asan_report_store1_noabort+0x20/0x30
+<3>[   28.090269]  kmalloc_oob_right+0x38c/0x3b0
+<3>[   28.091622]  kunit_try_run_case+0x14c/0x3d0
+<3>[   28.092375]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<3>[   28.093224]  kthread+0x24c/0x2d0
+<3>[   28.093885]  ret_from_fork+0x10/0x20
+<3>[   28.094986] 
+<3>[   28.095464] Allocated by task 120:
+<4>[   28.096481]  kasan_save_stack+0x3c/0x68
+<4>[   28.097062]  kasan_save_track+0x20/0x40
+<4>[   28.097685]  kasan_save_alloc_info+0x40/0x58
+<4>[   28.098322]  __kasan_kmalloc+0xd4/0xd8
+<4>[   28.098971]  kmalloc_trace+0x158/0x360
+<4>[   28.099573]  kmalloc_oob_right+0xa8/0x3b0
+<4>[   28.100191]  kunit_try_run_case+0x14c/0x3d0
+<4>[   28.100823]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   28.101551]  kthread+0x24c/0x2d0
+<4>[   28.102099]  ret_from_fork+0x10/0x20
+<3>[   28.102734] 
+<3>[   28.103205] The buggy address belongs to the object at fff00000c5a85500
+<3>[   28.103205]  which belongs to the cache kmalloc-128 of size 128
+<3>[   28.104592] The buggy address is located 0 bytes to the right of
+<3>[   28.104592]  allocated 115-byte region [fff00000c5a85500, fff00000c5a85573)
+<3>[   28.105976] 
+<3>[   28.106495] The buggy address belongs to the physical page:
+<4>[   28.107576] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x105a85
+<4>[   28.108891] flags: 0xbfffe0000000800(slab|node=0|zone=2|lastcpupid=0x1ffff)
+<4>[   28.110294] page_type: 0xffffffff()
+<4>[   28.112002] raw: 0bfffe0000000800 fff00000c00018c0 dead000000000122 0000000000000000
+<4>[   28.113119] raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
+<4>[   28.114220] page dumped because: kasan: bad access detected
+<3>[   28.115484] 
+<3>[   28.115888] Memory state around the buggy address:
+<3>[   28.117258]  fff00000c5a85400: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+<3>[   28.118202]  fff00000c5a85480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   28.119222] >fff00000c5a85500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03 fc
+<3>[   28.120708]                                                              ^
+<3>[   28.121804]  fff00000c5a85580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   28.122817]  fff00000c5a85600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   28.124148] ==================================================================
+<4>[   28.125591] Disabling lock debugging due to kernel taint
+<3>[   35.886434] ==================================================================
+<3>[   35.887580] BUG: KASAN: slab-out-of-bounds in kasan_atomics_helper+0x2a00/0x2af8
+<3>[   35.888524] Read of size 8 at addr fff00000c668e5b0 by task kunit_try_catch/245
+<3>[   35.889536] 
+<3>[   35.890007] CPU: 0 PID: 245 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   35.891161] Hardware name: linux,dummy-virt (DT)
+<3>[   35.891888] Call trace:
+<3>[   35.892391]  dump_backtrace+0x9c/0x128
+<3>[   35.893061]  show_stack+0x20/0x38
+<3>[   35.893660]  dump_stack_lvl+0x8c/0xd0
+<3>[   35.894292]  print_report+0x118/0x5e0
+<3>[   35.894934]  kasan_report+0xc8/0x118
+<3>[   35.895564]  __asan_report_load8_noabort+0x20/0x30
+<3>[   35.896280]  kasan_atomics_helper+0x2a00/0x2af8
+<3>[   35.896986]  kasan_atomics+0x100/0x210
+<3>[   35.897626]  kunit_try_run_case+0x14c/0x3d0
+<3>[   35.898313]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<3>[   35.899133]  kthread+0x24c/0x2d0
+<3>[   35.899733]  ret_from_fork+0x10/0x20
+<3>[   35.900363] 
+<3>[   35.900748] Allocated by task 245:
+<4>[   35.901355]  kasan_save_stack+0x3c/0x68
+<4>[   35.901987]  kasan_save_track+0x20/0x40
+<4>[   35.902646]  kasan_save_alloc_info+0x40/0x58
+<4>[   35.903337]  __kasan_kmalloc+0xd4/0xd8
+<4>[   35.903952]  kmalloc_trace+0x158/0x360
+<4>[   35.904610]  kasan_atomics+0xa4/0x210
+<4>[   35.905219]  kunit_try_run_case+0x14c/0x3d0
+<4>[   35.905886]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   35.906688]  kthread+0x24c/0x2d0
+<4>[   35.907280]  ret_from_fork+0x10/0x20
+<3>[   35.907916] 
+<3>[   35.908313] The buggy address belongs to the object at fff00000c668e580
+<3>[   35.908313]  which belongs to the cache kmalloc-64 of size 64
+<3>[   35.909689] The buggy address is located 0 bytes to the right of
+<3>[   35.909689]  allocated 48-byte region [fff00000c668e580, fff00000c668e5b0)
+<3>[   35.911221] 
+<3>[   35.911662] The buggy address belongs to the physical page:
+<4>[   35.912499] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10668e
+<4>[   35.913489] flags: 0xbfffe0000000800(slab|node=0|zone=2|lastcpupid=0x1ffff)
+<4>[   35.914389] page_type: 0xffffffff()
+<4>[   35.915004] raw: 0bfffe0000000800 fff00000c0001640 dead000000000122 0000000000000000
+<4>[   35.915973] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
+<4>[   35.916918] page dumped because: kasan: bad access detected
+<3>[   35.917668] 
+<3>[   35.918083] Memory state around the buggy address:
+<3>[   35.918808]  fff00000c668e480: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+<3>[   35.919767]  fff00000c668e500: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+<3>[   35.920667] >fff00000c668e580: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+<3>[   35.921550]                                      ^
+<3>[   35.922256]  fff00000c668e600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   35.923173]  fff00000c668e680: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   35.924065] ==================================================================
+<3>[   35.926418] ==================================================================
+<3>[   35.927352] BUG: KASAN: slab-out-of-bounds in kasan_atomics_helper+0xc6c/0x2af8
+<3>[   35.928159] Write of size 8 at addr fff00000c668e5b0 by task kunit_try_catch/245
+<3>[   35.928870] 
+<3>[   35.929104] CPU: 0 PID: 245 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   35.929894] Hardware name: linux,dummy-virt (DT)
+<3>[   35.930370] Call trace:
+<3>[   35.930666]  dump_backtrace+0x9c/0x128
+<3>[   35.931119]  show_stack+0x20/0x38
+<3>[   35.931511]  dump_stack_lvl+0x8c/0xd0
+<3>[   35.931933]  print_report+0x118/0x5e0
+<3>[   35.932345]  kasan_report+0xc8/0x118
+<3>[   35.932747]  kasan_check_range+0x100/0x1a8
+<3>[   35.933194]  __kasan_check_write+0x20/0x30
+<3>[   35.933638]  kasan_atomics_helper+0xc6c/0x2af8
+<3>[   35.934104]  kasan_atomics+0x100/0x210
+<3>[   35.934523]  kunit_try_run_case+0x14c/0x3d0
+<3>[   35.937387]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<3>[   35.938474]  kthread+0x24c/0x2d0
+<3>[   35.938996]  ret_from_fork+0x10/0x20
+<3>[   35.939552] 
+<3>[   35.939865] Allocated by task 245:
+<4>[   35.940350]  kasan_save_stack+0x3c/0x68
+<4>[   35.940928]  kasan_save_track+0x20/0x40
+<4>[   35.941492]  kasan_save_alloc_info+0x40/0x58
+<4>[   35.942104]  __kasan_kmalloc+0xd4/0xd8
+<4>[   35.942658]  kmalloc_trace+0x158/0x360
+<4>[   35.943254]  kasan_atomics+0xa4/0x210
+<4>[   35.943801]  kunit_try_run_case+0x14c/0x3d0
+<4>[   35.944407]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   35.945123]  kthread+0x24c/0x2d0
+<4>[   35.945628]  ret_from_fork+0x10/0x20
+<3>[   35.946158] 
+<3>[   35.946482] The buggy address belongs to the object at fff00000c668e580
+<3>[   35.946482]  which belongs to the cache kmalloc-64 of size 64
+<3>[   35.947794] The buggy address is located 0 bytes to the right of
+<3>[   35.947794]  allocated 48-byte region [fff00000c668e580, fff00000c668e5b0)
+<3>[   35.949140] 
+<3>[   35.949473] The buggy address belongs to the physical page:
+<4>[   35.950138] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10668e
+<4>[   35.951102] flags: 0xbfffe0000000800(slab|node=0|zone=2|lastcpupid=0x1ffff)
+<4>[   35.951937] page_type: 0xffffffff()
+<4>[   35.952483] raw: 0bfffe0000000800 fff00000c0001640 dead000000000122 0000000000000000
+<4>[   35.953378] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
+<4>[   35.954250] page dumped because: kasan: bad access detected
+<3>[   35.954936] 
+<3>[   35.955273] Memory state around the buggy address:
+<3>[   35.955889]  fff00000c668e480: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+<3>[   35.956735]  fff00000c668e500: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+<3>[   35.957578] >fff00000c668e580: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+<3>[   35.958419]                                      ^
+<3>[   35.959058]  fff00000c668e600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   35.959922]  fff00000c668e680: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   35.960746] ==================================================================
+<3>[   35.962740] ==================================================================
+<3>[   35.964371] BUG: KASAN: slab-out-of-bounds in kasan_atomics_helper+0x2a2c/0x2af8
+<3>[   35.965252] Read of size 8 at addr fff00000c668e5b0 by task kunit_try_catch/245
+<3>[   35.966101] 
+<3>[   35.966455] CPU: 0 PID: 245 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   35.967449] Hardware name: linux,dummy-virt (DT)
+<3>[   35.968089] Call trace:
+<3>[   35.968523]  dump_backtrace+0x9c/0x128
+<3>[   35.969129]  show_stack+0x20/0x38
+<3>[   35.969693]  dump_stack_lvl+0x8c/0xd0
+<3>[   35.970303]  print_report+0x118/0x5e0
+<3>[   35.970921]  kasan_report+0xc8/0x118
+<3>[   35.971526]  __asan_report_load8_noabort+0x20/0x30
+<3>[   35.972264]  kasan_atomics_helper+0x2a2c/0x2af8
+<3>[   35.972900]  kasan_atomics+0x100/0x210
+<3>[   35.973468]  kunit_try_run_case+0x14c/0x3d0
+<3>[   35.974093]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<3>[   35.974820]  kthread+0x24c/0x2d0
+<3>[   35.975371]  ret_from_fork+0x10/0x20
+<3>[   35.975960] 
+<3>[   35.976304] Allocated by task 245:
+<4>[   35.976830]  kasan_save_stack+0x3c/0x68
+<4>[   35.977462]  kasan_save_track+0x20/0x40
+<4>[   35.978088]  kasan_save_alloc_info+0x40/0x58
+<4>[   35.978686]  __kasan_kmalloc+0xd4/0xd8
+<4>[   35.979299]  kmalloc_trace+0x158/0x360
+<4>[   35.979865]  kasan_atomics+0xa4/0x210
+<4>[   35.980411]  kunit_try_run_case+0x14c/0x3d0
+<4>[   35.981008]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   35.981717]  kthread+0x24c/0x2d0
+<4>[   35.982234]  ret_from_fork+0x10/0x20
+<3>[   35.982778] 
+<3>[   35.983134] The buggy address belongs to the object at fff00000c668e580
+<3>[   35.983134]  which belongs to the cache kmalloc-64 of size 64
+<3>[   35.984422] The buggy address is located 0 bytes to the right of
+<3>[   35.984422]  allocated 48-byte region [fff00000c668e580, fff00000c668e5b0)
+<3>[   35.985766] 
+<3>[   35.986085] The buggy address belongs to the physical page:
+<4>[   35.986757] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10668e
+<4>[   35.987692] flags: 0xbfffe0000000800(slab|node=0|zone=2|lastcpupid=0x1ffff)
+<4>[   35.988518] page_type: 0xffffffff()
+<4>[   35.989046] raw: 0bfffe0000000800 fff00000c0001640 dead000000000122 0000000000000000
+<4>[   35.989943] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
+<4>[   35.990804] page dumped because: kasan: bad access detected
+<3>[   35.991508] 
+<3>[   35.991842] Memory state around the buggy address:
+<3>[   35.992460]  fff00000c668e480: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+<3>[   35.993289]  fff00000c668e500: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+<3>[   35.994121] >fff00000c668e580: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+<3>[   35.994953]                                      ^
+<3>[   35.995593]  fff00000c668e600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   35.996408]  fff00000c668e680: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   35.997223] ==================================================================
+<3>[   35.998744] ==================================================================
+<3>[   35.999607] BUG: KASAN: slab-out-of-bounds in kasan_atomics_helper+0xcc4/0x2af8
+<3>[   36.000444] Write of size 8 at addr fff00000c668e5b0 by task kunit_try_catch/245
+<3>[   36.001300] 
+<3>[   36.001648] CPU: 0 PID: 245 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   36.002623] Hardware name: linux,dummy-virt (DT)
+<3>[   36.003265] Call trace:
+<3>[   36.003680]  dump_backtrace+0x9c/0x128
+<3>[   36.004234]  show_stack+0x20/0x38
+<3>[   36.004757]  dump_stack_lvl+0x8c/0xd0
+<3>[   36.005324]  print_report+0x118/0x5e0
+<3>[   36.005886]  kasan_report+0xc8/0x118
+<3>[   36.006432]  kasan_check_range+0x100/0x1a8
+<3>[   36.007051]  __kasan_check_write+0x20/0x30
+<3>[   36.007664]  kasan_atomics_helper+0xcc4/0x2af8
+<3>[   36.008287]  kasan_atomics+0x100/0x210
+<3>[   36.008835]  kunit_try_run_case+0x14c/0x3d0
+<3>[   36.009445]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<3>[   36.010155]  kthread+0x24c/0x2d0
+<3>[   36.010673]  ret_from_fork+0x10/0x20
+<3>[   36.011250] 
+<3>[   36.011581] Allocated by task 245:
+<4>[   36.012061]  kasan_save_stack+0x3c/0x68
+<4>[   36.012639]  kasan_save_track+0x20/0x40
+<4>[   36.013215]  kasan_save_alloc_info+0x40/0x58
+<4>[   36.013829]  __kasan_kmalloc+0xd4/0xd8
+<4>[   36.014394]  kmalloc_trace+0x158/0x360
+<4>[   36.014976]  kasan_atomics+0xa4/0x210
+<4>[   36.015538]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.016170]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.016903]  kthread+0x24c/0x2d0
+<4>[   36.017417]  ret_from_fork+0x10/0x20
+<3>[   36.017965] 
+<3>[   36.018284] The buggy address belongs to the object at fff00000c668e580
+<3>[   36.018284]  which belongs to the cache kmalloc-64 of size 64
+<3>[   36.019594] The buggy address is located 0 bytes to the right of
+<3>[   36.019594]  allocated 48-byte region [fff00000c668e580, fff00000c668e5b0)
+<3>[   36.020937] 
+<3>[   36.021268] The buggy address belongs to the physical page:
+<4>[   36.021938] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10668e
+<4>[   36.022861] flags: 0xbfffe0000000800(slab|node=0|zone=2|lastcpupid=0x1ffff)
+<4>[   36.023741] page_type: 0xffffffff()
+<4>[   36.024285] raw: 0bfffe0000000800 fff00000c0001640 dead000000000122 0000000000000000
+<4>[   36.025191] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
+<4>[   36.026028] page dumped because: kasan: bad access detected
+<3>[   36.026693] 
+<3>[   36.027045] Memory state around the buggy address:
+<3>[   36.027663]  fff00000c668e480: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+<3>[   36.028515]  fff00000c668e500: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+<3>[   36.029372] >fff00000c668e580: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+<3>[   36.030202]                                      ^
+<3>[   36.030828]  fff00000c668e600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   36.031689]  fff00000c668e680: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+<3>[   36.032533] ==================================================================
+<4>[   36.041603]     # kasan_atomics: Test should be marked slow (runtime: 2.616807648s)
+<6>[   36.045573]     ok 63 kasan_atomics
+<6>[   36.052384]     ok 64 vmalloc_helpers_tags # SKIP Test requires CONFIG_KASAN_GENERIC=n
+<3>[   36.056164] ==================================================================
+<3>[   36.057651] BUG: KASAN: vmalloc-out-of-bounds in vmalloc_oob+0x3b4/0x3d8
+<3>[   36.058480] Read of size 1 at addr ffff8000800eb7f3 by task kunit_try_catch/249
+<3>[   36.060290] 
+<3>[   36.060633] CPU: 1 PID: 249 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   36.061612] Hardware name: linux,dummy-virt (DT)
+<3>[   36.062236] Call trace:
+<3>[   36.062632]  dump_backtrace+0x9c/0x128
+<3>[   36.063633]  show_stack+0x20/0x38
+<3>[   36.064161]  dump_stack_lvl+0x8c/0xd0
+<3>[   36.064727]  print_report+0x2fc/0x5e0
+<3>[   36.065281]  kasan_report+0xc8/0x118
+<3>[   36.065833]  __asan_report_load1_noabort+0x20/0x30
+<3>[   36.066506]  vmalloc_oob+0x3b4/0x3d8
+<3>[   36.067857]  kunit_try_run_case+0x14c/0x3d0
+<3>[   36.068468]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<3>[   36.069186]  kthread+0x24c/0x2d0
+<3>[   36.069706]  ret_from_fork+0x10/0x20
+<3>[   36.070260] 
+<3>[   36.070603] The buggy address belongs to the virtual mapping at
+<3>[   36.070603]  [ffff8000800eb000, ffff8000800ed000) created by:
+<3>[   36.070603]  vmalloc_oob+0x84/0x3d8
+<3>[   36.072591] 
+<3>[   36.072931] The buggy address belongs to the physical page:
+<4>[   36.073612] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1066d4
+<4>[   36.074552] flags: 0xbfffe0000000000(node=0|zone=2|lastcpupid=0x1ffff)
+<4>[   36.076257] page_type: 0xffffffff()
+<4>[   36.076805] raw: 0bfffe0000000000 0000000000000000 dead000000000122 0000000000000000
+<4>[   36.077704] raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+<4>[   36.078582] page dumped because: kasan: bad access detected
+<3>[   36.079622] 
+<3>[   36.079950] Memory state around the buggy address:
+<3>[   36.080569]  ffff8000800eb680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<3>[   36.081416]  ffff8000800eb700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<3>[   36.082272] >ffff8000800eb780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03 f8
+<3>[   36.083792]                                                              ^
+<3>[   36.084632]  ffff8000800eb800: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+<3>[   36.085484]  ffff8000800eb880: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+<3>[   36.086304] ==================================================================
+<3>[   36.088367] ==================================================================
+<3>[   36.089182] BUG: KASAN: vmalloc-out-of-bounds in vmalloc_oob+0x398/0x3d8
+<3>[   36.089960] Read of size 1 at addr ffff8000800eb7f8 by task kunit_try_catch/249
+<3>[   36.090690] 
+<3>[   36.091306] CPU: 1 PID: 249 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   36.092288] Hardware name: linux,dummy-virt (DT)
+<3>[   36.093954] Call trace:
+<3>[   36.094379]  dump_backtrace+0x9c/0x128
+<3>[   36.095727]  show_stack+0x20/0x38
+<3>[   36.096286]  dump_stack_lvl+0x8c/0xd0
+<3>[   36.096857]  print_report+0x2fc/0x5e0
+<3>[   36.097389]  kasan_report+0xc8/0x118
+<3>[   36.097811]  __asan_report_load1_noabort+0x20/0x30
+<3>[   36.098321]  vmalloc_oob+0x398/0x3d8
+<3>[   36.098730]  kunit_try_run_case+0x14c/0x3d0
+<3>[   36.100516]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<3>[   36.101563]  kthread+0x24c/0x2d0
+<3>[   36.102764]  ret_from_fork+0x10/0x20
+<3>[   36.103617] 
+<3>[   36.104539] The buggy address belongs to the virtual mapping at
+<3>[   36.104539]  [ffff8000800eb000, ffff8000800ed000) created by:
+<3>[   36.104539]  vmalloc_oob+0x84/0x3d8
+<3>[   36.106588] 
+<3>[   36.107477] The buggy address belongs to the physical page:
+<4>[   36.108341] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1066d4
+<4>[   36.109420] flags: 0xbfffe0000000000(node=0|zone=2|lastcpupid=0x1ffff)
+<4>[   36.110378] page_type: 0xffffffff()
+<4>[   36.111735] raw: 0bfffe0000000000 0000000000000000 dead000000000122 0000000000000000
+<4>[   36.112662] raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+<4>[   36.113417] page dumped because: kasan: bad access detected
+<3>[   36.113956] 
+<3>[   36.114175] Memory state around the buggy address:
+<3>[   36.114655]  ffff8000800eb680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<3>[   36.116355]  ffff8000800eb700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<3>[   36.117526] >ffff8000800eb780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03 f8
+<3>[   36.118348]                                                                 ^
+<3>[   36.119632]  ffff8000800eb800: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+<3>[   36.120633]  ffff8000800eb880: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+<3>[   36.121387] ==================================================================
+<6>[   36.127936]     ok 65 vmalloc_oob
+<6>[   36.134000]     ok 66 vmap_tags # SKIP Test requires CONFIG_KASAN_SW_TAGS=y
+<6>[   36.141824]     ok 67 vm_map_ram_tags # SKIP Test requires CONFIG_KASAN_SW_TAGS=y
+<6>[   36.150002]     ok 68 vmalloc_percpu # SKIP Test requires CONFIG_KASAN_SW_TAGS=y
+<6>[   36.156804]     ok 69 match_all_not_assigned # SKIP Test requires CONFIG_KASAN_GENERIC=n
+<6>[   36.164514]     ok 70 match_all_ptr_tag # SKIP Test requires CONFIG_KASAN_GENERIC=n
+<6>[   36.171845]     ok 71 match_all_mem_tag # SKIP Test requires CONFIG_KASAN_GENERIC=n
+<6>[   36.182136] # kasan: pass:59 fail:1 skip:11 total:71
+<6>[   36.184231] # Totals: pass:59 fail:1 skip:11 total:71
+<6>[   36.185076] not ok 6 kasan
+<6>[   36.188424]     KTAP version 1
+<6>[   36.188967]     # Subtest: kfence
+<6>[   36.189664]     1..25
+<6>[   36.193767]     # test_out_of_bounds_read: test_alloc: size=32, gfp=cc0, policy=left, cache=0
+<3>[   36.245565] ==================================================================
+<3>[   36.246390] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0x100/0x318
+<3>[   36.246390] 
+<3>[   36.247631] Out-of-bounds read at 0x00000000c5b08e6c (1B left of kfence-#144):
+<4>[   36.248578]  test_out_of_bounds_read+0x100/0x318
+<4>[   36.249248]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.249874]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.250591]  kthread+0x24c/0x2d0
+<4>[   36.251150]  ret_from_fork+0x10/0x20
+<3>[   36.251709] 
+<4>[   36.252041] kfence-#144: 0x00000000fb252191-0x00000000edf8e06e, size=32, cache=kmalloc-32
+<4>[   36.252041] 
+<4>[   36.253101] allocated by task 263 on cpu 0 at 36.243898s:
+<4>[   36.253867]  test_alloc+0x298/0x518
+<4>[   36.254394]  test_out_of_bounds_read+0xd4/0x318
+<4>[   36.255052]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.255661]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.256335]  kthread+0x24c/0x2d0
+<4>[   36.256841]  ret_from_fork+0x10/0x20
+<3>[   36.257412] 
+<3>[   36.257773] CPU: 0 PID: 263 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   36.258717] Hardware name: linux,dummy-virt (DT)
+<3>[   36.259355] ==================================================================
+<6>[   36.261759]     # test_out_of_bounds_read: test_alloc: size=32, gfp=cc0, policy=right, cache=0
+<3>[   36.347875] ==================================================================
+<3>[   36.348618] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0x160/0x318
+<3>[   36.348618] 
+<3>[   36.349634] Out-of-bounds read at 0x00000000dc8d56a0 (32B right of kfence-#145):
+<4>[   36.350470]  test_out_of_bounds_read+0x160/0x318
+<4>[   36.351966]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.352610]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.353491]  kthread+0x24c/0x2d0
+<4>[   36.354199]  ret_from_fork+0x10/0x20
+<3>[   36.354941] 
+<4>[   36.355458] kfence-#145: 0x0000000074904a6a-0x000000007da3e4bd, size=32, cache=kmalloc-32
+<4>[   36.355458] 
+<4>[   36.356717] allocated by task 263 on cpu 0 at 36.347631s:
+<4>[   36.357425]  test_alloc+0x298/0x518
+<4>[   36.357949]  test_out_of_bounds_read+0x134/0x318
+<4>[   36.358578]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.359209]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.359910]  kthread+0x24c/0x2d0
+<4>[   36.360414]  ret_from_fork+0x10/0x20
+<3>[   36.360961] 
+<3>[   36.361312] CPU: 0 PID: 263 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   36.362257] Hardware name: linux,dummy-virt (DT)
+<3>[   36.362862] ==================================================================
+<6>[   36.369096]     ok 1 test_out_of_bounds_read
+<6>[   36.371628]     # test_out_of_bounds_read-memcache: setup_test_cache: size=32, ctor=0x0
+<6>[   36.376610]     # test_out_of_bounds_read-memcache: test_alloc: size=32, gfp=cc0, policy=left, cache=1
+<3>[   36.868011] ==================================================================
+<3>[   36.868817] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0x100/0x318
+<3>[   36.868817] 
+<3>[   36.869913] Out-of-bounds read at 0x00000000275f9400 (1B left of kfence-#150):
+<4>[   36.870803]  test_out_of_bounds_read+0x100/0x318
+<4>[   36.871604]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.872266]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.873108]  kthread+0x24c/0x2d0
+<4>[   36.873692]  ret_from_fork+0x10/0x20
+<3>[   36.874310] 
+<4>[   36.874707] kfence-#150: 0x00000000ef7e840b-0x000000007d82eb0f, size=32, cache=test
+<4>[   36.874707] 
+<4>[   36.875819] allocated by task 265 on cpu 0 at 36.867743s:
+<4>[   36.876736]  test_alloc+0x22c/0x518
+<4>[   36.877314]  test_out_of_bounds_read+0xd4/0x318
+<4>[   36.877977]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.878613]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.879374]  kthread+0x24c/0x2d0
+<4>[   36.879922]  ret_from_fork+0x10/0x20
+<3>[   36.880504] 
+<3>[   36.880866] CPU: 0 PID: 265 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   36.881897] Hardware name: linux,dummy-virt (DT)
+<3>[   36.882540] ==================================================================
+<6>[   36.884046]     # test_out_of_bounds_read-memcache: test_alloc: size=32, gfp=cc0, policy=right, cache=1
+<3>[   36.971778] ==================================================================
+<3>[   36.972602] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0x160/0x318
+<3>[   36.972602] 
+<3>[   36.973639] Out-of-bounds read at 0x0000000003619fa5 (32B right of kfence-#151):
+<4>[   36.974520]  test_out_of_bounds_read+0x160/0x318
+<4>[   36.975298]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.975948]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.976728]  kthread+0x24c/0x2d0
+<4>[   36.977291]  ret_from_fork+0x10/0x20
+<3>[   36.977908] 
+<4>[   36.978250] kfence-#151: 0x000000009ef01193-0x00000000ad190875, size=32, cache=test
+<4>[   36.978250] 
+<4>[   36.979338] allocated by task 265 on cpu 0 at 36.971638s:
+<4>[   36.980091]  test_alloc+0x22c/0x518
+<4>[   36.980665]  test_out_of_bounds_read+0x134/0x318
+<4>[   36.981331]  kunit_try_run_case+0x14c/0x3d0
+<4>[   36.981964]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   36.982704]  kthread+0x24c/0x2d0
+<4>[   36.983286]  ret_from_fork+0x10/0x20
+<3>[   36.983869] 
+<3>[   36.984263] CPU: 0 PID: 265 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   36.985248] Hardware name: linux,dummy-virt (DT)
+<3>[   36.986018] ==================================================================
+<6>[   37.036064]     ok 2 test_out_of_bounds_read-memcache
+<6>[   37.037769]     # test_out_of_bounds_write: test_alloc: size=32, gfp=cc0, policy=left, cache=0
+<3>[   37.284092] ==================================================================
+<3>[   37.285086] BUG: KFENCE: out-of-bounds write in test_out_of_bounds_write+0xf8/0x1e0
+<3>[   37.285086] 
+<3>[   37.286195] Out-of-bounds write at 0x00000000788da345 (1B left of kfence-#154):
+<4>[   37.287142]  test_out_of_bounds_write+0xf8/0x1e0
+<4>[   37.287854]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.288472]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.289248]  kthread+0x24c/0x2d0
+<4>[   37.289808]  ret_from_fork+0x10/0x20
+<3>[   37.290398] 
+<4>[   37.290761] kfence-#154: 0x000000001572e519-0x00000000a308966b, size=32, cache=kmalloc-32
+<4>[   37.290761] 
+<4>[   37.291885] allocated by task 267 on cpu 1 at 37.283837s:
+<4>[   37.292694]  test_alloc+0x298/0x518
+<4>[   37.293246]  test_out_of_bounds_write+0xc8/0x1e0
+<4>[   37.293968]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.294621]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.295395]  kthread+0x24c/0x2d0
+<4>[   37.295992]  ret_from_fork+0x10/0x20
+<3>[   37.296592] 
+<3>[   37.296954] CPU: 1 PID: 267 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   37.297993] Hardware name: linux,dummy-virt (DT)
+<3>[   37.298642] ==================================================================
+<6>[   37.305051]     ok 3 test_out_of_bounds_write
+<6>[   37.308280]     # test_out_of_bounds_write-memcache: setup_test_cache: size=32, ctor=0x0
+<6>[   37.312503]     # test_out_of_bounds_write-memcache: test_alloc: size=32, gfp=cc0, policy=left, cache=1
+<3>[   37.595805] ==================================================================
+<3>[   37.596651] BUG: KFENCE: out-of-bounds write in test_out_of_bounds_write+0xf8/0x1e0
+<3>[   37.596651] 
+<3>[   37.598025] Out-of-bounds write at 0x0000000008d31bda (1B left of kfence-#157):
+<4>[   37.598990]  test_out_of_bounds_write+0xf8/0x1e0
+<4>[   37.599806]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.600539]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.601314]  kthread+0x24c/0x2d0
+<4>[   37.601922]  ret_from_fork+0x10/0x20
+<3>[   37.602561] 
+<4>[   37.602999] kfence-#157: 0x00000000a9b1b6a8-0x0000000092e1c1a6, size=32, cache=test
+<4>[   37.602999] 
+<4>[   37.604127] allocated by task 269 on cpu 0 at 37.595651s:
+<4>[   37.605034]  test_alloc+0x22c/0x518
+<4>[   37.605658]  test_out_of_bounds_write+0xc8/0x1e0
+<4>[   37.606415]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.607150]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.607956]  kthread+0x24c/0x2d0
+<4>[   37.608571]  ret_from_fork+0x10/0x20
+<3>[   37.609217] 
+<3>[   37.609652] CPU: 0 PID: 269 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   37.610693] Hardware name: linux,dummy-virt (DT)
+<3>[   37.611463] ==================================================================
+<6>[   37.639187]     ok 4 test_out_of_bounds_write-memcache
+<6>[   37.642319]     # test_use_after_free_read: test_alloc: size=32, gfp=cc0, policy=any, cache=0
+<3>[   37.699968] ==================================================================
+<3>[   37.700776] BUG: KFENCE: use-after-free read in test_use_after_free_read+0x110/0x1e8
+<3>[   37.700776] 
+<3>[   37.702061] Use-after-free read at 0x00000000cc22baaf (in kfence-#158):
+<4>[   37.702865]  test_use_after_free_read+0x110/0x1e8
+<4>[   37.703545]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.704163]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.704876]  kthread+0x24c/0x2d0
+<4>[   37.705399]  ret_from_fork+0x10/0x20
+<3>[   37.705949] 
+<4>[   37.706284] kfence-#158: 0x00000000cc22baaf-0x00000000b1c5829a, size=32, cache=kmalloc-32
+<4>[   37.706284] 
+<4>[   37.707399] allocated by task 271 on cpu 0 at 37.699580s:
+<4>[   37.708177]  test_alloc+0x298/0x518
+<4>[   37.708756]  test_use_after_free_read+0xd0/0x1e8
+<4>[   37.709437]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.710077]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.710824]  kthread+0x24c/0x2d0
+<4>[   37.711403]  ret_from_fork+0x10/0x20
+<4>[   37.711989] 
+<4>[   37.712342] freed by task 271 on cpu 0 at 37.699694s:
+<4>[   37.713081]  test_use_after_free_read+0x168/0x1e8
+<4>[   37.713760]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.714406]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.715207]  kthread+0x24c/0x2d0
+<4>[   37.715779]  ret_from_fork+0x10/0x20
+<3>[   37.716366] 
+<3>[   37.716712] CPU: 0 PID: 271 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   37.717667] Hardware name: linux,dummy-virt (DT)
+<3>[   37.718293] ==================================================================
+<6>[   37.723959]     ok 5 test_use_after_free_read
+<6>[   37.726396]     # test_use_after_free_read-memcache: setup_test_cache: size=32, ctor=0x0
+<6>[   37.730404]     # test_use_after_free_read-memcache: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+<3>[   37.803811] ==================================================================
+<3>[   37.804574] BUG: KFENCE: use-after-free read in test_use_after_free_read+0x110/0x1e8
+<3>[   37.804574] 
+<3>[   37.805881] Use-after-free read at 0x00000000e969610b (in kfence-#159):
+<4>[   37.806759]  test_use_after_free_read+0x110/0x1e8
+<4>[   37.807531]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.808201]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.809003]  kthread+0x24c/0x2d0
+<4>[   37.809558]  ret_from_fork+0x10/0x20
+<3>[   37.810205] 
+<4>[   37.810541] kfence-#159: 0x00000000e969610b-0x00000000f9a6ddc3, size=32, cache=test
+<4>[   37.810541] 
+<4>[   37.811732] allocated by task 273 on cpu 0 at 37.803542s:
+<4>[   37.812544]  test_alloc+0x22c/0x518
+<4>[   37.813095]  test_use_after_free_read+0xd0/0x1e8
+<4>[   37.813785]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.814445]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.815259]  kthread+0x24c/0x2d0
+<4>[   37.815788]  ret_from_fork+0x10/0x20
+<4>[   37.816381] 
+<4>[   37.816759] freed by task 273 on cpu 0 at 37.803637s:
+<4>[   37.817643]  test_use_after_free_read+0xf0/0x1e8
+<4>[   37.818365]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.819038]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.819810]  kthread+0x24c/0x2d0
+<4>[   37.820370]  ret_from_fork+0x10/0x20
+<3>[   37.820959] 
+<3>[   37.821353] CPU: 0 PID: 273 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   37.822340] Hardware name: linux,dummy-virt (DT)
+<3>[   37.823001] ==================================================================
+<6>[   37.840438]     ok 6 test_use_after_free_read-memcache
+<6>[   37.842585]     # test_double_free: test_alloc: size=32, gfp=cc0, policy=any, cache=0
+<3>[   37.907897] ==================================================================
+<3>[   37.908770] BUG: KFENCE: invalid free in test_double_free+0x164/0x1e0
+<3>[   37.908770] 
+<3>[   37.909946] Invalid free of 0x000000001b9dcd07 (in kfence-#160):
+<4>[   37.911530]  test_double_free+0x164/0x1e0
+<4>[   37.912274]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.913026]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.913886]  kthread+0x24c/0x2d0
+<4>[   37.914564]  ret_from_fork+0x10/0x20
+<3>[   37.915304] 
+<4>[   37.915800] kfence-#160: 0x000000001b9dcd07-0x00000000f253943b, size=32, cache=kmalloc-32
+<4>[   37.915800] 
+<4>[   37.917050] allocated by task 275 on cpu 1 at 37.907561s:
+<4>[   37.917886]  test_alloc+0x298/0x518
+<4>[   37.918480]  test_double_free+0xd4/0x1e0
+<4>[   37.919164]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.919833]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.920611]  kthread+0x24c/0x2d0
+<4>[   37.921197]  ret_from_fork+0x10/0x20
+<4>[   37.921815] 
+<4>[   37.922208] freed by task 275 on cpu 1 at 37.907677s:
+<4>[   37.922982]  test_double_free+0x154/0x1e0
+<4>[   37.923641]  kunit_try_run_case+0x14c/0x3d0
+<4>[   37.924317]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   37.925093]  kthread+0x24c/0x2d0
+<4>[   37.925679]  ret_from_fork+0x10/0x20
+<3>[   37.926278] 
+<3>[   37.926695] CPU: 1 PID: 275 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   37.927741] Hardware name: linux,dummy-virt (DT)
+<3>[   37.928416] ==================================================================
+<6>[   37.934445]     ok 7 test_double_free
+<6>[   37.937378]     # test_double_free-memcache: setup_test_cache: size=32, ctor=0x0
+<6>[   37.941174]     # test_double_free-memcache: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+<3>[   38.011871] ==================================================================
+<3>[   38.012607] BUG: KFENCE: invalid free in test_double_free+0x100/0x1e0
+<3>[   38.012607] 
+<3>[   38.013572] Invalid free of 0x000000000acee41c (in kfence-#161):
+<4>[   38.014398]  test_double_free+0x100/0x1e0
+<4>[   38.015701]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.016511]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.017392]  kthread+0x24c/0x2d0
+<4>[   38.018076]  ret_from_fork+0x10/0x20
+<3>[   38.018795] 
+<4>[   38.019342] kfence-#161: 0x000000000acee41c-0x00000000089aff08, size=32, cache=test
+<4>[   38.019342] 
+<4>[   38.020566] allocated by task 277 on cpu 0 at 38.011536s:
+<4>[   38.021612]  test_alloc+0x22c/0x518
+<4>[   38.022313]  test_double_free+0xd4/0x1e0
+<4>[   38.023081]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.023857]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.024737]  kthread+0x24c/0x2d0
+<4>[   38.025423]  ret_from_fork+0x10/0x20
+<4>[   38.026180] 
+<4>[   38.026694] freed by task 277 on cpu 0 at 38.011630s:
+<4>[   38.027601]  test_double_free+0xf0/0x1e0
+<4>[   38.028285]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.029026]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.029890]  kthread+0x24c/0x2d0
+<4>[   38.030584]  ret_from_fork+0x10/0x20
+<3>[   38.031338] 
+<3>[   38.031871] CPU: 0 PID: 277 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   38.033025] Hardware name: linux,dummy-virt (DT)
+<3>[   38.033780] ==================================================================
+<6>[   38.052442]     ok 8 test_double_free-memcache
+<6>[   38.054560]     # test_invalid_addr_free: test_alloc: size=32, gfp=cc0, policy=any, cache=0
+<3>[   38.116518] ==================================================================
+<3>[   38.117261] BUG: KFENCE: invalid free in test_invalid_addr_free+0x154/0x1e0
+<3>[   38.117261] 
+<3>[   38.118187] Invalid free of 0x00000000b7be0f66 (in kfence-#162):
+<4>[   38.118997]  test_invalid_addr_free+0x154/0x1e0
+<4>[   38.119659]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.120288]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.121002]  kthread+0x24c/0x2d0
+<4>[   38.121547]  ret_from_fork+0x10/0x20
+<3>[   38.122110] 
+<4>[   38.122451] kfence-#162: 0x00000000e468db5b-0x000000005560118e, size=32, cache=kmalloc-32
+<4>[   38.122451] 
+<4>[   38.123546] allocated by task 279 on cpu 1 at 38.116330s:
+<4>[   38.124265]  test_alloc+0x298/0x518
+<4>[   38.124790]  test_invalid_addr_free+0xd4/0x1e0
+<4>[   38.125424]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.126012]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.126706]  kthread+0x24c/0x2d0
+<4>[   38.127239]  ret_from_fork+0x10/0x20
+<3>[   38.127783] 
+<3>[   38.128138] CPU: 1 PID: 279 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   38.129070] Hardware name: linux,dummy-virt (DT)
+<3>[   38.129669] ==================================================================
+<6>[   38.136338]     ok 9 test_invalid_addr_free
+<6>[   38.138392]     # test_invalid_addr_free-memcache: setup_test_cache: size=32, ctor=0x0
+<6>[   38.142479]     # test_invalid_addr_free-memcache: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+<3>[   38.219881] ==================================================================
+<3>[   38.220683] BUG: KFENCE: invalid free in test_invalid_addr_free+0xec/0x1e0
+<3>[   38.220683] 
+<3>[   38.221548] Invalid free of 0x000000006963d9e0 (in kfence-#163):
+<4>[   38.222257]  test_invalid_addr_free+0xec/0x1e0
+<4>[   38.222900]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.223531]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.224240]  kthread+0x24c/0x2d0
+<4>[   38.224761]  ret_from_fork+0x10/0x20
+<3>[   38.225316] 
+<4>[   38.225651] kfence-#163: 0x000000006f4b7bca-0x000000002d5fcf3c, size=32, cache=test
+<4>[   38.225651] 
+<4>[   38.226663] allocated by task 281 on cpu 0 at 38.219682s:
+<4>[   38.227417]  test_alloc+0x22c/0x518
+<4>[   38.227955]  test_invalid_addr_free+0xd4/0x1e0
+<4>[   38.228572]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.229178]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.229885]  kthread+0x24c/0x2d0
+<4>[   38.230395]  ret_from_fork+0x10/0x20
+<3>[   38.230958] 
+<3>[   38.231325] CPU: 0 PID: 281 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   38.232282] Hardware name: linux,dummy-virt (DT)
+<3>[   38.232888] ==================================================================
+<6>[   38.252912]     ok 10 test_invalid_addr_free-memcache
+<6>[   38.255590]     # test_corruption: test_alloc: size=32, gfp=cc0, policy=left, cache=0
+<3>[   38.323793] ==================================================================
+<3>[   38.324529] BUG: KFENCE: memory corruption in test_corruption+0x1cc/0x2b8
+<3>[   38.324529] 
+<3>[   38.325527] Corrupted memory at 0x000000004e93f5ce [ ! . . . . . . . . . . . . . . . ] (in kfence-#164):
+<4>[   38.328092]  test_corruption+0x1cc/0x2b8
+<4>[   38.328753]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.329441]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.330227]  kthread+0x24c/0x2d0
+<4>[   38.330820]  ret_from_fork+0x10/0x20
+<3>[   38.331472] 
+<4>[   38.331862] kfence-#164: 0x00000000838672d3-0x000000008168351d, size=32, cache=kmalloc-32
+<4>[   38.331862] 
+<4>[   38.332979] allocated by task 283 on cpu 1 at 38.323519s:
+<4>[   38.333828]  test_alloc+0x298/0x518
+<4>[   38.334424]  test_corruption+0xd0/0x2b8
+<4>[   38.335011]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.335755]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.336548]  kthread+0x24c/0x2d0
+<4>[   38.337132]  ret_from_fork+0x10/0x20
+<4>[   38.337742] 
+<4>[   38.338084] freed by task 283 on cpu 1 at 38.323674s:
+<4>[   38.338925]  test_corruption+0x1cc/0x2b8
+<4>[   38.339569]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.340234]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.340999]  kthread+0x24c/0x2d0
+<4>[   38.341586]  ret_from_fork+0x10/0x20
+<3>[   38.342201] 
+<3>[   38.342560] CPU: 1 PID: 283 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   38.343664] Hardware name: linux,dummy-virt (DT)
+<3>[   38.344329] ==================================================================
+<6>[   38.345885]     # test_corruption: test_alloc: size=32, gfp=cc0, policy=right, cache=0
+<3>[   38.428089] ==================================================================
+<3>[   38.428857] BUG: KFENCE: memory corruption in test_corruption+0x220/0x2b8
+<3>[   38.428857] 
+<3>[   38.429810] Corrupted memory at 0x000000004b4793dc [ ! ] (in kfence-#165):
+<4>[   38.431050]  test_corruption+0x220/0x2b8
+<4>[   38.431710]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.432369]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.433136]  kthread+0x24c/0x2d0
+<4>[   38.433676]  ret_from_fork+0x10/0x20
+<3>[   38.434300] 
+<4>[   38.434627] kfence-#165: 0x00000000dc5df9d1-0x00000000c83455e9, size=32, cache=kmalloc-32
+<4>[   38.434627] 
+<4>[   38.435788] allocated by task 283 on cpu 1 at 38.427701s:
+<4>[   38.436532]  test_alloc+0x298/0x518
+<4>[   38.437097]  test_corruption+0x134/0x2b8
+<4>[   38.437713]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.438350]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.439120]  kthread+0x24c/0x2d0
+<4>[   38.439677]  ret_from_fork+0x10/0x20
+<4>[   38.440231] 
+<4>[   38.440595] freed by task 283 on cpu 1 at 38.427856s:
+<4>[   38.441318]  test_corruption+0x220/0x2b8
+<4>[   38.441920]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.442567]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.443336]  kthread+0x24c/0x2d0
+<4>[   38.443894]  ret_from_fork+0x10/0x20
+<3>[   38.444483] 
+<3>[   38.444866] CPU: 1 PID: 283 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   38.445827] Hardware name: linux,dummy-virt (DT)
+<3>[   38.446462] ==================================================================
+<6>[   38.452600]     ok 11 test_corruption
+<6>[   38.455367]     # test_corruption-memcache: setup_test_cache: size=32, ctor=0x0
+<6>[   38.458685]     # test_corruption-memcache: test_alloc: size=32, gfp=cc0, policy=left, cache=1
+<3>[   38.947822] ==================================================================
+<3>[   38.948623] BUG: KFENCE: memory corruption in test_corruption+0x114/0x2b8
+<3>[   38.948623] 
+<3>[   38.949481] Corrupted memory at 0x000000009d7f212e [ ! . . . . . . . . . . . . . . . ] (in kfence-#170):
+<4>[   38.951660]  test_corruption+0x114/0x2b8
+<4>[   38.952221]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.952817]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.953514]  kthread+0x24c/0x2d0
+<4>[   38.954045]  ret_from_fork+0x10/0x20
+<3>[   38.954597] 
+<4>[   38.954955] kfence-#170: 0x000000001a9ce23b-0x0000000030881766, size=32, cache=test
+<4>[   38.954955] 
+<4>[   38.956025] allocated by task 285 on cpu 0 at 38.947591s:
+<4>[   38.956758]  test_alloc+0x22c/0x518
+<4>[   38.957303]  test_corruption+0xd0/0x2b8
+<4>[   38.957878]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.958484]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.959211]  kthread+0x24c/0x2d0
+<4>[   38.959732]  ret_from_fork+0x10/0x20
+<4>[   38.960281] 
+<4>[   38.960615] freed by task 285 on cpu 0 at 38.947676s:
+<4>[   38.961329]  test_corruption+0x114/0x2b8
+<4>[   38.961892]  kunit_try_run_case+0x14c/0x3d0
+<4>[   38.962485]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   38.963219]  kthread+0x24c/0x2d0
+<4>[   38.963734]  ret_from_fork+0x10/0x20
+<3>[   38.964288] 
+<3>[   38.964632] CPU: 0 PID: 285 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   38.965579] Hardware name: linux,dummy-virt (DT)
+<3>[   38.966215] ==================================================================
+<6>[   38.967481]     # test_corruption-memcache: test_alloc: size=32, gfp=cc0, policy=right, cache=1
+<3>[   39.155769] ==================================================================
+<3>[   39.156591] BUG: KFENCE: memory corruption in test_corruption+0x174/0x2b8
+<3>[   39.156591] 
+<3>[   39.157451] Corrupted memory at 0x000000005fe3f7c8 [ ! ] (in kfence-#172):
+<4>[   39.158452]  test_corruption+0x174/0x2b8
+<4>[   39.159065]  kunit_try_run_case+0x14c/0x3d0
+<4>[   39.159676]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   39.160377]  kthread+0x24c/0x2d0
+<4>[   39.160906]  ret_from_fork+0x10/0x20
+<3>[   39.161447] 
+<4>[   39.161776] kfence-#172: 0x0000000045d5f853-0x00000000417375a2, size=32, cache=test
+<4>[   39.161776] 
+<4>[   39.162790] allocated by task 285 on cpu 0 at 39.155540s:
+<4>[   39.163544]  test_alloc+0x22c/0x518
+<4>[   39.164078]  test_corruption+0x134/0x2b8
+<4>[   39.164659]  kunit_try_run_case+0x14c/0x3d0
+<4>[   39.165265]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   39.165978]  kthread+0x24c/0x2d0
+<4>[   39.166536]  ret_from_fork+0x10/0x20
+<4>[   39.167114] 
+<4>[   39.167444] freed by task 285 on cpu 0 at 39.155625s:
+<4>[   39.168146]  test_corruption+0x174/0x2b8
+<4>[   39.168725]  kunit_try_run_case+0x14c/0x3d0
+<4>[   39.169334]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   39.170034]  kthread+0x24c/0x2d0
+<4>[   39.170564]  ret_from_fork+0x10/0x20
+<3>[   39.171087] 
+<3>[   39.171435] CPU: 0 PID: 285 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   39.172406] Hardware name: linux,dummy-virt (DT)
+<3>[   39.173016] ==================================================================
+<6>[   39.224617]     ok 12 test_corruption-memcache
+<6>[   39.227848]     # test_free_bulk: test_alloc: size=240, gfp=cc0, policy=right, cache=0
+<6>[   39.571660]     # test_free_bulk: test_alloc: size=240, gfp=cc0, policy=none, cache=0
+<6>[   39.572963]     # test_free_bulk: test_alloc: size=240, gfp=cc0, policy=left, cache=0
+<6>[   39.883667]     # test_free_bulk: test_alloc: size=240, gfp=cc0, policy=none, cache=0
+<6>[   39.884987]     # test_free_bulk: test_alloc: size=240, gfp=cc0, policy=none, cache=0
+<6>[   39.886673]     # test_free_bulk: test_alloc: size=48, gfp=cc0, policy=right, cache=0
+<6>[   40.091547]     # test_free_bulk: test_alloc: size=48, gfp=cc0, policy=none, cache=0
+<6>[   40.092697]     # test_free_bulk: test_alloc: size=48, gfp=cc0, policy=left, cache=0
+<6>[   40.195628]     # test_free_bulk: test_alloc: size=48, gfp=cc0, policy=none, cache=0
+<6>[   40.196877]     # test_free_bulk: test_alloc: size=48, gfp=cc0, policy=none, cache=0
+<6>[   40.198498]     # test_free_bulk: test_alloc: size=264, gfp=cc0, policy=right, cache=0
+<6>[   40.507837]     # test_free_bulk: test_alloc: size=264, gfp=cc0, policy=none, cache=0
+<6>[   40.508949]     # test_free_bulk: test_alloc: size=264, gfp=cc0, policy=left, cache=0
+<6>[   40.819574]     # test_free_bulk: test_alloc: size=264, gfp=cc0, policy=none, cache=0
+<6>[   40.820704]     # test_free_bulk: test_alloc: size=264, gfp=cc0, policy=none, cache=0
+<6>[   40.822343]     # test_free_bulk: test_alloc: size=91, gfp=cc0, policy=right, cache=0
+<6>[   41.235608]     # test_free_bulk: test_alloc: size=91, gfp=cc0, policy=none, cache=0
+<6>[   41.236753]     # test_free_bulk: test_alloc: size=91, gfp=cc0, policy=left, cache=0
+<6>[   41.339574]     # test_free_bulk: test_alloc: size=91, gfp=cc0, policy=none, cache=0
+<6>[   41.340675]     # test_free_bulk: test_alloc: size=91, gfp=cc0, policy=none, cache=0
+<6>[   41.342095]     # test_free_bulk: test_alloc: size=186, gfp=cc0, policy=right, cache=0
+<6>[   41.443622]     # test_free_bulk: test_alloc: size=186, gfp=cc0, policy=none, cache=0
+<6>[   41.444715]     # test_free_bulk: test_alloc: size=186, gfp=cc0, policy=left, cache=0
+<6>[   41.651615]     # test_free_bulk: test_alloc: size=186, gfp=cc0, policy=none, cache=0
+<6>[   41.652696]     # test_free_bulk: test_alloc: size=186, gfp=cc0, policy=none, cache=0
+<4>[   41.654100]     # test_free_bulk: Test should be marked slow (runtime: 2.426641584s)
+<6>[   41.658539]     ok 13 test_free_bulk
+<6>[   41.662327]     # test_free_bulk-memcache: setup_test_cache: size=36, ctor=0x0
+<6>[   41.666755]     # test_free_bulk-memcache: test_alloc: size=36, gfp=cc0, policy=right, cache=1
+<6>[   42.067594]     # test_free_bulk-memcache: test_alloc: size=36, gfp=cc0, policy=none, cache=1
+<6>[   42.068806]     # test_free_bulk-memcache: test_alloc: size=36, gfp=cc0, policy=left, cache=1
+<6>[   42.171609]     # test_free_bulk-memcache: test_alloc: size=36, gfp=cc0, policy=none, cache=1
+<6>[   42.172945]     # test_free_bulk-memcache: test_alloc: size=36, gfp=cc0, policy=none, cache=1
+<6>[   42.219656]     # test_free_bulk-memcache: setup_test_cache: size=305, ctor=ctor_set_x
+<6>[   42.222628]     # test_free_bulk-memcache: test_alloc: size=305, gfp=cc0, policy=right, cache=1
+<6>[   42.483633]     # test_free_bulk-memcache: test_alloc: size=305, gfp=cc0, policy=none, cache=1
+<6>[   42.484935]     # test_free_bulk-memcache: test_alloc: size=305, gfp=cc0, policy=left, cache=1
+<6>[   43.211700]     # test_free_bulk-memcache: test_alloc: size=305, gfp=cc0, policy=none, cache=1
+<6>[   43.212878]     # test_free_bulk-memcache: test_alloc: size=305, gfp=cc0, policy=none, cache=1
+<6>[   43.348426]     # test_free_bulk-memcache: setup_test_cache: size=200, ctor=0x0
+<6>[   43.352356]     # test_free_bulk-memcache: test_alloc: size=200, gfp=cc0, policy=right, cache=1
+<6>[   43.835609]     # test_free_bulk-memcache: test_alloc: size=200, gfp=cc0, policy=none, cache=1
+<6>[   43.836806]     # test_free_bulk-memcache: test_alloc: size=200, gfp=cc0, policy=left, cache=1
+<6>[   43.939621]     # test_free_bulk-memcache: test_alloc: size=200, gfp=cc0, policy=none, cache=1
+<6>[   43.940793]     # test_free_bulk-memcache: test_alloc: size=200, gfp=cc0, policy=none, cache=1
+<6>[   44.031513]     # test_free_bulk-memcache: setup_test_cache: size=254, ctor=ctor_set_x
+<6>[   44.034798]     # test_free_bulk-memcache: test_alloc: size=254, gfp=cc0, policy=right, cache=1
+<6>[   44.147596]     # test_free_bulk-memcache: test_alloc: size=254, gfp=cc0, policy=none, cache=1
+<6>[   44.148750]     # test_free_bulk-memcache: test_alloc: size=254, gfp=cc0, policy=left, cache=1
+<6>[   44.251785]     # test_free_bulk-memcache: test_alloc: size=254, gfp=cc0, policy=none, cache=1
+<6>[   44.252944]     # test_free_bulk-memcache: test_alloc: size=254, gfp=cc0, policy=none, cache=1
+<6>[   44.303419]     # test_free_bulk-memcache: setup_test_cache: size=101, ctor=0x0
+<6>[   44.307194]     # test_free_bulk-memcache: test_alloc: size=101, gfp=cc0, policy=right, cache=1
+<6>[   44.355653]     # test_free_bulk-memcache: test_alloc: size=101, gfp=cc0, policy=none, cache=1
+<6>[   44.356763]     # test_free_bulk-memcache: test_alloc: size=101, gfp=cc0, policy=left, cache=1
+<6>[   44.459566]     # test_free_bulk-memcache: test_alloc: size=101, gfp=cc0, policy=none, cache=1
+<6>[   44.460696]     # test_free_bulk-memcache: test_alloc: size=101, gfp=cc0, policy=none, cache=1
+<4>[   44.495587]     # test_free_bulk-memcache: Test should be marked slow (runtime: 2.833287136s)
+<6>[   44.499621]     ok 14 test_free_bulk-memcache
+<6>[   44.506551]     ok 15 test_init_on_free # SKIP Test requires: IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON)
+<6>[   44.513466]     ok 16 test_init_on_free-memcache # SKIP Test requires: IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON)
+<6>[   44.517521]     # test_kmalloc_aligned_oob_read: test_alloc: size=73, gfp=cc0, policy=right, cache=0
+<3>[   44.563896] ==================================================================
+<3>[   44.564614] BUG: KFENCE: out-of-bounds read in test_kmalloc_aligned_oob_read+0x19c/0x310
+<3>[   44.564614] 
+<3>[   44.565675] Out-of-bounds read at 0x000000007ac94376 (81B right of kfence-#224):
+<4>[   44.566551]  test_kmalloc_aligned_oob_read+0x19c/0x310
+<4>[   44.568053]  kunit_try_run_case+0x14c/0x3d0
+<4>[   44.568819]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   44.569665]  kthread+0x24c/0x2d0
+<4>[   44.570182]  ret_from_fork+0x10/0x20
+<3>[   44.570737] 
+<4>[   44.571107] kfence-#224: 0x0000000021a15bce-0x000000000cf8ef66, size=73, cache=kmalloc-96
+<4>[   44.571107] 
+<4>[   44.572179] allocated by task 295 on cpu 1 at 44.563614s:
+<4>[   44.572915]  test_alloc+0x298/0x518
+<4>[   44.573453]  test_kmalloc_aligned_oob_read+0xfc/0x310
+<4>[   44.574128]  kunit_try_run_case+0x14c/0x3d0
+<4>[   44.574743]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   44.575482]  kthread+0x24c/0x2d0
+<4>[   44.575997]  ret_from_fork+0x10/0x20
+<3>[   44.576589] 
+<3>[   44.576942] CPU: 1 PID: 295 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   44.577910] Hardware name: linux,dummy-virt (DT)
+<3>[   44.578524] ==================================================================
+<6>[   44.584609]     ok 17 test_kmalloc_aligned_oob_read
+<6>[   44.587235]     # test_kmalloc_aligned_oob_write: test_alloc: size=73, gfp=cc0, policy=right, cache=0
+<3>[   44.875918] ==================================================================
+<3>[   44.876684] BUG: KFENCE: memory corruption in test_kmalloc_aligned_oob_write+0x164/0x1f8
+<3>[   44.876684] 
+<3>[   44.878549] Corrupted memory at 0x00000000191fd162 [ ! . . . . . . ] (in kfence-#227):
+<4>[   44.879969]  test_kmalloc_aligned_oob_write+0x164/0x1f8
+<4>[   44.880813]  kunit_try_run_case+0x14c/0x3d0
+<4>[   44.881556]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   44.882393]  kthread+0x24c/0x2d0
+<4>[   44.883070]  ret_from_fork+0x10/0x20
+<3>[   44.883769] 
+<4>[   44.884255] kfence-#227: 0x00000000a2a8430c-0x000000009b434535, size=73, cache=kmalloc-96
+<4>[   44.884255] 
+<4>[   44.885453] allocated by task 297 on cpu 0 at 44.875555s:
+<4>[   44.886496]  test_alloc+0x298/0x518
+<4>[   44.887186]  test_kmalloc_aligned_oob_write+0xb0/0x1f8
+<4>[   44.888020]  kunit_try_run_case+0x14c/0x3d0
+<4>[   44.888775]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   44.889593]  kthread+0x24c/0x2d0
+<4>[   44.890255]  ret_from_fork+0x10/0x20
+<4>[   44.890809] 
+<4>[   44.891172] freed by task 297 on cpu 0 at 44.875735s:
+<4>[   44.891877]  test_kmalloc_aligned_oob_write+0x164/0x1f8
+<4>[   44.892566]  kunit_try_run_case+0x14c/0x3d0
+<4>[   44.893182]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   44.893891]  kthread+0x24c/0x2d0
+<4>[   44.894419]  ret_from_fork+0x10/0x20
+<3>[   44.894985] 
+<3>[   44.895335] CPU: 0 PID: 297 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   44.896318] Hardware name: linux,dummy-virt (DT)
+<3>[   44.896931] ==================================================================
+<6>[   44.904029]     ok 18 test_kmalloc_aligned_oob_write
+<6>[   44.906472]     # test_shrink_memcache: setup_test_cache: size=32, ctor=0x0
+<6>[   44.910541]     # test_shrink_memcache: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+<6>[   45.007966]     ok 19 test_shrink_memcache
+<6>[   45.010290]     # test_memcache_ctor: setup_test_cache: size=32, ctor=ctor_set_x
+<6>[   45.014364]     # test_memcache_ctor: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+<6>[   45.116014]     ok 20 test_memcache_ctor
+<3>[   45.118772] ==================================================================
+<3>[   45.120575] BUG: KFENCE: invalid read in test_invalid_access+0xd8/0x190
+<3>[   45.120575] 
+<3>[   45.121575] Invalid read at 0x00000000855bbc38:
+<4>[   45.122287]  test_invalid_access+0xd8/0x190
+<4>[   45.123212]  kunit_try_run_case+0x14c/0x3d0
+<4>[   45.123874]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   45.124622]  kthread+0x24c/0x2d0
+<4>[   45.125195]  ret_from_fork+0x10/0x20
+<3>[   45.125817] 
+<3>[   45.126262] CPU: 0 PID: 303 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   45.127520] Hardware name: linux,dummy-virt (DT)
+<3>[   45.128172] ==================================================================
+<6>[   45.133891]     ok 21 test_invalid_access
+<6>[   45.136564]     # test_gfpzero: test_alloc: size=4096, gfp=cc0, policy=any, cache=0
+<6>[   45.187953]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   45.292002]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   45.409111]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   45.499926]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   45.606358]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   45.710533]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   45.824075]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   45.924800]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.019848]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.123902]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.227831]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.331825]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.436128]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.539930]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.643790]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.747850]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.851777]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   46.955718]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.059812]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.163814]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.267849]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.371877]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.475743]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.579874]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.683809]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.787935]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.892530]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   47.996043]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.100100]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.203827]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.307827]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.411874]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.515773]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.619842]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.723908]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.827860]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   48.931789]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.035795]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.139808]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.243829]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.347889]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.452523]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.555818]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.659847]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.763842]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.868852]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   49.971922]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.075930]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.179874]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.283855]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.387861]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.492676]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.596628]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.699835]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.803842]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   50.907763]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.011858]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.115946]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.219790]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.323827]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.429279]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.531806]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.635768]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.741206]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.843890]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   51.947809]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.052117]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.155886]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.259850]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.363886]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.467828]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.571875]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.675881]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.779895]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.883851]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   52.987853]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.092267]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.195854]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.300597]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.403814]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.509185]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.611729]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.715819]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.819840]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   53.923931]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.027950]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.131792]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.235866]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.339837]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.443932]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.548421]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.651808]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.755792]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.859800]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   54.964967]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.067872]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.171960]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.275913]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.379896]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.483980]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.587916]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.692079]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.795880]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   55.899910]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.003874]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.107921]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.212561]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.315879]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.419936]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.523845]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.627844]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.731770]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.835858]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   56.939849]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.044569]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.147844]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.251876]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.356015]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.459849]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.563888]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.667863]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.771913]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.876213]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   57.979899]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.084475]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.187901]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.291895]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.395911]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.499880]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.603824]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.707854]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.811858]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   58.915847]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.020447]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.123837]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.227850]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.332264]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.436168]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.539814]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.643881]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.748223]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.851859]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   59.955824]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.059838]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.163842]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.267753]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.372112]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.475857]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.579968]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.684122]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.787828]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.891880]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   60.996031]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.099813]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.203971]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.307900]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.411941]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.515933]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.619995]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.724766]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.827944]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   61.931908]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.035920]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.139932]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.243901]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.347896]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.451876]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.555870]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.659932]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.763978]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.868466]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   62.972909]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<6>[   63.076650]     # test_gfpzero: test_alloc: size=4096, gfp=dc0, policy=any, cache=0
+<4>[   63.180187]     # test_gfpzero: Test should be marked slow (runtime: 18.043728288s)
+<6>[   63.184394]     ok 22 test_gfpzero
+<6>[   63.189412]     # test_memcache_typesafe_by_rcu: setup_test_cache: size=32, ctor=0x0
+<6>[   63.193875]     # test_memcache_typesafe_by_rcu: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+<3>[   63.307569] ==================================================================
+<3>[   63.308370] BUG: KFENCE: use-after-free read in test_memcache_typesafe_by_rcu+0x194/0x3b8
+<3>[   63.308370] 
+<3>[   63.309402] Use-after-free read at 0x00000000dfeea0a5 (in kfence-#231):
+<4>[   63.310186]  test_memcache_typesafe_by_rcu+0x194/0x3b8
+<4>[   63.310849]  kunit_try_run_case+0x14c/0x3d0
+<4>[   63.312068]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   63.312840]  kthread+0x24c/0x2d0
+<4>[   63.313415]  ret_from_fork+0x10/0x20
+<3>[   63.313979] 
+<4>[   63.314321] kfence-#231: 0x00000000dfeea0a5-0x0000000035057d4b, size=32, cache=test
+<4>[   63.314321] 
+<4>[   63.315362] allocated by task 307 on cpu 1 at 63.283709s:
+<4>[   63.316092]  test_alloc+0x22c/0x518
+<4>[   63.316652]  test_memcache_typesafe_by_rcu+0xf4/0x3b8
+<4>[   63.317323]  kunit_try_run_case+0x14c/0x3d0
+<4>[   63.317925]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   63.318621]  kthread+0x24c/0x2d0
+<4>[   63.319171]  ret_from_fork+0x10/0x20
+<4>[   63.319724] 
+<4>[   63.320051] freed by task 0 on cpu 1 at 63.307187s:
+<4>[   63.320967]  rcu_guarded_free+0x3c/0x68
+<4>[   63.321568]  rcu_core+0xa84/0x1ed8
+<4>[   63.322123]  rcu_core_si+0x18/0x30
+<4>[   63.322676]  handle_softirqs+0x370/0xb40
+<4>[   63.323314]  __do_softirq+0x1c/0x28
+<4>[   63.323902]  ____do_softirq+0x18/0x30
+<4>[   63.324453]  call_on_irq_stack+0x24/0x58
+<4>[   63.325031]  do_softirq_own_stack+0x24/0x38
+<4>[   63.325620]  irq_exit_rcu+0x1c0/0x278
+<4>[   63.326178]  el1_interrupt+0x38/0x58
+<4>[   63.326764]  el1h_64_irq_handler+0x18/0x28
+<4>[   63.327384]  el1h_64_irq+0x64/0x68
+<4>[   63.327905]  arch_local_irq_enable+0x4/0x8
+<4>[   63.328488]  do_idle+0x394/0x4f8
+<4>[   63.329027]  cpu_startup_entry+0x68/0x80
+<4>[   63.329632]  secondary_start_kernel+0x298/0x350
+<4>[   63.330289]  __secondary_switched+0xb8/0xc0
+<3>[   63.330934] 
+<3>[   63.331328] CPU: 1 PID: 307 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   63.332316] Hardware name: linux,dummy-virt (DT)
+<3>[   63.332996] ==================================================================
+<6>[   63.358218]     ok 23 test_memcache_typesafe_by_rcu
+<6>[   63.361341]     # test_krealloc: test_alloc: size=32, gfp=cc0, policy=any, cache=0
+<3>[   63.388946] ==================================================================
+<3>[   63.389713] BUG: KFENCE: use-after-free read in test_krealloc+0x340/0x5b0
+<3>[   63.389713] 
+<3>[   63.390773] Use-after-free read at 0x000000009bcef9cc (in kfence-#232):
+<4>[   63.392756]  test_krealloc+0x340/0x5b0
+<4>[   63.393721]  kunit_try_run_case+0x14c/0x3d0
+<4>[   63.394504]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   63.395429]  kthread+0x24c/0x2d0
+<4>[   63.396290]  ret_from_fork+0x10/0x20
+<3>[   63.397026] 
+<4>[   63.397526] kfence-#232: 0x000000009bcef9cc-0x00000000252e6f8c, size=32, cache=kmalloc-32
+<4>[   63.397526] 
+<4>[   63.398749] allocated by task 309 on cpu 1 at 63.388269s:
+<4>[   63.399924]  test_alloc+0x298/0x518
+<4>[   63.400657]  test_krealloc+0xc0/0x5b0
+<4>[   63.401261]  kunit_try_run_case+0x14c/0x3d0
+<4>[   63.401901]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   63.402655]  kthread+0x24c/0x2d0
+<4>[   63.403567]  ret_from_fork+0x10/0x20
+<4>[   63.404192] 
+<4>[   63.404587] freed by task 309 on cpu 1 at 63.388532s:
+<4>[   63.405369]  krealloc+0xa8/0x180
+<4>[   63.405953]  test_krealloc+0x144/0x5b0
+<4>[   63.406561]  kunit_try_run_case+0x14c/0x3d0
+<4>[   63.408121]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<4>[   63.408977]  kthread+0x24c/0x2d0
+<4>[   63.409625]  ret_from_fork+0x10/0x20
+<3>[   63.410326] 
+<3>[   63.410677] CPU: 1 PID: 309 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   63.411885] Hardware name: linux,dummy-virt (DT)
+<3>[   63.412420] ==================================================================
+<6>[   63.418293]     ok 24 test_krealloc
+<6>[   63.421404]     # test_memcache_alloc_bulk: setup_test_cache: size=32, ctor=0x0
+<6>[   63.519807]     ok 25 test_memcache_alloc_bulk
+<6>[   63.529054] # kfence: pass:23 fail:0 skip:2 total:25
+<6>[   63.529855] # Totals: pass:23 fail:0 skip:2 total:25
+<6>[   63.530787] ok 7 kfence
+<6>[   63.533699]     KTAP version 1
+<6>[   63.534156]     # Subtest: binfmt_elf
+<6>[   63.534941]     # module: binfmt_elf
+<6>[   63.535874]     1..1
+<6>[   63.545498]     ok 1 total_mapping_size_test
+<6>[   63.545901] ok 8 binfmt_elf
+<6>[   63.548616]     KTAP version 1
+<6>[   63.549072]     # Subtest: compat_binfmt_elf
+<6>[   63.549901]     # module: compat_binfmt_elf
+<6>[   63.550324]     1..1
+<6>[   63.558045]     ok 1 total_mapping_size_test
+<6>[   63.558371] ok 9 compat_binfmt_elf
+<6>[   63.561624]     KTAP version 1
+<6>[   63.562063]     # Subtest: ext4_mballoc_test
+<6>[   63.562914]     # module: ext4
+<6>[   63.563731]     1..6
+<6>[   63.565198]         KTAP version 1
+<6>[   63.566056]         # Subtest: test_new_blocks_simple
+<3>[   63.577127] ==================================================================
+<3>[   63.578899] BUG: KASAN: slab-out-of-bounds in ext4_mb_init+0x17f0/0x1ab0
+<3>[   63.579814] Write of size 8 at addr fff00000c07585a0 by task kunit_try_catch/317
+<3>[   63.581438] 
+<3>[   63.582059] CPU: 1 PID: 317 Comm: kunit_try_catch Tainted: G    B            N 6.9.9-rc1 #1
+<3>[   63.583884] Hardware name: linux,dummy-virt (DT)
+<3>[   63.584718] Call trace:
+<3>[   63.585160]  dump_backtrace+0x9c/0x128
+<3>[   63.585780]  show_stack+0x20/0x38
+<3>[   63.586381]  dump_stack_lvl+0x8c/0xd0
+<3>[   63.587041]  print_report+0x118/0x5e0
+<3>[   63.587647]  kasan_report+0xc8/0x118
+<3>[   63.588229]  __asan_report_store8_noabort+0x20/0x30
+<3>[   63.588911]  ext4_mb_init+0x17f0/0x1ab0
+<3>[   63.589514]  mbt_kunit_init+0x810/0xdf8
+<3>[   63.590108]  kunit_try_run_case+0x11c/0x3d0
+<3>[   63.590758]  kunit_generic_run_threadfn_adapter+0x88/0x100
+<3>[   63.591510]  kthread+0x24c/0x2d0
+<3>[   63.592068]  ret_from_fork+0x10/0x20
+<3>[   63.592654] 
+<3>[   63.592977] Allocated by task 1:
+<4>[   63.593502]  kasan_save_stack+0x3c/0x68
+<4>[   63.594185]  kasan_save_track+0x20/0x40
+<4>[   63.594795]  kasan_save_alloc_info+0x40/0x58
+<4>[   63.595466]  __kasan_slab_alloc+0xa8/0xb0
+<4>[   63.596085]  kmem_cache_alloc_lru+0x118/0x4e0
+<4>[   63.596772]  alloc_inode+0xa4/0x1c0
+<4>[   63.597363]  new_inode+0x1c/0x188
+<4>[   63.597924]  __debugfs_create_file+0xa0/0x4b8
+<4>[   63.598589]  debugfs_create_file+0x34/0x48
+<4>[   63.599511]  kunit_debugfs_create_suite+0x204/0x370
+<4>[   63.600373]  __kunit_test_suites_init+0xa8/0x1b0
+<4>[   63.601042]  kunit_run_all_tests+0x358/0x3a0
+<4>[   63.601683]  kernel_init_freeable+0x41c/0x8c8
+<4>[   63.602335]  kernel_init+0x2c/0x1f8
+<4>[   63.602980]  ret_from_fork+0x10/0x20
+<3>[   63.603703] 
+<3>[   63.604057] The buggy address belongs to the object at fff00000c07582e8
+<3>[   63.604057]  which belongs to the cache inode_cache of size 616
+<3>[   63.605281] The buggy address is located 80 bytes to the right of
+<3>[   63.605281]  allocated 616-byte region [fff00000c07582e8, fff00000c0758550)
+<3>[   63.606592] 
+<3>[   63.607294] The buggy address belongs to the physical page:
+<4>[   63.607948] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x100758
+<4>[   63.608830] head: order:2 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+<4>[   63.609593] flags: 0xbfffe0000000840(slab|head|node=0|zone=2|lastcpupid=0x1ffff)
+<4>[   63.610449] page_type: 0xffffffff()
+<4>[   63.611934] raw: 0bfffe0000000840 fff00000c08d2dc0 dead000000000122 0000000000000000
+<4>[   63.612810] raw: 0000000000000000 0000000080160016 00000001ffffffff 0000000000000000
+<4>[   63.613668] head: 0bfffe0000000840 fff00000c08d2dc0 dead000000000122 0000000000000000
+<4>[   63.614525] head: 0000000000000000 0000000080160016 00000001ffffffff 0000000000000000
+<4>[   63.615694] head: 0bfffe0000000002 ffffc1ffc301d601 ffffc1ffc301d648 00000000ffffffff
+<4>[   63.616583] head: 0000000400000000 0000000000000000 00000000ffffffff 0000000000000000
+<4>[   63.617391] page dumped because: kasan: bad access detected
+<3>[   63.618034] 
+<3>[   63.618354] Memory state around the buggy address:
+<3>[   63.619281]  fff00000c0758480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<3>[   63.620086]  fff00000c0758500: 00 00 00 00 00 00 00 00 00 00 fc fc fc fc fc fc
+<3>[   63.620886] >fff00000c0758580: fc fc fc fc fc fc fc fc fc fc 00 00 00 00 00 00
+<3>[   63.621664]                                ^
+<3>[   63.622235]  fff00000c0758600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<3>[   63.623362]  fff00000c0758680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<3>[   63.624138] ==================================================================
+<6>[   63.645148]         not ok 1 block_bits=10 cluster_bits=3 blocks_per_group=8192 group_count=4 desc_size=64
+<6>[   63.658504]         ok 2 block_bits=12 cluster_bits=3 blocks_per_group=8192 group_count=4 desc_size=64
+<1>[   63.674531] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
+<1>[   63.675691] Mem abort info:
+<1>[   63.676527]   ESR = 0x000000009600006b
+<1>[   63.677658]   EC = 0x25: DABT (current EL), IL = 32 bits
+<1>[   63.678274]   SET = 0, FnV = 0
+<1>[   63.678906]   EA = 0, S1PTW = 0
+<1>[   63.679880]   FSC = 0x2b: level -1 translation fault
+<1>[   63.680879] Data abort info:
+<1>[   63.681606]   ISV = 0, ISS = 0x0000006b, ISS2 = 0x00000000
+<1>[   63.682544]   CM = 0, WnR = 1, TnD = 0, TagAccess = 0
+<1>[   63.683493]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+<1>[   63.684732] [0000000000000008] user address but active_mm is swapper
+<0>[   63.686080] Internal error: Oops: 000000009600006b [#1] PREEMPT SMP
+<4>[   63.688843] Modules linked in:
+<4>[   63.689662] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G    B            N 6.9.9-rc1 #1
+<4>[   63.690522] Hardware name: linux,dummy-virt (DT)
+<4>[   63.691532] pstate: 224000c9 (nzCv daIF +PAN -UAO +TCO -DIT -SSBS BTYPE=--)
+<4>[   63.692423] pc : _raw_spin_lock_irq+0xc4/0x158
+<4>[   63.693097] lr : _raw_spin_lock_irq+0xb0/0x158
+<4>[   63.693714] sp : ffff800080087620
+<4>[   63.694519] x29: ffff800080087680 x28: 1ffff00010010f45 x27: ffff800080087a20
+<4>[   63.696315] x26: 1ffff00010010f47 x25: ffff800080087a00 x24: fff00000c99f0028
+<4>[   63.697334] x23: 0000000000000000 x22: dfff800000000000 x21: ffff800080087640
+<4>[   63.698333] x20: 1ffff00010010ec4 x19: 0000000000000008 x18: 000000004b9fd0a9
+<4>[   63.699711] x17: 0000000000000000 x16: fff00000da13e180 x15: ffffaa8e3330c4c4
+<4>[   63.700732] x14: ffffaa8e33312508 x13: ffffaa8e3583b0ec x12: ffff700010010ec9
+<4>[   63.701734] x11: 1ffff00010010ec8 x10: ffff700010010ec8 x9 : dfff800000000000
+<4>[   63.702792] x8 : 0000000000000003 x7 : 0000000000000001 x6 : ffff700010010ec8
+<4>[   63.704539] x5 : ffff800080087640 x4 : ffff700010010ec8 x3 : ffffaa8e3585c520
+<4>[   63.705529] x2 : 0000000000000001 x1 : 0000000000000000 x0 : 0000000000000000
+<4>[   63.706625] Call trace:
+<4>[   63.707408]  _raw_spin_lock_irq+0xc4/0x158
+<4>[   63.708130]  wait_for_completion_timeout+0x98/0x300
+<4>[   63.708902]  kunit_try_catch_run+0x110/0x478
+<4>[   63.709710]  kunit_run_case_catch_errors+0x15c/0x2b8
+<4>[   63.710558]  kunit_run_tests+0x44c/0xbf0
+<4>[   63.711555]  __kunit_test_suites_init+0x110/0x1b0
+<4>[   63.712489]  kunit_run_all_tests+0x358/0x3a0
+<4>[   63.713317]  kernel_init_freeable+0x41c/0x8c8
+<4>[   63.713971]  kernel_init+0x2c/0x1f8
+<4>[   63.714503]  ret_from_fork+0x10/0x20
+<0>[   63.716154] Code: 93407c02 d503201f 2a0003e1 52800022 (88e17e62) 
+<4>[   63.717705] ---[ end trace 0000000000000000 ]---
+<6>[   63.718649] note: swapper/0[1] exited with irqs disabled
+<6>[   63.720758] note: swapper/0[1] exited with preempt_count 1
+<0>[   63.722091] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+<2>[   63.724608] SMP: stopping secondary CPUs
+<0>[   63.725877] Kernel Offset: 0x2a8db2200000 from 0xffff800080000000
+<0>[   63.726534] PHYS_OFFSET: 0x40000000
+<0>[   63.727664] CPU features: 0x0,00000006,8f17bd7c,6766773f
+<0>[   63.729291] Memory Limit: none
+<0>[   63.731074] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---

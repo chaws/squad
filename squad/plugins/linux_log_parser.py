@@ -1,23 +1,26 @@
 import logging
 import re
 from squad.plugins import Plugin as BasePlugin
-from squad.plugins.lib.base_log_parser import BaseLogParser, REGEX_NAME, REGEX_EXTRACT_NAME
+from squad.plugins.lib.base_log_parser import BaseLogParser, REGEX_NAME, REGEX_EXTRACT_NAME, tstamp, pid, not_newline_or_plus
 
 logger = logging.getLogger()
 
 MULTILINERS = [
-    ('exception', r'-+\[? cut here \]?-+.*?\[[\s\.\d]+\]\s+-+\[? end trace \w* \]?-+', r"\n\[[\s\.\d][^\+\n]*"),
-    ('kasan', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KASAN:.*\n*?\[[\s\.\d]+\]\s+=+', r"BUG: KASAN:[^\+\n]*"),
-    ('kfence', r'\[[\s\.\d]+\]\s+=+\n\[[\s\.\d]+\]\s+BUG: KFENCE:.*\[[\s\.\d]+\]\s+=+', r"BUG: KFENCE:[^\+\n]*"),
+    ('exception', f'-+\[? cut here \]?-+.*?{tstamp}{pid}?\s+-+\[? end trace \w* \]?-+', f"\n{tstamp}{not_newline_or_plus}*"), # noqa
+    ('kasan', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KASAN:.*?\n*?{tstamp}{pid}?\s+=+', f"BUG: KASAN:{not_newline_or_plus}*"), # noqa
+    ('kcsan', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KCSAN:.*?=+', f"BUG: KCSAN:{not_newline_or_plus}*"), # noqa
+    ('kfence', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KFENCE:.*?{tstamp}{pid}?\s+=+', f"BUG: KFENCE:{not_newline_or_plus}*"), # noqa
+    ('panic-multiline', f'{tstamp}{pid}?\s+Kernel panic - [^\n]+\n.*?-+\[? end Kernel panic - [^\n]+ \]?-*', f"Kernel {not_newline_or_plus}*"), # noqa
+    ('internal-error-oops', f'{tstamp}{pid}?\s+Internal error: Oops.*?-+\[? end trace \w+ \]?-+', f"Oops{not_newline_or_plus}*"), # noqa
 ]
 
 ONELINERS = [
-    ('oops', r'^[^\n]+Oops(?: -|:).*?$', r"Oops[^\+\n]*"),
-    ('fault', r'^[^\n]+Unhandled fault.*?$', r"Unhandled [^\+\n]*"),
-    ('warning', r'^[^\n]+WARNING:.*?$', r"WARNING:[^\+\n]*"),
-    ('bug', r'^[^\n]+(?: kernel BUG at|BUG:).*?$', r"BUG[^\+\n]*"),
-    ('invalid-opcode', r'^[^\n]+invalid opcode:.*?$', r"invalid opcode:[^\+\n]*"),
-    ('panic', r'Kernel panic - not syncing.*?$', r"Kernel [^\+\n]*"),
+    ('oops', r'^[^\n]+Oops(?: -|:).*?$', f"Oops{not_newline_or_plus}*"), # noqa
+    ('fault', r'^[^\n]+Unhandled fault.*?$', f"Unhandled {not_newline_or_plus}*"), # noqa
+    ('warning', r'^[^\n]+WARNING:.*?$', f"WARNING:{not_newline_or_plus}*"), # noqa
+    ('bug', r'^[^\n]+(?: kernel BUG at|BUG:).*?$', f"BUG{not_newline_or_plus}*"), # noqa
+    ('invalid-opcode', r'^[^\n]+invalid opcode:.*?$', f"invalid opcode:{not_newline_or_plus}*"), # noqa
+    ('panic', r'Kernel panic - not syncing.*?$', f"Kernel {not_newline_or_plus}*"), # noqa
 ]
 
 # Tip: broader regexes should come first
@@ -38,7 +41,7 @@ class Plugin(BasePlugin, BaseLogParser):
         return boot_log, test_log
 
     def __kernel_msgs_only(self, log):
-        kernel_msgs = re.findall(r'(\[[ \d]+\.[ \d]+\] .*?)$', log, re.S | re.M)
+        kernel_msgs = re.findall(f'({tstamp}{pid}? .*?)$', log, re.S | re.M) # noqa
         return '\n'.join(kernel_msgs)
 
     def postprocess_testrun(self, testrun):

@@ -35,6 +35,27 @@ class TestBaseLogParser(TestCase):
 
         self.assertEqual(numbers_and_time_removed, expected_numbers_and_time_removed)
 
+    def test_remove_numbers_and_time_with_pid(self):
+        """
+        Test removing numbers and time from a string containing timestamp,
+        non-hex number and hex number
+        """
+        snippet1 = "<3>[    2.491276][    T1] BUG: KCSAN: data-race in console_emit_next_record / console_trylock_spinning"
+        numbers_and_time_removed = self.log_parser.remove_numbers_and_time(snippet1)
+        expected_numbers_and_time_removed = (
+            " BUG: KCSAN: data-race in console_emit_next_record / console_trylock_spinning"
+        )
+
+        self.assertEqual(numbers_and_time_removed, expected_numbers_and_time_removed)
+
+        snippet2 = "<3>[  157.430085][    C1] BUG: KCSAN: data-race in ktime_get / timekeeping_advance"
+        numbers_and_time_removed = self.log_parser.remove_numbers_and_time(snippet2)
+        expected_numbers_and_time_removed = (
+            " BUG: KCSAN: data-race in ktime_get / timekeeping_advance"
+        )
+
+        self.assertEqual(numbers_and_time_removed, expected_numbers_and_time_removed)
+
     def test_create_name_no_regex(self):
         """
         Test create_name when no regex is provided
