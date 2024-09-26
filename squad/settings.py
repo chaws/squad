@@ -422,6 +422,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Sentry support
 SENTRY_DSN = os.getenv('SENTRY_DSN')
+SENTRY_TRACES_SAMPLE_RATE = os.getenv('SENTRY_TRACES_SAMPLE_RATE', '0')
 if SENTRY_DSN:
     try:
         import sentry_sdk
@@ -432,6 +433,7 @@ if SENTRY_DSN:
             dsn=SENTRY_DSN,
             integrations=[DjangoIntegration(), CeleryIntegration()],
             release='%s@%s' % (os.getenv('ENV', 'squad'), squad_version),
+            traces_sample_rate=float(SENTRY_TRACES_SAMPLE_RATE),
         )
     except ImportError:
         pass
