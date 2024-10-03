@@ -325,6 +325,11 @@ class Backend(BaseBackend):
         metadata_keys = settings.get('TEST_METADATA_KEYS', [])
         metadata = {k: results.get(k) for k in metadata_keys}
 
+        # Change environment name
+        if 'test_name' in results and results.get('test_name') is not None:
+            test_job.environment = results.get('test_name')
+            test_job.save()
+
         # Add extra metadata from metadata file if it exists
         self.update_metadata_from_file(results=results, metadata=metadata)
 
