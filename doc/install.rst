@@ -214,6 +214,13 @@ __ https://docs.djangoproject.com/en/1.11/topics/email/
   it's recommended to disable sending admin notifications by setting
   ``SQUAD_SEND_ADMIN_ERROR_EMAIL = False``.
 
+* ``SENTRY_TRACES_SAMPLE_RATE``: Specifies the rate at which traces
+  (for performance monitoring) are sampled by Sentry. This value must be a
+  float between 0.0 and 1.0, where 1.0 represents 100% of traces being
+  captured. If not set, it defaults to 0. This option is used to configure
+  Sentry's performance monitoring, allowing you to control how much tracing
+  data is sent to Sentry. It works alongside the SENTRY_DSN setting.
+
 * ``SQUAD_STATIC_DIR``: Directory where SQUAD will find it's preprocessed
   static assets. This usually does not need to be set manually, and exists
   mostly for use in the Docker image.
