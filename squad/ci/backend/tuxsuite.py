@@ -347,6 +347,10 @@ class Backend(BaseBackend):
             else:
                 test_job.failure = 'sanity test failed'
 
+            # Create an artificial boot test and mark it as skip
+            boot_test_name = 'boot/' + (metadata.get('build_name') or 'boot')
+            tests[boot_test_name] = None
+
             return status, completed, metadata, tests, metrics, logs
 
         # Fetch results even if the job fails, but has results

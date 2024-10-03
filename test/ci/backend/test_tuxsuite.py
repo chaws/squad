@@ -1227,7 +1227,7 @@ class TuxSuiteTest(TestCase):
             'does_not_exist': None,
         }
 
-        expected_tests = {}
+        expected_tests = {'boot/boot': None}
 
         expected_metrics = {}
 
@@ -1296,7 +1296,7 @@ class TuxSuiteTest(TestCase):
             'does_not_exist': None,
         }
 
-        expected_tests = {}
+        expected_tests = {'boot/boot': None}
 
         expected_metrics = {}
 
