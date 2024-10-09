@@ -231,6 +231,11 @@ class Backend(BaseBackend):
         if 'toolchain' in build_metadata_keys and 'kconfig' in build_metadata_keys and metadata['build_name'] in [None, '']:
             metadata['build_name'] = self.generate_test_name(build_metadata)
 
+    def add_skip_boot_test(self, tests, metadata):
+        # Create an artificial boot test and mark it as skip
+        boot_test_name = 'boot/' + (metadata.get('build_name') or 'boot')
+        tests[boot_test_name] = None
+
     def parse_build_results(self, test_job, job_url, results, settings):
         required_keys = ['build_status', 'warnings_count', 'download_url', 'retry']
         self.__check_required_keys__(required_keys, results)
@@ -352,9 +357,7 @@ class Backend(BaseBackend):
             else:
                 test_job.failure = 'sanity test failed'
 
-            # Create an artificial boot test and mark it as skip
-            boot_test_name = 'boot/' + (metadata.get('build_name') or 'boot')
-            tests[boot_test_name] = None
+            self.add_skip_boot_test(tests, metadata)
 
             return status, completed, metadata, tests, metrics, logs
 
@@ -364,7 +367,13 @@ class Backend(BaseBackend):
 
         elif results['result'] == 'error':
             test_job.failure = 'tuxsuite infrastructure error'
+            self.add_skip_boot_test(tests, metadata)
             return 'Incomplete', completed, metadata, tests, metrics, logs
+
+        elif results['result'] == 'canceled':
+            test_job.failure = 'tuxsuite job canceled'
+            self.add_skip_boot_test(tests, metadata)
+            return 'Canceled', completed, metadata, tests, metrics, logs
 
         # If boot result is unkown, a retry is needed, otherwise, it either passed or failed
         if 'unknown' == results['results']['boot']:

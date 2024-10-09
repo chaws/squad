@@ -745,6 +745,67 @@ class TuxSuiteTest(TestCase):
 
         self.assertEqual(build_results['build_name'], testjob.name)
 
+    def test_fetch_test_canceled(self):
+        job_id = 'TEST:tuxgroup@tuxproject#123'
+        testjob = self.build.test_jobs.create(target=self.project, backend=self.backend, job_id=job_id)
+        test_url = urljoin(TUXSUITE_URL, '/groups/tuxgroup/projects/tuxproject/tests/123')
+
+        test_results = {
+            'project': 'tuxgroup/tuxproject',
+            'device': 'qemu-armv7',
+            'uid': '123',
+            'kernel': 'https://storage.tuxboot.com/armv7/zImage',
+            'ap_romfw': None,
+            'mcp_fw': None,
+            'mcp_romfw': None,
+            'modules': None,
+            'parameters': {},
+            'rootfs': None,
+            'scp_fw': None,
+            'scp_romfw': None,
+            'fip': None,
+            'tests': ['boot', 'ltp-smoke'],
+            'user': 'tuxbuild@linaro.org',
+            'user_agent': 'tuxsuite/0.43.6',
+            'state': 'finished',
+            'result': 'canceled',
+            'results': {'boot': 'pass', 'ltp-smoke': 'pass'},
+            'plan': None,
+            'waiting_for': '456',
+            'boot_args': None,
+            'provisioning_time': '2022-03-25T15:49:11.441860',
+            'running_time': '2022-03-25T15:50:11.770607',
+            'finished_time': '2022-03-25T15:52:42.672483',
+            'retries': 0,
+            'retries_messages': [],
+            'duration': 151
+        }
+
+        expected_metadata = {
+            'job_url': test_url,
+            'job_id': job_id,
+            'does_not_exist': None,
+        }
+
+        expected_tests = {
+            'boot/boot': None,
+        }
+
+        expected_metrics = {}
+
+        with requests_mock.Mocker() as fake_request:
+            fake_request.get(test_url, json=test_results)
+
+            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            self.assertEqual('Canceled', status)
+            self.assertTrue(completed)
+            self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
+            self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
+            self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
+            self.assertEqual('', logs)
+
+        self.assertEqual('ltp-smoke', testjob.name)
+
     def test_fetch_test_results(self):
         job_id = 'TEST:tuxgroup@tuxproject#123'
         testjob = self.build.test_jobs.create(target=self.project, backend=self.backend, job_id=job_id)
@@ -1271,7 +1332,7 @@ class TuxSuiteTest(TestCase):
             self.assertEqual('Incomplete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
-            self.assertEqual({}, tests)
+            self.assertEqual({'boot/boot': None}, tests)
             self.assertEqual({}, metrics)
             self.assertEqual('', logs)
 
