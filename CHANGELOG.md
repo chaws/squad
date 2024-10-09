@@ -1,3 +1,43 @@
+# 1.91
+
+This 1.91 release brings a few changes worth pointing out separately:
+
+* Tuxsuite backend: add support for changing environment name if "test_name" is present. Artificial boot tests
+when jobs fail or get canceled. Also checks if the testjob's project contains a token allowing authenticated
+urls in Tuxsuite.
+
+* Log parser: Katie is putting a lot of work in improving linux-log-parser plugin. The idea is that it will
+become its own project in the future
+
+* Add support for performance tracking when supported (Sentry) 
+
+* Support for prometheus-like metrics output for supporting environments (AMQ)
+
+Full set of changes going in:
+
+* api/ci: check job id before accepting test job
+* api/prometheus.py: add initial prometheus metrics endpoint
+* ci/tuxsuite.py:
+  * add support for fetching authenticated tuxsuite urls
+  * change environment name if test_name is available
+  * create artificial boot test
+  * handle canceled tests
+* ci: lava: fix login test name
+* frontend/project.jinja2: add project description to project's home page
+* frontend: urls: point test to details page
+* plugins/linux_log_parser:
+  * Add a new multiline regex for KCSAN
+  * Add regex for capturing multiline kernel panic
+  * Ensure .* regex doesn't capture too much
+  * Extract reused regex components
+  * No longer create tests for passes
+  * Remove unhelpful information from test names
+  * Add support for PID after timestamp
+  * Add support for multiline oops message
+  * Improve log parser patterns
+* setup: change package to psycopg2-binary
+
+
 # 1.90
 
 This 1.90 release makes linux-log-parser more plugable, meaning that it could be
