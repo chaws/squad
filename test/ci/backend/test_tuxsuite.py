@@ -546,6 +546,19 @@ class TuxSuiteTest(TestCase):
 
         self.assertEqual(expected_logs, result.text)
 
+    def test_fetch_authenticated_url(self):
+        expected_logs = 'dummy build log'
+
+        with requests_mock.Mocker() as fake_request:
+            url = 'http://tuxbuild.com/build1/build.log'
+
+            fake_request.get(url, text=expected_logs, request_headers={"Authorization": "12345"})
+            self.tuxsuite.auth_token = "12345"
+            result = self.tuxsuite.fetch_url(url)
+            self.tuxsuite.auth_token = None
+
+        self.assertEqual(expected_logs, result.text)
+
     def test_fetch_url_faulty_url(self):
         with requests_mock.Mocker() as fake_request:
             url = 'http://tuxbuild.com/build1/build.log'

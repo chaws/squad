@@ -151,7 +151,11 @@ class Backend(BaseBackend):
         url = reduce(urljoin, urlbits)
 
         try:
-            response = Backend.get_session().request("GET", url)
+            headers = {}
+            if hasattr(self, 'auth_token') and self.auth_token is not None:
+                headers = {'Authorization': self.auth_token}
+
+            response = Backend.get_session().request("GET", url, headers=headers)
         except Exception as e:
             raise TemporaryFetchIssue(f"Can't retrieve from {url}: {e}")
 
@@ -409,6 +413,10 @@ class Backend(BaseBackend):
 
     def fetch(self, test_job):
         url = self.job_url(test_job)
+
+        settings = self.__resolve_settings__(test_job)
+        self.auth_token = settings.get('TUXSUITE_TOKEN', None)
+
         if test_job.input:
             results = self.fetch_from_results_input(test_job)
             test_job.input = None
@@ -418,11 +426,12 @@ class Backend(BaseBackend):
         if results.get('state') != 'finished':
             return None
 
-        settings = self.__resolve_settings__(test_job)
-
         result_type = self.parse_job_id(test_job.job_id)[0]
         parse_results = getattr(self, f'parse_{result_type.lower()}_results')
-        return parse_results(test_job, url, results, settings)
+        parsed = parse_results(test_job, url, results, settings)
+
+        self.auth_token = None
+        return parsed
 
     def job_url(self, test_job):
         result_type, tux_project, tux_uid = self.parse_job_id(test_job.job_id)
