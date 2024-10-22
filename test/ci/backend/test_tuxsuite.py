@@ -652,44 +652,6 @@ class TuxSuiteTest(TestCase):
         self.assertEqual(build_results['build_name'], testjob.name)
         mock_fetch_from_results_input.assert_not_called()
 
-    @patch("squad.ci.backend.tuxsuite.Backend.fetch_from_results_input")
-    def test_retry_fetching_build_results(self, mock_fetch_from_results_input):
-        job_id = 'BUILD:tuxgroup@tuxproject#124'
-        testjob = self.build.test_jobs.create(target=self.project, backend=self.backend, job_id=job_id)
-        build_url = urljoin(TUXSUITE_URL, '/groups/tuxgroup/projects/tuxproject/builds/124')
-        build_download_url = 'http://builds.tuxbuild.com/124'
-
-        build_results = {
-            'retry': 0,  # this is the number of retry attempts TuxSuite has tried building
-            'state': 'finished',
-            'build_status': 'error',
-            'build_name': 'tux-build',
-            'git_repo': 'https://github.com/Linaro/linux-canaries.git',
-            'git_ref': 'v5.9',
-            'git_describe': 'v5.9',
-            'git_sha': 'bbf5c979011a099af5dc76498918ed7df445635b',
-            'git_short_log': 'bbf5c979011a ("Linux 5.9")',
-            'kernel_version': '5.9.0',
-            'kconfig': ['tinyconfig'],
-            'target_arch': 'x86_64',
-            'toolchain': 'gcc-10',
-            'download_url': build_download_url,
-            'provisioning_time': '2022-03-25T15:42:06.570362',
-            'running_time': '2022-03-25T15:44:16.223590',
-            'finished_time': '2022-03-25T15:46:56.095902',
-            'warnings_count': '2',
-            'status_message': 'Infrastructure Error, Please retry',
-        }
-
-        with requests_mock.Mocker() as fake_request:
-            fake_request.get(build_url, json=build_results)
-
-            with self.assertRaises(TemporaryFetchIssue):
-                self.tuxsuite.fetch(testjob)
-
-        self.assertEqual(build_results['build_name'], testjob.name)
-        mock_fetch_from_results_input.assert_not_called()
-
     def test_fetch_build_with_given_up_infra_error(self):
         "this will test that the backend will still fetch the build despite its errored state"
         job_id = 'BUILD:tuxgroup@tuxproject#125'
@@ -699,7 +661,7 @@ class TuxSuiteTest(TestCase):
 
         build_logs = ''
         build_results = {
-            'retry': 2,
+            'retry': 0,
             'state': 'finished',
             'build_status': 'error',
             'build_name': 'tux-build',

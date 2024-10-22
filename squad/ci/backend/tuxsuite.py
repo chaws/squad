@@ -249,9 +249,6 @@ class Backend(BaseBackend):
         test_job.name = test_name
 
         build_status = results['build_status']
-        if build_status == 'error' and results['retry'] < 2:
-            # SQUAD should retry fetching the build until retry == 2
-            raise TemporaryFetchIssue(results.get('status_message', 'TuxSuite Error'))
 
         # Make metadata
         metadata_keys = settings.get('BUILD_METADATA_KEYS', [])
@@ -270,7 +267,7 @@ class Backend(BaseBackend):
         metrics = {}
 
         completed = True
-        if results['retry'] >= 2:
+        if build_status == 'error':
             # This indicates that TuxSuite gave up trying to work on this build
             status = 'Incomplete'
             tests[f'build/{test_name}'] = 'skip'
