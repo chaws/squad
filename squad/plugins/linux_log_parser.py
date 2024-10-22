@@ -6,21 +6,21 @@ from squad.plugins.lib.base_log_parser import BaseLogParser, REGEX_NAME, REGEX_E
 logger = logging.getLogger()
 
 MULTILINERS = [
-    ('exception', f'-+\[? cut here \]?-+.*?{tstamp}{pid}?\s+-+\[? end trace \w* \]?-+', f"\n{tstamp}{not_newline_or_plus}*"), # noqa
-    ('kasan', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KASAN:.*?\n*?{tstamp}{pid}?\s+=+', f"BUG: KASAN:{not_newline_or_plus}*"), # noqa
-    ('kcsan', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KCSAN:.*?=+', f"BUG: KCSAN:{not_newline_or_plus}*"), # noqa
-    ('kfence', f'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KFENCE:.*?{tstamp}{pid}?\s+=+', f"BUG: KFENCE:{not_newline_or_plus}*"), # noqa
-    ('panic-multiline', f'{tstamp}{pid}?\s+Kernel panic - [^\n]+\n.*?-+\[? end Kernel panic - [^\n]+ \]?-*', f"Kernel {not_newline_or_plus}*"), # noqa
-    ('internal-error-oops', f'{tstamp}{pid}?\s+Internal error: Oops.*?-+\[? end trace \w+ \]?-+', f"Oops{not_newline_or_plus}*"), # noqa
+    ('exception', fr'-+\[? cut here \]?-+.*?{tstamp}{pid}?\s+-+\[? end trace \w* \]?-+', fr"\n{tstamp}{not_newline_or_plus}*"), # noqa
+    ('kasan', fr'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KASAN:.*?\n*?{tstamp}{pid}?\s+=+', fr"BUG: KASAN:{not_newline_or_plus}*"), # noqa
+    ('kcsan', fr'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KCSAN:.*?=+', fr"BUG: KCSAN:{not_newline_or_plus}*"), # noqa
+    ('kfence', fr'{tstamp}{pid}?\s+=+\n{tstamp}{pid}?\s+BUG: KFENCE:.*?{tstamp}{pid}?\s+=+', fr"BUG: KFENCE:{not_newline_or_plus}*"), # noqa
+    ('panic-multiline', fr'{tstamp}{pid}?\s+Kernel panic - [^\n]+\n.*?-+\[? end Kernel panic - [^\n]+ \]?-*', fr"Kernel {not_newline_or_plus}*"), # noqa
+    ('internal-error-oops', fr'{tstamp}{pid}?\s+Internal error: Oops.*?-+\[? end trace \w+ \]?-+', fr"Oops{not_newline_or_plus}*"), # noqa
 ]
 
 ONELINERS = [
-    ('oops', r'^[^\n]+Oops(?: -|:).*?$', f"Oops{not_newline_or_plus}*"), # noqa
-    ('fault', r'^[^\n]+Unhandled fault.*?$', f"Unhandled {not_newline_or_plus}*"), # noqa
-    ('warning', r'^[^\n]+WARNING:.*?$', f"WARNING:{not_newline_or_plus}*"), # noqa
-    ('bug', r'^[^\n]+(?: kernel BUG at|BUG:).*?$', f"BUG{not_newline_or_plus}*"), # noqa
-    ('invalid-opcode', r'^[^\n]+invalid opcode:.*?$', f"invalid opcode:{not_newline_or_plus}*"), # noqa
-    ('panic', r'Kernel panic - not syncing.*?$', f"Kernel {not_newline_or_plus}*"), # noqa
+    ('oops', r'^[^\n]+Oops(?: -|:).*?$', fr"Oops{not_newline_or_plus}*"), # noqa
+    ('fault', r'^[^\n]+Unhandled fault.*?$', fr"Unhandled {not_newline_or_plus}*"), # noqa
+    ('warning', r'^[^\n]+WARNING:.*?$', fr"WARNING:{not_newline_or_plus}*"), # noqa
+    ('bug', r'^[^\n]+(?: kernel BUG at|BUG:).*?$', fr"BUG{not_newline_or_plus}*"), # noqa
+    ('invalid-opcode', r'^[^\n]+invalid opcode:.*?$', fr"invalid opcode:{not_newline_or_plus}*"), # noqa
+    ('panic', r'Kernel panic - not syncing.*?$', fr"Kernel {not_newline_or_plus}*"), # noqa
 ]
 
 # Tip: broader regexes should come first
