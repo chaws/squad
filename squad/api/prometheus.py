@@ -43,7 +43,7 @@ def metrics(request):
 
         for queue in queues:
             if queue['name'] in available_queues:
-                metric_name = f'queue_{queue["name"]}_length'
+                metric_name = f'queue_{queue["name"]}_count'
                 length = queue['messages_ready']
 
                 output += f'\n# TYPE {metric_name} counter'
