@@ -1,3 +1,7 @@
+# 1.92
+
+This 1.92 release avoids an extra retry when fetching errored builds/tests in Tuxsuite.
+
 # 1.91
 
 This 1.91 release brings a few changes worth pointing out separately:
