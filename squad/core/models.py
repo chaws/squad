@@ -577,12 +577,17 @@ class Build(models.Model):
         List of attachments from all testruns
         """
         if self.__attachments__ is None:
-            attachments = {}
-            for test_run in self.test_runs.all():
-                attachments[test_run.pk] = []
-                for attachment in test_run.attachments.all():
-                    attachments[test_run.pk].append(attachment.filename)
-            self.__attachments__ = attachments
+            test_run_ids = self.test_runs.values_list('id', flat=True)
+            all_attachments = Attachment.objects.filter(test_run_id__in=test_run_ids).values(
+                'test_run_id', 'filename'
+            )
+
+        attachments = {}
+        for attachment in all_attachments:
+            attachments.setdefault(attachment['test_run_id'], []).append(attachment['filename'])
+
+        self.__attachments__ = attachments
+
         return self.__attachments__
 
     @property
