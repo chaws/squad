@@ -16,8 +16,16 @@ square_brackets_and_contents = r"\[[^\]]+\]"
 
 class BaseLogParser:
     def compile_regexes(self, regexes):
-        combined = [r"(%s)" % r[REGEX_BODY] for r in regexes]
-        return re.compile(r"|".join(combined), re.S | re.M)
+        with_brackets = [r"(%s)" % r[REGEX_BODY] for r in regexes]
+        combined = r"|".join(with_brackets)
+
+        # In the case where there is only one regex, we need to add extra
+        # bracket around it for it to behave the same as the multiple regex
+        # case
+        if len(regexes) == 1:
+            combined = f"({combined})"
+
+        return re.compile(combined, re.S | re.M)
 
     def remove_numbers_and_time(self, snippet):
         # [ 1067.461794][  T132] BUG: KCSAN: data-race in do_page_fault spectre_v4_enable_task_mitigation

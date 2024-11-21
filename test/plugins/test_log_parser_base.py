@@ -225,13 +225,15 @@ class TestBaseLogParser(TestCase):
         log = """[    0.123] Kernel panic - not syncing: Attempted to kill init 64! exitcode=0x00000009\n[    0.999] Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000008"""
         matches = compiled_regex.findall(log)
 
+        snippets = self.log_parser.join_matches(matches, regex)
+
         self.assertIn(
             "Kernel panic - not syncing: Attempted to kill init 64! exitcode=0x00000009",
-            matches,
+            snippets[0],
         )
         self.assertIn(
             "Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000008",
-            matches,
+            snippets[0],
         )
 
         self.assertEqual(len(matches), 2)
