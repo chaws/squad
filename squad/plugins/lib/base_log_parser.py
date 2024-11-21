@@ -125,12 +125,14 @@ class BaseLogParser:
                 environment=testrun.environment,
             )
 
-    def create_squad_tests(self, testrun, suite, test_name, lines, test_regex=None):
+    def create_squad_tests(self, testrun, suite_name, test_name, lines, test_regex=None):
         """
         There will be at least one test per regex. If there were any match for
         a given regex, then a new test will be generated using test_name +
         shasum. This helps comparing kernel logs across different builds
         """
+        suite, _ = testrun.build.project.suites.get_or_create(slug=suite_name)
+
         tests_without_shas_to_create, tests_with_shas_to_create = (
             self.create_name_log_dict(test_name, lines, test_regex)
         )
