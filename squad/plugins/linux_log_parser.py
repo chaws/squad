@@ -45,7 +45,8 @@ class Plugin(BasePlugin, BaseLogParser):
         return '\n'.join(kernel_msgs)
 
     def postprocess_testrun(self, testrun):
-        if testrun.log_file is None:
+        # Only run the boot/test log parser if this is not a build testrun
+        if testrun.log_file is None or testrun.tests.filter(suite__slug="build").exists():
             return
 
         boot_log, test_log = self.__cutoff_boot_log(testrun.log_file)

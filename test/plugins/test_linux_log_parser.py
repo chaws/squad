@@ -25,6 +25,18 @@ class TestLinuxLogParser(TestCase):
         testrun.save_log_file(log)
         return testrun
 
+    def test_do_not_run_on_build(self):
+        testrun = self.new_testrun('oops.log')
+        suite_build, _ = testrun.build.project.suites.get_or_create(slug="build")
+        _, _ = testrun.tests.get_or_create(suite=suite_build)
+        self.plugin.postprocess_testrun(testrun)
+
+        with self.assertRaises(Exception) as ctx:
+            testrun.tests.get(suite__slug='log-parser-boot')
+            testrun.tests.get(suite__slug='log-parser-test')
+
+        self.assertEqual("Test matching query does not exist.", str(ctx.exception))
+
     def test_detects_oops(self):
         testrun = self.new_testrun('oops.log')
         self.plugin.postprocess_testrun(testrun)
