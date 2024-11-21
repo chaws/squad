@@ -56,7 +56,7 @@ class BaseLogParser:
         sha.update(without_numbers_and_time.encode())
         return sha.hexdigest()
 
-    def create_name_log_dict(self, test_name, lines, test_regex=None):
+    def create_name_log_dict(self, test_name, lines, test_regex=None, create_shas=True):
         """
         Produce a dictionary with the test names as keys and the extracted logs
         for that test name as values. There will be at least one test name per
@@ -68,7 +68,7 @@ class BaseLogParser:
         # have any output for a particular regex, just use the default name
         # (for example "check-kernel-oops").
         tests_without_shas_to_create = defaultdict(set)
-        tests_with_shas_to_create = defaultdict(set)
+        tests_with_shas_to_create = None
 
         # If there are lines, then create the tests for these.
         for line in lines:
@@ -79,20 +79,26 @@ class BaseLogParser:
                 extended_test_name = test_name
             tests_without_shas_to_create[extended_test_name].add(line)
 
-        for name, test_lines in tests_without_shas_to_create.items():
-            # Some lines of the matched regex might be the same, and we don't want to create
-            # multiple tests like test1-sha1, test1-sha1, etc, so we'll create a set of sha1sums
-            # then create only new tests for unique sha's
+        if create_shas:
+            tests_with_shas_to_create = defaultdict(set)
+            for name, test_lines in tests_without_shas_to_create.items():
+                # Some lines of the matched regex might be the same, and we don't want to create
+                # multiple tests like test1-sha1, test1-sha1, etc, so we'll create a set of sha1sums
+                # then create only new tests for unique sha's
 
-            for line in test_lines:
-                sha = self.create_shasum(line)
-                name_with_sha = f"{name}-{sha}"
-                tests_with_shas_to_create[name_with_sha].add(line)
+                for line in test_lines:
+                    sha = self.create_shasum(line)
+                    name_with_sha = f"{name}-{sha}"
+                    tests_with_shas_to_create[name_with_sha].add(line)
 
         return tests_without_shas_to_create, tests_with_shas_to_create
 
     def create_squad_tests_from_name_log_dict(
-        self, suite, testrun, tests_without_shas_to_create, tests_with_shas_to_create
+        self,
+        suite,
+        testrun,
+        tests_without_shas_to_create,
+        tests_with_shas_to_create=None,
     ):
         # Import SuiteMetadata from SQUAD only when required so BaseLogParser
         # does not require a SQUAD to work. This makes it easier to reuse this
@@ -112,20 +118,23 @@ class BaseLogParser:
                 build=testrun.build,
                 environment=testrun.environment,
             )
-        for name_with_sha, lines in tests_with_shas_to_create.items():
-            metadata, _ = SuiteMetadata.objects.get_or_create(
-                suite=suite.slug, name=name_with_sha, kind="test"
-            )
-            testrun.tests.create(
-                suite=suite,
-                result=False,
-                log="\n---\n".join(lines),
-                metadata=metadata,
-                build=testrun.build,
-                environment=testrun.environment,
-            )
+        if tests_with_shas_to_create:
+            for name_with_sha, lines in tests_with_shas_to_create.items():
+                metadata, _ = SuiteMetadata.objects.get_or_create(
+                    suite=suite.slug, name=name_with_sha, kind="test"
+                )
+                testrun.tests.create(
+                    suite=suite,
+                    result=False,
+                    log="\n---\n".join(lines),
+                    metadata=metadata,
+                    build=testrun.build,
+                    environment=testrun.environment,
+                )
 
-    def create_squad_tests(self, testrun, suite_name, test_name, lines, test_regex=None):
+    def create_squad_tests(
+        self, testrun, suite_name, test_name, lines, test_regex=None, create_shas=True
+    ):
         """
         There will be at least one test per regex. If there were any match for
         a given regex, then a new test will be generated using test_name +
@@ -134,7 +143,9 @@ class BaseLogParser:
         suite, _ = testrun.build.project.suites.get_or_create(slug=suite_name)
 
         tests_without_shas_to_create, tests_with_shas_to_create = (
-            self.create_name_log_dict(test_name, lines, test_regex)
+            self.create_name_log_dict(
+                test_name, lines, test_regex, create_shas=create_shas
+            )
         )
         self.create_squad_tests_from_name_log_dict(
             suite,
