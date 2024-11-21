@@ -582,11 +582,11 @@ class Build(models.Model):
                 'test_run_id', 'filename'
             )
 
-        attachments = {}
-        for attachment in all_attachments:
-            attachments.setdefault(attachment['test_run_id'], []).append(attachment['filename'])
+            attachments = {}
+            for attachment in all_attachments:
+                attachments.setdefault(attachment['test_run_id'], []).append(attachment['filename'])
 
-        self.__attachments__ = attachments
+            self.__attachments__ = attachments
 
         return self.__attachments__
 
