@@ -26,7 +26,11 @@ class BaseLogParser:
 
         # [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
         # ->  BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
-        without_time = re.sub(f"^{square_brackets_and_contents}({square_brackets_and_contents})?", "", without_numbers) # noqa
+        without_time = re.sub(
+            f"^{square_brackets_and_contents}({square_brackets_and_contents})?",
+            "",
+            without_numbers,
+        )  # noqa
 
         return without_time
 
