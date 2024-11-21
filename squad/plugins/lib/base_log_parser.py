@@ -53,10 +53,7 @@ class BaseLogParser:
         snippet = matches[0]
         without_numbers_and_time = self.remove_numbers_and_time(snippet)
 
-        # Limit the name length to 191 characters, since the max name length
-        # for SuiteMetadata in SQUAD is 256 characters. The SHA and "-" take 65
-        # characters: 256-65=191
-        return slugify(without_numbers_and_time)[:191]
+        return slugify(without_numbers_and_time)
 
     def create_shasum(self, snippet):
         sha = hashlib.sha256()
@@ -82,7 +79,13 @@ class BaseLogParser:
         for line in lines:
             extracted_name = self.create_name(line, test_regex)
             if extracted_name:
-                extended_test_name = f"{test_name}-{extracted_name}"
+                max_name_length = 256
+                # If adding SHAs, limit the name length to 191 characters,
+                # since the max name length for SuiteMetadata in SQUAD is 256
+                # characters. The SHA and "-" take 65 characters: 256-65=191
+                if create_shas:
+                    max_name_length -= 65
+                extended_test_name = f"{test_name}-{extracted_name}"[:max_name_length]
             else:
                 extended_test_name = test_name
             tests_without_shas_to_create[extended_test_name].add(line)
