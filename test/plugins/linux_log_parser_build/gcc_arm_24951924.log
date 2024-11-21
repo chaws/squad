@@ -1,0 +1,255 @@
+tuxmake --target-arch=arm --kconfig=tinyconfig --toolchain=gcc-13 --wrapper=sccache --environment=KBUILD_BUILD_TIMESTAMP=@1724671465 --environment=KBUILD_BUILD_USER=tuxmake --environment=KBUILD_BUILD_HOST=tuxmake --environment=KCFLAGS=-ffile-prefix-map=/home/tuxbuild/.cache/tuxmake/builds/1/build/= --environment=SCCACHE_BUCKET=sccache.tuxbuild.com --runtime=podman --image=855116176053.dkr.ecr.us-east-1.amazonaws.com/tuxmake/arm_gcc-13 config default kernel xipkernel modules dtbs dtbs-legacy debugkernel headers
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' tinyconfig
+Using .config as base
+Merging /builds/linux/kernel/configs/tiny.config
+Value of CONFIG_CC_OPTIMIZE_FOR_SIZE is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
+New value: CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+
+Value of CONFIG_KERNEL_XZ is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: # CONFIG_KERNEL_XZ is not set
+New value: CONFIG_KERNEL_XZ=y
+
+Value of CONFIG_SLUB_TINY is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: # CONFIG_SLUB_TINY is not set
+New value: CONFIG_SLUB_TINY=y
+
+#
+# merged configuration written to .config (needs make)
+#
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc'
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/filemap.c:52:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/filemap.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/oom_kill.c:50:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/oom_kill.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/fadvise.c:24:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/fadvise.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/page-writeback.c:43:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/page-writeback.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/folio-compat.c:11:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/folio-compat.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/readahead.c:132:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/readahead.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/swap.c:41:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/swap.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/truncate.c:24:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/truncate.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/shrinker.c:8:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/shrinker.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/vmscan.c:67:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/vmscan.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/util.c:31:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/util.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/vmstat.c:32:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/vmstat.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/backing-dev.c:19:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/backing-dev.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/mm_init.c:33:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/mm_init.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/slab_common.c:32:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/slab_common.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/compaction.c:27:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/compaction.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/show_mem.c:18:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/show_mem.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/list_lru.c:16:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/list_lru.o] Error 1
+In file included from /builds/linux/lib/../mm/internal.h:22,
+                 from /builds/linux/lib/vsprintf.c:50:
+/builds/linux/lib/../mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/lib/../mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/lib/../mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: lib/vsprintf.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/workingset.c:19:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/workingset.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/debug.c:18:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/debug.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/gup.c:28:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/gup.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/nommu.c:43:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/nommu.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/page_alloc.c:59:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/page_alloc.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/memblock.c:23:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/memblock.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/slub.c:49:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/slub.o] Error 1
+In file included from /builds/linux/mm/internal.h:22,
+                 from /builds/linux/mm/early_ioremap.c:20:
+/builds/linux/mm/vma.h: In function 'init_vma_munmap':
+/builds/linux/mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/mm/vma.h:184:26: note: each undeclared identifier is reported only once for each function it appears in
+make[4]: *** [/builds/linux/scripts/Makefile.build:244: mm/early_ioremap.o] Error 1
+make[4]: Target 'mm/' not remade because of errors.
+make[3]: *** [/builds/linux/scripts/Makefile.build:490: mm] Error 2
+make[4]: Target 'lib/' not remade because of errors.
+make[3]: *** [/builds/linux/scripts/Makefile.build:490: lib] Error 2
+make[3]: Target './' not remade because of errors.
+make[2]: *** [/builds/linux/Makefile:1925: .] Error 2
+make[2]: Target '__all' not remade because of errors.
+make[1]: *** [/builds/linux/Makefile:224: __sub-make] Error 2
+make[1]: Target '__all' not remade because of errors.
+make: *** [Makefile:224: __sub-make] Error 2
+make: Target '__all' not remade because of errors.
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall
+mkdir -p /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' dtbs_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1724671465 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbs.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_HDR_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr/ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' headers_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1724671465 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/headers.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr .

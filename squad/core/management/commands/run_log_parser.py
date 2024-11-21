@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from squad.plugins.linux_log_parser import Plugin as BootTestLogParser
+from squad.plugins.linux_log_parser_build import Plugin as BuildLogParser
 
 
 class FakeTestRun:
@@ -10,6 +11,7 @@ class FakeTestRun:
 
 log_parsers = {
     'linux_log_parser_boot_test': BootTestLogParser(),
+    "linux_log_parser_build": BuildLogParser(),
 }
 
 

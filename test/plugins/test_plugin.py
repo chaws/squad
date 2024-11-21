@@ -10,17 +10,21 @@ class TestGetPluginsByFeature(TestCase):
         testjob_plugins = get_plugins_by_feature([Plugin.postprocess_testjob])
         self.assertNotIn('example', testrun_plugins)
         self.assertNotIn('linux_log_parser', testjob_plugins)
+        self.assertNotIn('linux_log_parser_build', testjob_plugins)
         self.assertIn('linux_log_parser', testrun_plugins)
+        self.assertIn('linux_log_parser_build', testrun_plugins)
 
     def test_feature_list_is_none(self):
         plugins = get_plugins_by_feature(None)
         self.assertIn('example', plugins)
         self.assertIn('linux_log_parser', plugins)
+        self.assertIn('linux_log_parser_build', plugins)
 
     def test_empty_feature_list(self):
         plugins = get_plugins_by_feature([])
         self.assertIn('example', plugins)
         self.assertIn('linux_log_parser', plugins)
+        self.assertIn('linux_log_parser_build', plugins)
 
 
 class TestGetPuginInstance(TestCase):
