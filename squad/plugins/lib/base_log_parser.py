@@ -106,7 +106,7 @@ class BaseLogParser:
 
     def create_squad_tests_from_name_log_dict(
         self,
-        suite,
+        suite_name,
         testrun,
         tests_without_shas_to_create,
         tests_with_shas_to_create=None,
@@ -116,6 +116,8 @@ class BaseLogParser:
         # class outside of SQUAD for testing and developing log parser
         # patterns.
         from squad.core.models import SuiteMetadata
+
+        suite, _ = testrun.build.project.suites.get_or_create(slug=suite_name)
 
         for name, lines in tests_without_shas_to_create.items():
             metadata, _ = SuiteMetadata.objects.get_or_create(
@@ -143,27 +145,58 @@ class BaseLogParser:
                     environment=testrun.environment,
                 )
 
+    def print_squad_tests_from_name_log_dict(
+        self,
+        suite_name,
+        tests_without_shas_to_create,
+        tests_with_shas_to_create=None,
+    ):
+        for name, lines in tests_without_shas_to_create.items():
+            print(f"\nName: {suite_name}/{name}")
+            log = "\n".join(lines)
+            print(f"Log:\n{log}")
+
+        if tests_with_shas_to_create:
+            for name_with_sha, lines in tests_with_shas_to_create.items():
+                print(f"\nName: {suite_name}/{name_with_sha}")
+                log = "\n---\n".join(lines)
+                print(f"Log:\n{log}")
+
     def create_squad_tests(
-        self, testrun, suite_name, test_name, lines, test_regex=None, create_shas=True
+        self,
+        testrun,
+        suite_name,
+        test_name,
+        lines,
+        test_regex=None,
+        create_shas=True,
+        print=False,
+        squad=True,
     ):
         """
         There will be at least one test per regex. If there were any match for
         a given regex, then a new test will be generated using test_name +
         shasum. This helps comparing kernel logs across different builds
         """
-        suite, _ = testrun.build.project.suites.get_or_create(slug=suite_name)
 
         tests_without_shas_to_create, tests_with_shas_to_create = (
             self.create_name_log_dict(
                 test_name, lines, test_regex, create_shas=create_shas
             )
         )
-        self.create_squad_tests_from_name_log_dict(
-            suite,
-            testrun,
-            tests_without_shas_to_create,
-            tests_with_shas_to_create,
-        )
+        if print:
+            self.print_squad_tests_from_name_log_dict(
+                suite_name,
+                tests_without_shas_to_create,
+                tests_with_shas_to_create,
+            )
+        if squad:
+            self.create_squad_tests_from_name_log_dict(
+                suite_name,
+                testrun,
+                tests_without_shas_to_create,
+                tests_with_shas_to_create,
+            )
 
     def join_matches(self, matches, regexes):
         """
