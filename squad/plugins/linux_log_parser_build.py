@@ -47,9 +47,117 @@ ONELINERS_CLANG = [
     ),
 ]
 
+MULTILINERS_GENERAL = [
+    (
+        "general-not-a-git-repo",
+        r"^[^\n]*fatal: not a git repository.*?not set\)\.$",
+        r"^[^\n]*fatal: not a git repository.*?$",
+    ),
+    (
+        "general-unexpected-argument",
+        r"^[^\n]*error: Found argument.*?--help$",
+        r"^[^\n]*error: Found argument.*?$",
+    ),
+    (
+        "general-broken-32-bit",
+        r"^[^\n]*Warning: you seem to have a broken 32-bit build.*?(?:If[^\n]*?try:(?:\n|\s+.+?$)+)+",
+        r"^[^\n]*Warning:.*?$",
+    ),
+    (
+        "general-makefile-overriding",
+        r"^[^\n]*warning: overriding recipe for target.*?ignoring old recipe for target.*?$",
+        r"^[^\n]*warning:.*?$",
+    ),
+    (
+        "general-unmet-dependencies",
+        r"^WARNING: unmet direct dependencies detected for.*?$(?:\n +[^\n]+)*",
+        r"^WARNING: unmet direct dependencies detected for.*?$",
+    ),
+    (
+        "general-ldd",
+        r"^[^\n]*?lld:[^\n]+?(?:warning|error):.*?$(?:\n^>>>[^\n]+)*",
+        r"^[^\n]*?lld:.*?$",
+    ),
+    (
+        "general-ld",
+        r"^[^\n]*?ld:[^\n]+?(?:warning|error):[^\n]*?$(?:\n^[^\n]*?NOTE:[^\n]+)*",
+        r"^[^\n]*?ld:[^\n]+?(?:warning|error):.*?$",
+    ),
+    (
+        "general-objcopy",
+        r"^[^\n]*?objcopy:[^\n]+?(?:warning|error):[^\n]*?$(?:\n^[^\n]*?NOTE:[^\n]+)*",
+        r"^[^\n]*?objcopy:[^\n]+?(?:warning|error):.*?$",
+    ),
+    (
+        "general-ld-undefined-reference",
+        r"^[^\n]*?ld[^\n]*?$\n^[^\n]+undefined reference.*?$",
+        r"^[^\n]+undefined reference.*?$",
+    ),
+    (
+        "general-modpost",
+        r"^[^\n]*?WARNING: modpost:[^\n]*?$(?:\n^To see.*?:$\n^.*?$)?",
+        r"^[^\n]*?WARNING.*?$",
+    ),
+    (
+        "general-python-traceback",
+        r"Traceback.*?^[^\s]+Error: .*?$",
+        r"^[^\s]+Error: .*?$",
+    ),
+]
+
+ONELINERS_GENERAL = [
+    (
+        "general-no-such-file-or-directory",
+        r"^[^\n]+?No such file or directory.*?$",
+        r"^[^\n]+?No such file or directory.*?$",
+    ),
+    (
+        "general-no-targets",
+        r"^[^\n]+?No targets.*?$",
+        r"^[^\n]+?No targets.*?$",
+    ),
+    (
+        "general-no-rule-to-make-target",
+        r"^[^\n]+?No rule to make target.*?$",
+        r"^[^\n]+?No rule to make target.*?$",
+    ),
+    (
+        "general-makefile-config",
+        r"^Makefile.config:\d+:.*?$",
+        r"^Makefile.config:\d+:.*?$",
+    ),
+    (
+        "general-not-found",
+        r"^[^\n]*?not found.*?$",
+        r"^[^\n]*?not found.*?$",
+    ),
+    (
+        "general-kernel-abi",
+        r"^Warning: Kernel ABI header at.*?$",
+        r"^Warning: Kernel ABI header at.*?$",
+    ),
+    (
+        "general-missing",
+        r"^Warning: missing.*?$",
+        r"^Warning: missing.*?$",
+    ),
+    (
+        "general-dtc",
+        r"^[^\n]*?Warning \([^\n]*?\).*?$",
+        r"^[^\n]*?Warning.*?$",
+    ),
+    (
+        "general-register-allocation",
+        r"^[^\n]*?error: register allocation failed.*?$",
+        r"^[^\n]*?error.*?$",
+    ),
+]
+
 # Tip: broader regexes should come first
-REGEXES_GCC = MULTILINERS_GCC + ONELINERS_GCC
-REGEXES_CLANG = MULTILINERS_CLANG + ONELINERS_CLANG
+REGEXES_GCC = MULTILINERS_GCC + MULTILINERS_GENERAL + ONELINERS_GCC + ONELINERS_GENERAL
+REGEXES_CLANG = (
+    MULTILINERS_CLANG + MULTILINERS_GENERAL + ONELINERS_CLANG + ONELINERS_GENERAL
+)
 
 supported_toolchains = {
     "gcc": REGEXES_GCC,

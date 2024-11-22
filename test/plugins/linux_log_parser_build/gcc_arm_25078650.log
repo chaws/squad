@@ -1,0 +1,116 @@
+tuxmake --target-arch=arm --kconfig=multi_v5_defconfig --kconfig-add=CONFIG_KUNIT=y --kconfig-add=CONFIG_KUNIT_ALL_TESTS=y --toolchain=gcc-13 --wrapper=sccache --environment=KBUILD_BUILD_TIMESTAMP=@1725878537 --environment=KBUILD_BUILD_USER=tuxmake --environment=KBUILD_BUILD_HOST=tuxmake --environment=KCFLAGS=-ffile-prefix-map=/home/tuxbuild/.cache/tuxmake/builds/1/build/= --environment=SCCACHE_BUCKET=sccache.tuxbuild.com --runtime=podman --image=855116176053.dkr.ecr.us-east-1.amazonaws.com/tuxmake/arm_gcc-13 config default kernel xipkernel modules dtbs dtbs-legacy debugkernel headers
+# CONFIG_KUNIT=y -> /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config
+# CONFIG_KUNIT_ALL_TESTS=y -> /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' multi_v5_defconfig
+scripts/kconfig/merge_config.sh -m -O /home/tuxbuild/.cache/tuxmake/builds/1/build /home/tuxbuild/.cache/tuxmake/builds/1/build/.config /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config
+Using /home/tuxbuild/.cache/tuxmake/builds/1/build/.config as base
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config
+Value of CONFIG_KUNIT is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_KUNIT is not set
+New value: CONFIG_KUNIT=y
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config
+#
+# merged configuration written to /home/tuxbuild/.cache/tuxmake/builds/1/build/.config (needs make)
+#
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' olddefconfig
+
+WARNING: unmet direct dependencies detected for GET_FREE_REGION
+  Depends on [n]: SPARSEMEM [=n]
+  Selected by [y]:
+  - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc'
+
+WARNING: unmet direct dependencies detected for GET_FREE_REGION
+  Depends on [n]: SPARSEMEM [=n]
+  Selected by [y]:
+  - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+WARNING: unmet direct dependencies detected for GET_FREE_REGION
+  Depends on [n]: SPARSEMEM [=n]
+  Selected by [y]:
+  - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+WARNING: unmet direct dependencies detected for GET_FREE_REGION
+  Depends on [n]: SPARSEMEM [=n]
+  Selected by [y]:
+  - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+In file included from /builds/linux/include/linux/ioport.h:15,
+                 from /builds/linux/kernel/resource.c:15:
+/builds/linux/kernel/resource.c: In function 'gfr_start':
+/builds/linux/include/linux/mm.h:101:35: error: 'MAX_PHYSMEM_BITS' undeclared (first use in this function)
+  101 | # define PHYSMEM_END    ((1ULL << MAX_PHYSMEM_BITS) - 1)
+      |                                   ^~~~~~~~~~~~~~~~
+/builds/linux/include/linux/minmax.h:93:38: note: in definition of macro '__cmp_once_unique'
+   93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+      |                                      ^
+/builds/linux/include/linux/minmax.h:213:27: note: in expansion of macro '__cmp_once'
+  213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+      |                           ^~~~~~~~~~
+/builds/linux/kernel/resource.c:1874:23: note: in expansion of macro 'min_t'
+ 1874 |                 end = min_t(resource_size_t, base->end, PHYSMEM_END);
+      |                       ^~~~~
+/builds/linux/kernel/resource.c:1874:57: note: in expansion of macro 'PHYSMEM_END'
+ 1874 |                 end = min_t(resource_size_t, base->end, PHYSMEM_END);
+      |                                                         ^~~~~~~~~~~
+/builds/linux/include/linux/mm.h:101:35: note: each undeclared identifier is reported only once for each function it appears in
+  101 | # define PHYSMEM_END    ((1ULL << MAX_PHYSMEM_BITS) - 1)
+      |                                   ^~~~~~~~~~~~~~~~
+/builds/linux/include/linux/minmax.h:93:38: note: in definition of macro '__cmp_once_unique'
+   93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+      |                                      ^
+/builds/linux/include/linux/minmax.h:213:27: note: in expansion of macro '__cmp_once'
+  213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+      |                           ^~~~~~~~~~
+/builds/linux/kernel/resource.c:1874:23: note: in expansion of macro 'min_t'
+ 1874 |                 end = min_t(resource_size_t, base->end, PHYSMEM_END);
+      |                       ^~~~~
+/builds/linux/kernel/resource.c:1874:57: note: in expansion of macro 'PHYSMEM_END'
+ 1874 |                 end = min_t(resource_size_t, base->end, PHYSMEM_END);
+      |                                                         ^~~~~~~~~~~
+/builds/linux/kernel/resource.c: In function 'gfr_continue':
+/builds/linux/include/linux/mm.h:101:35: error: 'MAX_PHYSMEM_BITS' undeclared (first use in this function)
+  101 | # define PHYSMEM_END    ((1ULL << MAX_PHYSMEM_BITS) - 1)
+      |                                   ^~~~~~~~~~~~~~~~
+/builds/linux/include/linux/minmax.h:93:38: note: in definition of macro '__cmp_once_unique'
+   93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+      |                                      ^
+/builds/linux/include/linux/minmax.h:213:27: note: in expansion of macro '__cmp_once'
+  213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+      |                           ^~~~~~~~~~
+/builds/linux/kernel/resource.c:1891:24: note: in expansion of macro 'min_t'
+ 1891 |                addr <= min_t(resource_size_t, base->end, PHYSMEM_END);
+      |                        ^~~~~
+/builds/linux/kernel/resource.c:1891:58: note: in expansion of macro 'PHYSMEM_END'
+ 1891 |                addr <= min_t(resource_size_t, base->end, PHYSMEM_END);
+      |                                                          ^~~~~~~~~~~
+make[4]: *** [/builds/linux/scripts/Makefile.build:229: kernel/resource.o] Error 1
+make[4]: Target 'kernel/' not remade because of errors.
+make[3]: *** [/builds/linux/scripts/Makefile.build:478: kernel] Error 2
+2024/09/09 10:46:31 socat-external[1534] W waitpid(-1, {}, WNOHANG): no child has exited
+make[3]: Target './' not remade because of errors.
+make[2]: *** [/builds/linux/Makefile:1933: .] Error 2
+make[2]: Target '__all' not remade because of errors.
+make[1]: *** [/builds/linux/Makefile:224: __sub-make] Error 2
+make[1]: Target '__all' not remade because of errors.
+make: *** [Makefile:224: __sub-make] Error 2
+make: Target '__all' not remade because of errors.
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' modules_install
+make[3]: *** No rule to make target 'modules.order', needed by '/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall/lib/modules/6.11.0-rc7-next-20240909/modules.order'.
+make[3]: *** No rule to make target 'modules.builtin', needed by '/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall/lib/modules/6.11.0-rc7-next-20240909/modules.builtin'.
+make[3]: *** No rule to make target 'modules.builtin.modinfo', needed by '/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall/lib/modules/6.11.0-rc7-next-20240909/modules.builtin.modinfo'.
+make[3]: Target '__modinst' not remade because of errors.
+make[2]: *** [/builds/linux/Makefile:1841: modules_install] Error 2
+make[1]: *** [/builds/linux/Makefile:224: __sub-make] Error 2
+make[1]: Target 'modules_install' not remade because of errors.
+make: *** [Makefile:224: __sub-make] Error 2
+make: Target 'modules_install' not remade because of errors.
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall
+mkdir -p /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' dtbs_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1725878537 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbs.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_HDR_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr/ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' headers_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1725878537 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/headers.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr .

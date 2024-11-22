@@ -1,0 +1,1213 @@
+tuxmake --target-arch=arm --kconfig=defconfig --kconfig-add=/builds/linux/lkft.config --kconfig-add=/builds/linux/lkft-crypto.config --kconfig-add=/builds/linux/distro-overrides.config --kconfig-add=/builds/linux/systemd.config --kconfig-add=/builds/linux/virtio.config --kconfig-add=CONFIG_ARM_TI_CPUFREQ=y --kconfig-add=CONFIG_SERIAL_8250_OMAP=y --kconfig-add=CONFIG_POSIX_MQUEUE=y --kconfig-add=CONFIG_OF=y --kconfig-add=CONFIG_FTRACE_SYSCALLS=y --kconfig-add=CONFIG_KFENCE=n --kconfig-add=CONFIG_AHCI_DWC=y --toolchain=gcc-13 --wrapper=sccache --environment=KBUILD_BUILD_TIMESTAMP=@1725535826 --environment=KBUILD_BUILD_USER=tuxmake --environment=KBUILD_BUILD_HOST=tuxmake --environment=KCFLAGS=-ffile-prefix-map=/home/tuxbuild/.cache/tuxmake/builds/1/build/= --environment=SCCACHE_BUCKET=sccache.tuxbuild.com --runtime=podman --image=855116176053.dkr.ecr.us-east-1.amazonaws.com/tuxmake/arm_gcc-13 perf config default debugkernel dtbs dtbs-legacy headers kernel modules
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build DESTDIR=/home/tuxbuild/.cache/tuxmake/builds/1/build/perf-install/usr ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' -C tools/perf
+  BUILD:   Doing 'make [33m-j8[m' parallel build
+[0;33mWarning[0m: Kernel ABI header differences:
+  diff -u tools/include/uapi/linux/const.h include/uapi/linux/const.h
+  diff -u tools/include/uapi/linux/bits.h include/uapi/linux/bits.h
+  diff -u tools/include/uapi/linux/in.h include/uapi/linux/in.h
+  diff -u tools/include/linux/bits.h include/linux/bits.h
+  diff -u tools/arch/x86/include/asm/msr-index.h arch/x86/include/asm/msr-index.h
+  diff -u tools/arch/arm64/include/uapi/asm/unistd.h arch/arm64/include/uapi/asm/unistd.h
+  diff -u tools/include/uapi/asm-generic/unistd.h include/uapi/asm-generic/unistd.h
+  diff -u tools/arch/arm64/include/asm/cputype.h arch/arm64/include/asm/cputype.h
+  diff -u tools/include/asm-generic/unaligned.h include/asm-generic/unaligned.h
+  diff -u tools/lib/list_sort.c lib/list_sort.c
+  diff -u tools/perf/arch/x86/entry/syscalls/syscall_64.tbl arch/x86/entry/syscalls/syscall_64.tbl
+  diff -u tools/perf/arch/powerpc/entry/syscalls/syscall.tbl arch/powerpc/kernel/syscalls/syscall.tbl
+  diff -u tools/perf/arch/s390/entry/syscalls/syscall.tbl arch/s390/kernel/syscalls/syscall.tbl
+  diff -u tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl arch/mips/kernel/syscalls/syscall_n64.tbl
+  diff -u tools/perf/trace/beauty/arch/x86/include/asm/irq_vectors.h arch/x86/include/asm/irq_vectors.h
+  diff -u tools/perf/trace/beauty/include/uapi/linux/sched.h include/uapi/linux/sched.h
+  diff -u tools/perf/trace/beauty/include/uapi/sound/asound.h include/uapi/sound/asound.h
+Makefile.config:709: Warning: Disabled BPF skeletons as clang (clang) is missing
+Makefile.config:796: No libaudit.h found, disables 'trace' tool, please install audit-libs-devel or libaudit-dev
+Makefile.config:868: Missing perl devel files. Disabling perl scripting support, please install perl-ExtUtils-Embed/libperl-dev
+Makefile.config:1113: No libcapstone found, disables disasm engine support for 'perf script', please install libcapstone-dev/capstone-devel
+Makefile.config:1147: No alternatives command found, you need to set JDIR= to point to the root of your Java directory
+Makefile.config:1212: libtracefs is missing. Please install libtracefs-dev/libtracefs-devel
+
+Auto-detecting system features:
+...                                   dwarf: [ [32mon[m  ]
+...                      dwarf_getlocations: [ [32mon[m  ]
+...                                   glibc: [ [32mon[m  ]
+...                                  libbfd: [ [32mon[m  ]
+...                          libbfd-buildid: [ [32mon[m  ]
+...                                  libcap: [ [32mon[m  ]
+...                                  libelf: [ [32mon[m  ]
+...                                 libnuma: [ [32mon[m  ]
+...                  numa_num_possible_cpus: [ [32mon[m  ]
+...                                 libperl: [ [31mOFF[m ]
+...                               libpython: [ [32mon[m  ]
+...                               libcrypto: [ [32mon[m  ]
+...                               libunwind: [ [32mon[m  ]
+...                      libdw-dwarf-unwind: [ [32mon[m  ]
+...                             libcapstone: [ [31mOFF[m ]
+...                                    zlib: [ [32mon[m  ]
+...                                    lzma: [ [32mon[m  ]
+...                               get_cpuid: [ [31mOFF[m ]
+...                                     bpf: [ [32mon[m  ]
+...                                  libaio: [ [32mon[m  ]
+...                                 libzstd: [ [32mon[m  ]
+
+  GEN     /home/tuxbuild/.cache/tuxmake/builds/1/build/common-cmds.h
+  PERF_VERSION = 6.11.0-rc6
+  GEN     /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm64/include/generated/asm/sysreg-defs.h
+  GEN     perf-archive
+  GEN     perf-iostat
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/dlfilters/dlfilter-test-api-v0.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/dlfilters/dlfilter-test-api-v2.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/dlfilters/dlfilter-show-cycles.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fd/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fd/array.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/core.o
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/include/subcmd/exec-cmd.h
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/cpumap.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/threadmap.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/evsel.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/evlist.o
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/perf/bpf_perf.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/perf/core.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/include/subcmd/help.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/perf/cpumap.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/include/subcmd/pager.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/perf/threadmap.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/include/subcmd/parse-options.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/include/subcmd/run-command.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/perf/evlist.h
+  INSTALL libsubcmd_headers
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/exec-cmd.o
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/perf/evsel.h
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/help.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fd/libapi-in.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fs/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fs/fs.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsymbol/kallsyms.o
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libsymbol/include/symbol/kallsyms.h
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fs/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fs/tracing_path.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fs/cgroup.o
+  INSTALL libsymbol_headers
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/pager.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/parse-options.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/mmap.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/run-command.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/sigchain.o
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/perf/event.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/perf/mmap.h
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/fs/libapi-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/cpu.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/subcmd-config.o
+  GEN     /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/bpf_helper_defs.h
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/zalloc.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsymbol/libsymbol-in.o
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsymbol/libsymbol.a
+  LINK    /home/tuxbuild/.cache/tuxmake/builds/1/build/dlfilters/dlfilter-test-api-v0.so
+  LINK    /home/tuxbuild/.cache/tuxmake/builds/1/build/dlfilters/dlfilter-test-api-v2.so
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/xyarray.o
+  LINK    /home/tuxbuild/.cache/tuxmake/builds/1/build/dlfilters/dlfilter-show-cycles.so
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/debug.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/str_error_r.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/lib.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/libsubcmd-in.o
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/bpf.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/libbpf.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/internal/cpumap.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/btf.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/internal/evlist.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/libbpf_common.h
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libsubcmd/libsubcmd.a
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/internal/evsel.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/internal/lib.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/libbpf_legacy.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/internal/mmap.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/bpf_helpers.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/bpf_tracing.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/internal/rc_check.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/bpf_endian.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/bpf_core_read.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/include/api/cpu.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/internal/threadmap.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/skel_internal.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/include/internal/xyarray.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/libbpf_version.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/include/api/debug.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/usdt.bpf.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/include/api/io.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/include/bpf/bpf_helper_defs.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/include/api/fd/array.h
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/include/api/fs/fs.h
+  INSTALL libperf_headers
+  INSTALL libbpf_headers
+  INSTALL /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/include/api/fs/tracing_path.h
+  INSTALL libapi_headers
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/libapi-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/libperf-in.o
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libapi/libapi.a
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf/libperf.a
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/libbpf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/bpf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/nlattr.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/btf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/libbpf_errno.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/str_error.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/netlink.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/bpf_prog_linfo.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/libbpf_probes.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/hashmap.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/btf_dump.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/ringbuf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/strset.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/linker.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/gen_loader.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/relo_core.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/usdt.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/zip.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/elf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/features.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/btf_iter.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/btf_relocate.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/staticobjs/libbpf-in.o
+  LINK    /home/tuxbuild/.cache/tuxmake/builds/1/build/libbpf/libbpf.a
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-bench.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/pmu-events/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-annotate.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/
+  GEN     /home/tuxbuild/.cache/tuxmake/builds/1/build/pmu-events/pmu-events.c
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/builtin-test.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/sched-messaging.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/pmu-events/pmu-events.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/setup.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/regs_load.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/dwarf-unwind.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/arm64-frame-pointer-unwind-support.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/addr_location.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/pmu-events/pmu-events-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/annotate.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/sched-pipe.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/helpline.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/vectors-page.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/sched-seccomp-notify.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/tests-scripts.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/parse-events.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-config.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/arch-tests.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/progress.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/block-info.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/dso-data.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/syscall.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/util.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/hist.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-diff.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/mem-functions.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/perf-test-in.o
+arm-linux-gnueabihf-ld: warning: /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/regs_load.o: missing .note.GNU-stack section implies executable stack
+arm-linux-gnueabihf-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/perf-test-in.o
+arm-linux-gnueabihf-ld: warning: /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/perf-test-in.o: requires executable stack (because the .note.GNU-stack section is executable)
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/perf-test-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/block-range.o
+arm-linux-gnueabihf-ld: warning: /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/perf-test-in.o: requires executable stack (because the .note.GNU-stack section is executable)
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-evlist.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/stdio/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/stdio/hist.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/attr.o
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libpmu-events.a
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browser.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/vmlinux-kallsyms.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/futex-hash.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/futex-wake.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/annotate.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/openat-syscall.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/build-id.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-ftrace.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-help.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/openat-syscall-all-cpus.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/futex-wake-parallel.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/openat-syscall-tp-fields.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/annotate-data.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/mmap-basic.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/hists.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/cacheline.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/map.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-buildid-list.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-buildid-cache.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/futex-requeue.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/perf-record.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/config.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/evsel-roundtrip-name.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/copyfile.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/futex-lock-pi.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/epoll-wait.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-kallsyms.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/epoll-ctl.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/evsel-tp-sched.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-list.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/ctype.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-record.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/common.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/synthesize.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/kallsyms-parse.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/fdarray.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/scripts.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/db-export.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/header.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/perf_regs.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-report.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-stat.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/pmu.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/find-bit-bench.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/dwarf-regs.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/disasm.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/res_sample.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/inject-buildid.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/unwind-libunwind.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/evlist-open-close.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/pmu-events.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/disasm_bpf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/env.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/pmu.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/browsers/perf-ui-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-top.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/tui/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/tui/setup.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-script.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/breakpoint.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-kvm.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/hists_common.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/event.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/auxtrace.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/tui/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/tui/util.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/hists_link.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/tui/helpline.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/pmu-scan.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/cs-etm.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-inject.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-mem.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-data.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/evlist.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/uprobe.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/hists_filter.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/tui/progress.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/util/perf-util-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/perf-util-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/perf-util-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/hists_output.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-version.o
+2024/09/05 11:32:34 socat-external[56] W waitpid(-1, {}, WNOHANG): no child has exited
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/numa.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/hists_cumulate.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/tui/perf-ui-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/ui/perf-ui-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/perf-ui-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/python-use.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/bp_signal.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-c2c.o
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf-ui.a
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-daemon.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/sideband_evlist.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/bp_signal_overflow.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/bp_account.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/wp.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/bench/perf-bench-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/perf-bench-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/task-exit.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-kmem.o
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf-bench.a
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-kwork.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-lock.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/evsel.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/evsel_fprintf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf_event_attr_fprintf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/evswitch.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/sw-clock.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/mmap-thread-lookup.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/thread-maps-share.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/switch-tracking.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/keep-tracking.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/code-reading.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-sched.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/find_bit.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/sample-parsing.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-timechart.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/scripts/python/Perf-Trace-Util/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/scripts/python/Perf-Trace-Util/Context.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/parse-no-sample-id-all.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/kmod-path.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/get_current_dir_name.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/levenshtein.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/mmap.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/thread-map.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/topology.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/builtin-probe.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/mem.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/cpumap.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/stat.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/scripts/python/Perf-Trace-Util/perf-util-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/scripts/perf-util-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/perf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/memswap.o
+  BISON   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/parse-events-bison.c
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/event_update.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/perf-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/event-times.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/expr.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/backward-ring-buffer.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/sdt.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/is_printable_array.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/perf-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/bitmap.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/perf-hooks.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/print-events.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/unit_number__scnprintf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/mem2node.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/tracepoint.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/maps.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/time-utils-test.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/genelf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/api-io.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/demangle-java-test.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/demangle-ocaml-test.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/pfm.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf_regs.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_aarch64.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_arm.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_csky.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_loongarch.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/parse-metric.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt-decoder/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt-decoder/intel-pt-pkt-decoder.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt-decoder/
+  GEN     /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt-decoder/inat-tables.c
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/arm-spe-decoder/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/arm-spe-decoder/arm-spe-pkt-decoder.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/pe-file-parsing.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/arm-spe-decoder/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/arm-spe-decoder/arm-spe-decoder.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/expand-cgroup.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/hisi-ptt-decoder/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_mips.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/scripting-engines/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/scripting-engines/trace-event-python.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/perf-time-to-tsc.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/arm-spe-decoder/perf-util-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/hisi-ptt-decoder/perf-util-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/dlfilter-test.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_powerpc.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt-decoder/intel-pt-log.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt-decoder/intel-pt-decoder.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_riscv.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_s390.o
+2024/09/05 11:32:35 socat-external[56] W waitpid(-1, {}, WNOHANG): no child has exited
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf_regs_x86.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt-decoder/intel-pt-insn-decoder.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/sigtrap.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/scripting-engines/perf-util-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/path.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/event_groups.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/symbols.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/util.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/dwarf-unwind.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-regs-arch/perf-util-in.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/noploop.o
+  MKDIR   /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/thloop.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/leafloop.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/sqrtloop.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt-decoder/perf-util-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/print_binary.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/print_insn.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/brstack.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/rlimit.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/datasym.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/argv_split.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/landlock.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/rbtree.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/libstring.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/bitmap.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/hweight.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/workloads/perf-test-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/tests/perf-test-in.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/smt.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/perf-test-in.o
+arm-linux-gnueabihf-ld: warning: /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/perf-test-in.o: requires executable stack (because the .note.GNU-stack section is executable)
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/strbuf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/string.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/strlist.o
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf-test.a
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/strfilter.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/top.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/usage.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/dso.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/dsos.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/symbol.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/symbol_fprintf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/map_symbol.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/color.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/color_config.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/metricgroup.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/header.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/callchain.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/values.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/debug.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/fncache.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/machine.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/map.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/maps.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/pstack.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/session.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/tool.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/sample-raw.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/s390-sample-raw.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/amd-sample-raw.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/ordered-events.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/namespaces.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/comm.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/thread.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/threads.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/thread_map.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/parse-events-bison.o
+  BISON   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/pmu-bison.c
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/pmus.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/svghelper.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/trace-event-info.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/trace-event-scripting.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/trace-event.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/trace-event-parse.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/trace-event-read.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/sort.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/hist.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/util.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/cpumap.o
+2024/09/05 11:32:36 socat-external[56] W waitpid(-1, {}, WNOHANG): no child has exited
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/affinity.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/cputopo.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/cgroup.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/target.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/rblist.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intlist.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/vdso.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/counts.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/stat.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/stat-shadow.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/stat-display.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf_api_probe.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/record.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/srcline.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/srccode.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/synthetic-events.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/data.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/tsc.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/cloexec.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/call-path.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/rwsem.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/thread-stack.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/spark.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/topdown.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/iostat.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/stream.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/auxtrace.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-pt.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/intel-bts.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/arm-spe.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/hisi-ptt.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/s390-cpumsf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/cs-etm-base.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/parse-branch-options.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/dump-insn.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/parse-regs-options.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/parse-sublevel-options.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/term.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/help-unknown-cmd.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/dlfilter.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/mem-events.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/mem-info.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/vsprintf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/units.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/time-utils.o
+  BISON   /home/tuxbuild/.cache/tuxmake/builds/1/build/util/expr-bison.c
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/branch.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/mem2node.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/clockid.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/list_sort.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/mutex.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/sharded_mutex.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/bpf_map.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/symbol-elf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/probe-file.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/probe-event.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/probe-finder.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/dwarf-aux.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/dwarf-regs.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/debuginfo.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/annotate-data.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/unwind-libunwind-local.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/unwind-libunwind.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/data-convert-bt.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/data-convert-json.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/zlib.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/lzma.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/zstd.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/cap.o
+  CXX     /home/tuxbuild/.cache/tuxmake/builds/1/build/util/demangle-cxx.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/demangle-ocaml.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/demangle-java.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/demangle-rust.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/jitdump.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/genelf.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/genelf_debug.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-hooks.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/bpf-event.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/bpf-utils.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/pfm.o
+  FLEX    /home/tuxbuild/.cache/tuxmake/builds/1/build/util/parse-events-flex.c
+  FLEX    /home/tuxbuild/.cache/tuxmake/builds/1/build/util/pmu-flex.c
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/pmu-bison.o
+  FLEX    /home/tuxbuild/.cache/tuxmake/builds/1/build/util/expr-flex.c
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/expr-bison.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/expr.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/parse-events.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/parse-events-flex.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/pmu.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/pmu-flex.o
+  CC      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/expr-flex.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/util/perf-util-in.o
+  LD      /home/tuxbuild/.cache/tuxmake/builds/1/build/perf-util-in.o
+  AR      /home/tuxbuild/.cache/tuxmake/builds/1/build/libperf-util.a
+  LINK    /home/tuxbuild/.cache/tuxmake/builds/1/build/perf
+  GEN     /home/tuxbuild/.cache/tuxmake/builds/1/build/python/perf.cpython-312-arm-linux-gnueabihf.so
+/builds/linux/tools/perf/util/python.c:1358:6: error: no previous prototype for âkvm_entry_eventâ [-Werror=missing-prototypes]
+ 1358 | bool kvm_entry_event(struct evsel *evsel __maybe_unused)
+      |      ^~~~~~~~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1363:6: error: no previous prototype for âkvm_exit_eventâ [-Werror=missing-prototypes]
+ 1363 | bool kvm_exit_event(struct evsel *evsel __maybe_unused)
+      |      ^~~~~~~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1370:30: error: âstruct event_keyâ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+ 1370 |                       struct event_key *key  __maybe_unused)
+      |                              ^~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1368:6: error: no previous prototype for âexit_event_beginâ [-Werror=missing-prototypes]
+ 1368 | bool exit_event_begin(struct evsel *evsel __maybe_unused,
+      |      ^~~~~~~~~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1377:28: error: âstruct event_keyâ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+ 1377 |                     struct event_key *key __maybe_unused)
+      |                            ^~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1375:6: error: no previous prototype for âexit_event_endâ [-Werror=missing-prototypes]
+ 1375 | bool exit_event_end(struct evsel *evsel __maybe_unused,
+      |      ^~~~~~~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1383:35: error: âstruct event_keyâ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+ 1383 |                            struct event_key *key __maybe_unused,
+      |                                   ^~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1382:35: error: âstruct perf_kvm_statâ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+ 1382 | void exit_event_decode_key(struct perf_kvm_stat *kvm __maybe_unused,
+      |                                   ^~~~~~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1382:6: error: no previous prototype for âexit_event_decode_keyâ [-Werror=missing-prototypes]
+ 1382 | void exit_event_decode_key(struct perf_kvm_stat *kvm __maybe_unused,
+      |      ^~~~~~~~~~~~~~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1394:6: error: no previous prototype for âperf_stat__set_no_csv_summaryâ [-Werror=missing-prototypes]
+ 1394 | void perf_stat__set_no_csv_summary(int set __maybe_unused)
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/builds/linux/tools/perf/util/python.c:1398:6: error: no previous prototype for âperf_stat__set_big_numâ [-Werror=missing-prototypes]
+ 1398 | void perf_stat__set_big_num(int set __maybe_unused)
+      |      ^~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+error: command '/usr/local/bin/sccache' failed with exit code 1
+cp: cannot stat '/home/tuxbuild/.cache/tuxmake/builds/1/build/python_ext_build/lib/perf*.so': No such file or directory
+make[2]: *** [Makefile.perf:739: /home/tuxbuild/.cache/tuxmake/builds/1/build/python/perf.cpython-312-arm-linux-gnueabihf.so] Error 1
+make[1]: *** [Makefile.perf:292: sub-make] Error 2
+make: *** [Makefile:76: all] Error 2
+# /builds/linux/lkft.config -> /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config
+# /builds/linux/lkft-crypto.config -> /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config
+# /builds/linux/distro-overrides.config -> /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config
+# /builds/linux/systemd.config -> /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config
+# /builds/linux/virtio.config -> /home/tuxbuild/.cache/tuxmake/builds/1/build/4.config
+# CONFIG_ARM_TI_CPUFREQ=y -> /home/tuxbuild/.cache/tuxmake/builds/1/build/5.config
+# CONFIG_SERIAL_8250_OMAP=y -> /home/tuxbuild/.cache/tuxmake/builds/1/build/6.config
+# CONFIG_POSIX_MQUEUE=y -> /home/tuxbuild/.cache/tuxmake/builds/1/build/7.config
+# CONFIG_OF=y -> /home/tuxbuild/.cache/tuxmake/builds/1/build/8.config
+# CONFIG_FTRACE_SYSCALLS=y -> /home/tuxbuild/.cache/tuxmake/builds/1/build/9.config
+# CONFIG_KFENCE=n -> /home/tuxbuild/.cache/tuxmake/builds/1/build/10.config
+# CONFIG_AHCI_DWC=y -> /home/tuxbuild/.cache/tuxmake/builds/1/build/11.config
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' defconfig
+scripts/kconfig/merge_config.sh -m -O /home/tuxbuild/.cache/tuxmake/builds/1/build /home/tuxbuild/.cache/tuxmake/builds/1/build/.config /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config /home/tuxbuild/.cache/tuxmake/builds/1/build/4.config /home/tuxbuild/.cache/tuxmake/builds/1/build/5.config /home/tuxbuild/.cache/tuxmake/builds/1/build/6.config /home/tuxbuild/.cache/tuxmake/builds/1/build/7.config /home/tuxbuild/.cache/tuxmake/builds/1/build/8.config /home/tuxbuild/.cache/tuxmake/builds/1/build/9.config /home/tuxbuild/.cache/tuxmake/builds/1/build/10.config /home/tuxbuild/.cache/tuxmake/builds/1/build/11.config
+Using /home/tuxbuild/.cache/tuxmake/builds/1/build/.config as base
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config
+Value of CONFIG_KSM is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_KSM is not set
+New value: CONFIG_KSM=y
+
+Value of CONFIG_SCHED_AUTOGROUP is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_SCHED_AUTOGROUP is not set
+New value: CONFIG_SCHED_AUTOGROUP=y
+
+Value of CONFIG_MEMCG is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_MEMCG is not set
+New value: CONFIG_MEMCG=y
+
+Value of CONFIG_TASKSTATS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_TASKSTATS is not set
+New value: CONFIG_TASKSTATS=y
+
+Value of CONFIG_MEDIA_SUPPORT is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: CONFIG_MEDIA_SUPPORT=m
+New value: CONFIG_MEDIA_SUPPORT=y
+
+Value of CONFIG_VIDEO_DEV is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: CONFIG_VIDEO_DEV=m
+New value: CONFIG_VIDEO_DEV=y
+
+Value of CONFIG_PHY_QCOM_QMP is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_PHY_QCOM_QMP is not set
+New value: CONFIG_PHY_QCOM_QMP=y
+
+Value of CONFIG_PHY_QCOM_USB_SS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_PHY_QCOM_USB_SS is not set
+New value: CONFIG_PHY_QCOM_USB_SS=y
+
+Value of CONFIG_PHY_QCOM_QUSB2 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_PHY_QCOM_QUSB2 is not set
+New value: CONFIG_PHY_QCOM_QUSB2=y
+
+Value of CONFIG_PHY_QCOM_USB_HSIC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_PHY_QCOM_USB_HSIC is not set
+New value: CONFIG_PHY_QCOM_USB_HSIC=y
+
+Value of CONFIG_USB_DWC3_ULPI is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_USB_DWC3_ULPI is not set
+New value: CONFIG_USB_DWC3_ULPI=y
+
+Value of CONFIG_IOSCHED_BFQ is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: CONFIG_IOSCHED_BFQ=y
+New value: CONFIG_IOSCHED_BFQ=m
+
+Value of CONFIG_BLK_CGROUP is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_BLK_CGROUP is not set
+New value: CONFIG_BLK_CGROUP=y
+
+Value of CONFIG_FANOTIFY is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_FANOTIFY is not set
+New value: CONFIG_FANOTIFY=y
+
+Value of CONFIG_CGROUP_FREEZER is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_CGROUP_FREEZER is not set
+New value: CONFIG_CGROUP_FREEZER=y
+
+Value of CONFIG_CGROUP_NET_PRIO is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_CGROUP_NET_PRIO is not set
+New value: CONFIG_CGROUP_NET_PRIO=y
+
+Value of CONFIG_UCLAMP_TASK is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_UCLAMP_TASK is not set
+New value: CONFIG_UCLAMP_TASK=y
+
+Value of CONFIG_QED is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_QED is not set
+New value: CONFIG_QED=y
+
+Value of CONFIG_DRM_LOAD_EDID_FIRMWARE is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_DRM_LOAD_EDID_FIRMWARE is not set
+New value: CONFIG_DRM_LOAD_EDID_FIRMWARE=y
+
+Value of CONFIG_KPROBES is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_KPROBES is not set
+New value: CONFIG_KPROBES=y
+
+Value of CONFIG_TRACER_SNAPSHOT is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_TRACER_SNAPSHOT is not set
+New value: CONFIG_TRACER_SNAPSHOT=y
+
+Value of CONFIG_STACK_TRACER is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_STACK_TRACER is not set
+New value: CONFIG_STACK_TRACER=y
+
+Value of CONFIG_HIST_TRIGGERS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_HIST_TRIGGERS is not set
+New value: CONFIG_HIST_TRIGGERS=y
+
+Value of CONFIG_SCHED_TRACER is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_SCHED_TRACER is not set
+New value: CONFIG_SCHED_TRACER=y
+
+Value of CONFIG_IRQSOFF_TRACER is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_IRQSOFF_TRACER is not set
+New value: CONFIG_IRQSOFF_TRACER=y
+
+Value of CONFIG_PREEMPTIRQ_DELAY_TEST is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_PREEMPTIRQ_DELAY_TEST is not set
+New value: CONFIG_PREEMPTIRQ_DELAY_TEST=m
+
+Value of CONFIG_KALLSYMS_ALL is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_KALLSYMS_ALL is not set
+New value: CONFIG_KALLSYMS_ALL=y
+
+Value of CONFIG_DYNAMIC_DEBUG is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_DYNAMIC_DEBUG is not set
+New value: CONFIG_DYNAMIC_DEBUG=y
+
+Value of CONFIG_MPTCP is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_MPTCP is not set
+New value: CONFIG_MPTCP=y
+
+Value of CONFIG_KFENCE is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_KFENCE is not set
+New value: CONFIG_KFENCE=y
+
+Value of CONFIG_CORESIGHT is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_CORESIGHT is not set
+New value: CONFIG_CORESIGHT=y
+
+Value of CONFIG_SCHEDSTATS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: # CONFIG_SCHEDSTATS is not set
+New value: CONFIG_SCHEDSTATS=y
+
+Value of CONFIG_BCMGENET is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/0.config:
+Previous value: CONFIG_BCMGENET=m
+New value: CONFIG_BCMGENET=y
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config
+Value of CONFIG_CRYPTO_AEAD is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_AEAD=m
+New value: CONFIG_CRYPTO_AEAD=y
+
+Value of CONFIG_CRYPTO_RNG is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_RNG=m
+New value: CONFIG_CRYPTO_RNG=y
+
+Value of CONFIG_CRYPTO_RNG_DEFAULT is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_RNG_DEFAULT=m
+New value: CONFIG_CRYPTO_RNG_DEFAULT=y
+
+Value of CONFIG_CRYPTO_KPP is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_KPP=m
+New value: CONFIG_CRYPTO_KPP=y
+
+Value of CONFIG_CRYPTO_DH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DH is not set
+New value: CONFIG_CRYPTO_DH=y
+
+Value of CONFIG_CRYPTO_ECDH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_ECDH=m
+New value: CONFIG_CRYPTO_ECDH=y
+
+Value of CONFIG_CRYPTO_USER is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_USER=m
+New value: CONFIG_CRYPTO_USER=y
+
+Value of CONFIG_CRYPTO_NULL is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_NULL=m
+New value: CONFIG_CRYPTO_NULL=y
+
+Value of CONFIG_CRYPTO_NULL2 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_NULL2=m
+New value: CONFIG_CRYPTO_NULL2=y
+
+Value of CONFIG_CRYPTO_PCRYPT is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_PCRYPT is not set
+New value: CONFIG_CRYPTO_PCRYPT=y
+
+Value of CONFIG_CRYPTO_CRYPTD is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_CRYPTD=m
+New value: CONFIG_CRYPTO_CRYPTD=y
+
+Value of CONFIG_CRYPTO_AUTHENC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_AUTHENC=m
+New value: CONFIG_CRYPTO_AUTHENC=y
+
+Value of CONFIG_CRYPTO_SIMD is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_SIMD=m
+New value: CONFIG_CRYPTO_SIMD=y
+
+Value of CONFIG_CRYPTO_ENGINE is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_ENGINE=m
+New value: CONFIG_CRYPTO_ENGINE=y
+
+Value of CONFIG_CRYPTO_CCM is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_CCM=m
+New value: CONFIG_CRYPTO_CCM=y
+
+Value of CONFIG_CRYPTO_GCM is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_GCM=m
+New value: CONFIG_CRYPTO_GCM=y
+
+Value of CONFIG_CRYPTO_CHACHA20POLY1305 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_CHACHA20POLY1305 is not set
+New value: CONFIG_CRYPTO_CHACHA20POLY1305=y
+
+Value of CONFIG_CRYPTO_SEQIV is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_SEQIV=m
+New value: CONFIG_CRYPTO_SEQIV=y
+
+Value of CONFIG_CRYPTO_ECHAINIV is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_ECHAINIV=m
+New value: CONFIG_CRYPTO_ECHAINIV=y
+
+Value of CONFIG_CRYPTO_CBC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_CBC=m
+New value: CONFIG_CRYPTO_CBC=y
+
+Value of CONFIG_CRYPTO_CTR is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_CTR=m
+New value: CONFIG_CRYPTO_CTR=y
+
+Value of CONFIG_CRYPTO_CTS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_CTS is not set
+New value: CONFIG_CRYPTO_CTS=y
+
+Value of CONFIG_CRYPTO_LRW is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_LRW is not set
+New value: CONFIG_CRYPTO_LRW=y
+
+Value of CONFIG_CRYPTO_PCBC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_PCBC is not set
+New value: CONFIG_CRYPTO_PCBC=y
+
+Value of CONFIG_CRYPTO_XTS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_XTS=m
+New value: CONFIG_CRYPTO_XTS=y
+
+Value of CONFIG_CRYPTO_KEYWRAP is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_KEYWRAP is not set
+New value: CONFIG_CRYPTO_KEYWRAP=y
+
+Value of CONFIG_CRYPTO_CMAC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_CMAC=m
+New value: CONFIG_CRYPTO_CMAC=y
+
+Value of CONFIG_CRYPTO_HMAC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_HMAC=m
+New value: CONFIG_CRYPTO_HMAC=y
+
+Value of CONFIG_CRYPTO_XCBC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_XCBC is not set
+New value: CONFIG_CRYPTO_XCBC=y
+
+Value of CONFIG_CRYPTO_VMAC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_VMAC is not set
+New value: CONFIG_CRYPTO_VMAC=y
+
+Value of CONFIG_CRYPTO_CRC32 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_CRC32 is not set
+New value: CONFIG_CRYPTO_CRC32=y
+
+Value of CONFIG_CRYPTO_CRCT10DIF is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_CRCT10DIF is not set
+New value: CONFIG_CRYPTO_CRCT10DIF=y
+
+Value of CONFIG_CRYPTO_GHASH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_GHASH=m
+New value: CONFIG_CRYPTO_GHASH=y
+
+Value of CONFIG_CRYPTO_POLY1305 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_POLY1305 is not set
+New value: CONFIG_CRYPTO_POLY1305=y
+
+Value of CONFIG_CRYPTO_MD4 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_MD4 is not set
+New value: CONFIG_CRYPTO_MD4=y
+
+Value of CONFIG_CRYPTO_MD5 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_MD5=m
+New value: CONFIG_CRYPTO_MD5=y
+
+Value of CONFIG_CRYPTO_MICHAEL_MIC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_MICHAEL_MIC is not set
+New value: CONFIG_CRYPTO_MICHAEL_MIC=y
+
+Value of CONFIG_CRYPTO_RMD160 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_RMD160 is not set
+New value: CONFIG_CRYPTO_RMD160=y
+
+Value of CONFIG_CRYPTO_SHA256 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_SHA256=m
+New value: CONFIG_CRYPTO_SHA256=y
+
+Value of CONFIG_CRYPTO_SHA512 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_SHA512=m
+New value: CONFIG_CRYPTO_SHA512=y
+
+Value of CONFIG_CRYPTO_SHA3 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_SHA3=m
+New value: CONFIG_CRYPTO_SHA3=y
+
+Value of CONFIG_CRYPTO_WP512 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_WP512 is not set
+New value: CONFIG_CRYPTO_WP512=y
+
+Value of CONFIG_CRYPTO_AES is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_AES=m
+New value: CONFIG_CRYPTO_AES=y
+
+Value of CONFIG_CRYPTO_AES_TI is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_AES_TI is not set
+New value: CONFIG_CRYPTO_AES_TI=y
+
+Value of CONFIG_CRYPTO_ANUBIS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_ANUBIS is not set
+New value: CONFIG_CRYPTO_ANUBIS=y
+
+Value of CONFIG_CRYPTO_ARC4 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_ARC4 is not set
+New value: CONFIG_CRYPTO_ARC4=y
+
+Value of CONFIG_CRYPTO_BLOWFISH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_BLOWFISH is not set
+New value: CONFIG_CRYPTO_BLOWFISH=y
+
+Value of CONFIG_CRYPTO_CAMELLIA is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_CAMELLIA is not set
+New value: CONFIG_CRYPTO_CAMELLIA=y
+
+Value of CONFIG_CRYPTO_CAST5 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_CAST5 is not set
+New value: CONFIG_CRYPTO_CAST5=y
+
+Value of CONFIG_CRYPTO_CAST6 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_CAST6 is not set
+New value: CONFIG_CRYPTO_CAST6=y
+
+Value of CONFIG_CRYPTO_DES is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_DES=m
+New value: CONFIG_CRYPTO_DES=y
+
+Value of CONFIG_CRYPTO_FCRYPT is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_FCRYPT is not set
+New value: CONFIG_CRYPTO_FCRYPT=y
+
+Value of CONFIG_CRYPTO_KHAZAD is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_KHAZAD is not set
+New value: CONFIG_CRYPTO_KHAZAD=y
+
+Value of CONFIG_CRYPTO_CHACHA20 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_CHACHA20 is not set
+New value: CONFIG_CRYPTO_CHACHA20=y
+
+Value of CONFIG_CRYPTO_SEED is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_SEED is not set
+New value: CONFIG_CRYPTO_SEED=y
+
+Value of CONFIG_CRYPTO_SERPENT is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_SERPENT is not set
+New value: CONFIG_CRYPTO_SERPENT=y
+
+Value of CONFIG_CRYPTO_TEA is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_TEA is not set
+New value: CONFIG_CRYPTO_TEA=y
+
+Value of CONFIG_CRYPTO_TWOFISH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_TWOFISH is not set
+New value: CONFIG_CRYPTO_TWOFISH=y
+
+Value of CONFIG_CRYPTO_842 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_842 is not set
+New value: CONFIG_CRYPTO_842=y
+
+Value of CONFIG_CRYPTO_LZ4 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_LZ4 is not set
+New value: CONFIG_CRYPTO_LZ4=y
+
+Value of CONFIG_CRYPTO_LZ4HC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_LZ4HC is not set
+New value: CONFIG_CRYPTO_LZ4HC=y
+
+Value of CONFIG_CRYPTO_ANSI_CPRNG is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_ANSI_CPRNG is not set
+New value: CONFIG_CRYPTO_ANSI_CPRNG=y
+
+Value of CONFIG_CRYPTO_DRBG_MENU is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_DRBG_MENU=m
+New value: CONFIG_CRYPTO_DRBG_MENU=y
+
+Value of CONFIG_CRYPTO_DRBG_HASH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DRBG_HASH is not set
+New value: CONFIG_CRYPTO_DRBG_HASH=y
+
+Value of CONFIG_CRYPTO_DRBG_CTR is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DRBG_CTR is not set
+New value: CONFIG_CRYPTO_DRBG_CTR=y
+
+Value of CONFIG_CRYPTO_DRBG is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_DRBG=m
+New value: CONFIG_CRYPTO_DRBG=y
+
+Value of CONFIG_CRYPTO_JITTERENTROPY is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_JITTERENTROPY=m
+New value: CONFIG_CRYPTO_JITTERENTROPY=y
+
+Value of CONFIG_CRYPTO_USER_API is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_USER_API=m
+New value: CONFIG_CRYPTO_USER_API=y
+
+Value of CONFIG_CRYPTO_USER_API_HASH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_USER_API_HASH=m
+New value: CONFIG_CRYPTO_USER_API_HASH=y
+
+Value of CONFIG_CRYPTO_USER_API_SKCIPHER is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_USER_API_SKCIPHER=m
+New value: CONFIG_CRYPTO_USER_API_SKCIPHER=y
+
+Value of CONFIG_CRYPTO_USER_API_RNG is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_USER_API_RNG=m
+New value: CONFIG_CRYPTO_USER_API_RNG=y
+
+Value of CONFIG_CRYPTO_USER_API_AEAD is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_USER_API_AEAD=m
+New value: CONFIG_CRYPTO_USER_API_AEAD=y
+
+Value of CONFIG_CRYPTO_DEV_FSL_CAAM_CRYPTO_API_DESC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: CONFIG_CRYPTO_DEV_FSL_CAAM_CRYPTO_API_DESC=m
+New value: # CONFIG_CRYPTO_DEV_FSL_CAAM_CRYPTO_API_DESC is not set
+
+Value of CONFIG_CRYPTO_DEV_QAT_DH895xCC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DEV_QAT_DH895xCC is not set
+New value: CONFIG_CRYPTO_DEV_QAT_DH895xCC=y
+
+Value of CONFIG_CRYPTO_DEV_QAT_C3XXX is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DEV_QAT_C3XXX is not set
+New value: CONFIG_CRYPTO_DEV_QAT_C3XXX=y
+
+Value of CONFIG_CRYPTO_DEV_QAT_C62X is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DEV_QAT_C62X is not set
+New value: CONFIG_CRYPTO_DEV_QAT_C62X=y
+
+Value of CONFIG_CRYPTO_DEV_QAT_DH895xCCVF is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DEV_QAT_DH895xCCVF is not set
+New value: CONFIG_CRYPTO_DEV_QAT_DH895xCCVF=y
+
+Value of CONFIG_CRYPTO_DEV_QAT_C3XXXVF is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DEV_QAT_C3XXXVF is not set
+New value: CONFIG_CRYPTO_DEV_QAT_C3XXXVF=y
+
+Value of CONFIG_CRYPTO_DEV_QAT_C62XVF is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DEV_QAT_C62XVF is not set
+New value: CONFIG_CRYPTO_DEV_QAT_C62XVF=y
+
+Value of CONFIG_CRYPTO_DEV_VIRTIO is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/1.config:
+Previous value: # CONFIG_CRYPTO_DEV_VIRTIO is not set
+New value: CONFIG_CRYPTO_DEV_VIRTIO=y
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config
+Value of CONFIG_IKCONFIG is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config:
+Previous value: # CONFIG_IKCONFIG is not set
+New value: CONFIG_IKCONFIG=y
+
+Value of CONFIG_TUN is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config:
+Previous value: # CONFIG_TUN is not set
+New value: CONFIG_TUN=m
+
+Value of CONFIG_VETH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config:
+Previous value: # CONFIG_VETH is not set
+New value: CONFIG_VETH=m
+
+Value of CONFIG_USB_TEST is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config:
+Previous value: # CONFIG_USB_TEST is not set
+New value: CONFIG_USB_TEST=m
+
+Value of CONFIG_USB_SERIAL is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config:
+Previous value: # CONFIG_USB_SERIAL is not set
+New value: CONFIG_USB_SERIAL=m
+
+Value of CONFIG_SATA_SIL24 is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/2.config:
+Previous value: # CONFIG_SATA_SIL24 is not set
+New value: CONFIG_SATA_SIL24=y
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config
+Value of CONFIG_CGROUP_SCHED is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config:
+Previous value: # CONFIG_CGROUP_SCHED is not set
+New value: CONFIG_CGROUP_SCHED=y
+
+Value of CONFIG_CHECKPOINT_RESTORE is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config:
+Previous value: # CONFIG_CHECKPOINT_RESTORE is not set
+New value: CONFIG_CHECKPOINT_RESTORE=y
+
+Value of CONFIG_NAMESPACES is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config:
+Previous value: # CONFIG_NAMESPACES is not set
+New value: CONFIG_NAMESPACES=y
+
+Value of CONFIG_FW_LOADER_USER_HELPER is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config:
+Previous value: # CONFIG_FW_LOADER_USER_HELPER is not set
+New value: CONFIG_FW_LOADER_USER_HELPER=y
+
+Value of CONFIG_EXT4_FS_POSIX_ACL is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config:
+Previous value: # CONFIG_EXT4_FS_POSIX_ACL is not set
+New value: CONFIG_EXT4_FS_POSIX_ACL=y
+
+Value of CONFIG_EFIVAR_FS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config:
+Previous value: CONFIG_EFIVAR_FS=m
+New value: CONFIG_EFIVAR_FS=y
+
+Value of CONFIG_CRYPTO_HMAC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config:
+Previous value: CONFIG_CRYPTO_HMAC=y
+New value: CONFIG_CRYPTO_HMAC=m
+
+Value of CONFIG_CRYPTO_USER_API_HASH is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/3.config:
+Previous value: CONFIG_CRYPTO_USER_API_HASH=y
+New value: CONFIG_CRYPTO_USER_API_HASH=m
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/4.config
+Value of CONFIG_SCSI_VIRTIO is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/4.config:
+Previous value: # CONFIG_SCSI_VIRTIO is not set
+New value: CONFIG_SCSI_VIRTIO=y
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/5.config
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/6.config
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/7.config
+Value of CONFIG_POSIX_MQUEUE is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/7.config:
+Previous value: # CONFIG_POSIX_MQUEUE is not set
+New value: CONFIG_POSIX_MQUEUE=y
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/8.config
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/9.config
+Value of CONFIG_FTRACE_SYSCALLS is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/9.config:
+Previous value: # CONFIG_FTRACE_SYSCALLS is not set
+New value: CONFIG_FTRACE_SYSCALLS=y
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/10.config
+Value of CONFIG_KFENCE is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/10.config:
+Previous value: CONFIG_KFENCE=y
+New value: CONFIG_KFENCE=n
+
+Merging /home/tuxbuild/.cache/tuxmake/builds/1/build/11.config
+Value of CONFIG_AHCI_DWC is redefined by fragment /home/tuxbuild/.cache/tuxmake/builds/1/build/11.config:
+Previous value: CONFIG_AHCI_DWC=m
+New value: CONFIG_AHCI_DWC=y
+
+#
+# merged configuration written to /home/tuxbuild/.cache/tuxmake/builds/1/build/.config (needs make)
+#
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' olddefconfig
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc'
+2024/09/05 11:32:58 socat-external[9708] W waitpid(-1, {}, WNOHANG): no child has exited
+2024/09/05 11:32:59 socat-external[9708] W waitpid(-1, {}, WNOHANG): no child has exited
+2024/09/05 11:32:59 socat-external[9708] W waitpid(-1, {}, WNOHANG): no child has exited
+2024/09/05 11:33:00 socat-internal[9714] W waitpid(-1, {}, WNOHANG): no child has exited
+2024/09/05 11:33:00 socat-external[9708] W waitpid(-1, {}, WNOHANG): no child has exited
+2024/09/05 11:33:02 socat-internal[9714] W waitpid(-1, {}, WNOHANG): no child has exited
+xz -T0 --force --keep /home/tuxbuild/.cache/tuxmake/builds/1/build/vmlinux
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall
+mkdir -p /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' dtbs_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1725535826 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbs.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_HDR_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr/ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' headers_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1725535826 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/headers.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr .
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' zImage
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' modules_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1725535826 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/modules.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall lib

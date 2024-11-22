@@ -823,3 +823,437 @@ In file included from ./rseq.h:114:
 In file included from ./rseq-arm.h:150:
 fatal error: too many errors emitted, stopping now [-ferror-limit=]"""
         self.assertIn(expected, test.log)
+
+
+class TestLinuxLogParserBuildGeneralRegexes(TestLinuxLogParserBuild):
+    def test_general_not_a_git_repo(self):
+        testrun = self.new_testrun("gcc_arm64_24934206.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-not-a-git-repo-fatal-not-a-git-repository-or-any-parent-up-to-mount-point-_builds",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make -C /builds/linux/tools/testing/selftests/../../../tools/arch/arm64/tools/ OUTPUT=/builds/linux/tools/testing/selftests/../../../tools/
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/powerpc'
+fatal: not a git repository (or any parent up to mount point /builds)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set)."""
+        self.assertIn(expected, test.log)
+        self.assertNotIn(
+            "Makefile:60: warning: overriding recipe for target 'emit_tests'", test.log
+        )
+
+    def test_general_unexpected_argument(self):
+        testrun = self.new_testrun("gcc_x86_64_24932905.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-unexpected-argument-error-found-argument-e-which-wasnt-expected-or-isnt-valid-in-this-context",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/hid'
+error: Found argument '-E' which wasn't expected, or isn't valid in this context
+
+USAGE:
+    sccache [FLAGS] [OPTIONS] [cmd]...
+
+For more information try --help"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn(
+            "error: Found argument '-d' which wasn't expected, or isn't valid in this context",
+            test.log,
+        )
+
+    def test_general_broken_32_bit(self):
+        testrun = self.new_testrun("gcc_x86_64_24932905.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-broken-32-bit-warning-you-seem-to-have-a-broken-bit-build",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/x86'
+Warning: you seem to have a broken 32-bit build
+environment.  This will reduce test coverage of 64-bit
+kernels.  If you are using a Debian-like distribution,
+try:
+
+  apt-get install gcc-multilib libc6-i386 libc6-dev-i386
+
+If you are using a Fedora-like distribution, try:
+
+  yum install glibc-devel.*i686
+
+If you are using a SUSE-like distribution, try:
+
+  zypper install gcc-32bit glibc-devel-static-32bit"""
+        self.assertIn(expected, test.log)
+
+    def test_general_broken_32_bit_avoid_lines_after(self):
+        testrun = self.new_testrun("gcc_x86_64_26103833.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-broken-32-bit-warning-you-seem-to-have-a-broken-bit-build",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/x86'
+Warning: you seem to have a broken 32-bit build
+environment.  This will reduce test coverage of 64-bit
+kernels.  If you are using a Debian-like distribution,
+try:
+
+  apt-get install gcc-multilib libc6-i386 libc6-dev-i386
+
+If you are using a Fedora-like distribution, try:
+
+  yum install glibc-devel.*i686
+
+If you are using a SUSE-like distribution, try:
+
+  zypper install gcc-32bit glibc-devel-static-32bit"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn(
+            "Warning: missing Module.symvers, please have the kernel built first. page_frag test will be skipped.",
+            test.log,
+        )
+
+    def test_general_makefile_overriding(self):
+        testrun = self.new_testrun("gcc_i386_25044475.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-makefile-overriding-makefile-warning-overriding-recipe-for-target-emit_tests",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'CC=sccache i686-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/powerpc'
+Makefile:60: warning: overriding recipe for target 'emit_tests'"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn("make[4]: Nothing to be done for 'all'.", test.log)
+        self.assertNotIn(
+            "Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).",
+            test.log,
+        )
+
+    def test_general_warning_unmet_dependencies(self):
+        testrun = self.new_testrun("gcc_arm_25078650.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-unmet-dependencies-warning-unmet-direct-dependencies-detected-for-get_free_region",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc'
+WARNING: unmet direct dependencies detected for GET_FREE_REGION
+  Depends on [n]: SPARSEMEM [=n]
+  Selected by [y]:
+  - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]"""
+        self.assertIn(expected, test.log)
+
+    def test_general_lld_error(self):
+        testrun = self.new_testrun("clang_riscv_24688299.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="general-ldd-ld_lld-error-undefined-symbol-irq_work_queue",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1
+ld.lld: error: undefined symbol: irq_work_queue
+>>> referenced by task_work.c
+>>>               kernel/task_work.o:(task_work_add) in archive vmlinux.a"""
+        self.assertIn(expected, test.log)
+
+    def test_general_ld_warning(self):
+        testrun = self.new_testrun("gcc_i386_25044475.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-ld-usr_lib_gcc-cross_i-linux-gnu______________i-linux-gnu_bin_ld-warning-creating-dt_textrel-in-a-pie",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'CC=sccache i686-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/rseq'
+/usr/lib/gcc-cross/i686-linux-gnu/13/../../../../i686-linux-gnu/bin/ld: warning: creating DT_TEXTREL in a PIE"""
+        self.assertIn(expected, test.log)
+
+    def test_general_ld_warning_with_note(self):
+        testrun = self.new_testrun("gcc_arm_25044425.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-ld-arm-linux-gnueabihf-ld-warning-_home_tuxbuild__cache_tuxmake_builds__build_arch_arm_tests_regs_load_o-missing-_note_gnu-stack-section-implies-executable-stack",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build DESTDIR=/home/tuxbuild/.cache/tuxmake/builds/1/build/perf-install/usr ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' -C tools/perf
+arm-linux-gnueabihf-ld: warning: /home/tuxbuild/.cache/tuxmake/builds/1/build/arch/arm/tests/regs_load.o: missing .note.GNU-stack section implies executable stack
+arm-linux-gnueabihf-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker"""
+        self.assertIn(expected, test.log)
+
+    def test_general_ld_undefined_reference(self):
+        testrun = self.new_testrun("gcc_riscv_24715191.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-ld-undefined-reference-task_work_c_text-undefined-reference-to-irq_work_queue",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- 'CC=sccache riscv64-linux-gnu-gcc' 'HOSTCC=sccache gcc'
+riscv64-linux-gnu-ld: kernel/task_work.o: in function `task_work_add':
+task_work.c:(.text+0x9a): undefined reference to `irq_work_queue'"""
+        self.assertIn(expected, test.log)
+
+    def test_general_objcopy_warning(self):
+        testrun = self.new_testrun("gcc_s390_26103313.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-objcopy-sx-linux-gnu-objcopy-sttiujx-warning-allocated-section-_got_plt-not-in-segment",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- 'CC=sccache s390x-linux-gnu-gcc' 'HOSTCC=sccache gcc'
+s390x-linux-gnu-objcopy: st1TiUjX: warning: allocated section `.got.plt' not in segment"""
+        self.assertIn(expected, test.log)
+
+    def test_general_modpost(self):
+        testrun = self.new_testrun("clang_arm64_25103120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="general-modpost-warning-modpost-found-section-mismatches",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """WARNING: modpost: Found 1 section mismatch(es).
+To see full details build your kernel with:
+'make CONFIG_DEBUG_SECTION_MISMATCH=y'"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn(
+            "arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'",
+            test.log,
+        )
+
+    def test_general_python_traceback(self):
+        testrun = self.new_testrun("clang_x86_64_26103794.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="general-python-traceback-modulenotfounderror-no-module-named-jsonschema",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1 kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/net'
+Traceback (most recent call last):
+  File "/builds/linux/tools/net/ynl/generated/../ynl-gen-c.py", line 2945, in <module>
+    main()
+  File "/builds/linux/tools/net/ynl/generated/../ynl-gen-c.py", line 2655, in main
+    parsed = Family(args.spec, exclude_ops)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/builds/linux/tools/net/ynl/generated/../ynl-gen-c.py", line 926, in __init__
+    super().__init__(file_name, exclude_ops=exclude_ops)
+  File "/builds/linux/tools/net/ynl/lib/nlspec.py", line 457, in __init__
+    jsonschema = importlib.import_module("jsonschema")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1206, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1142, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'jsonschema'"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn(
+            "make[6]: *** [Makefile:37: netdev-user.c] Error 1",
+            test.log,
+        )
+
+    def test_general_no_such_file_or_directory(self):
+        testrun = self.new_testrun("gcc_i386_25044475.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-no-such-file-or-directory-rsync-link_stat-__tools_testing_selftests_livepatch_test_modules__ko-failed-no-such-file-or-directory",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'CC=sccache i686-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/livepatch'
+rsync: [sender] link_stat "/builds/linux/tools/testing/selftests/livepatch/test_modules/*.ko" failed: No such file or directory (2)"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn(
+            "rsync -a --copy-unsafe-links test_modules/*.ko /home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install/livepatch/test_modules",
+            test.log,
+        )
+        self.assertNotIn(
+            "rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1338) [sender=3.3.0]",
+            test.log,
+        )
+
+    def test_general_no_targets(self):
+        testrun = self.new_testrun("gcc_arm64_24934206.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-no-targets-make-no-targets_-stop",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make -C /builds/linux/tools/testing/selftests/../../../tools/arch/arm64/tools/ OUTPUT=/builds/linux/tools/testing/selftests/../../../tools/
+make[4]: *** No targets.  Stop."""
+        self.assertIn(expected, test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/2/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/2/build/kselftest_install ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabihf- 'CC=sccache aarch64-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/kexec'
+make[4]: *** No targets.  Stop."""
+        self.assertIn(expected, test.log)
+        expected = """make -C /builds/linux/tools/testing/selftests/../../../tools/arch/arm64/tools/ OUTPUT=/builds/linux/tools/testing/selftests/../../../tools/
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/thermal/intel/power_floor'
+make[4]: *** No targets.  Stop."""
+        self.assertIn(expected, test.log)
+        expected = """make -C /builds/linux/tools/testing/selftests/../../../tools/arch/arm64/tools/ OUTPUT=/builds/linux/tools/testing/selftests/../../../tools/
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/thermal/intel/workload_hint'
+make[4]: *** No targets.  Stop."""
+        self.assertIn(expected, test.log)
+
+    def test_general_no_rule_to_make_target(self):
+        testrun = self.new_testrun("gcc_x86_64_24932905.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-no-rule-to-make-target-make-no-rule-to-make-target-gcc_-stop",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/hid'
+make[5]: *** No rule to make target 'gcc'.  Stop."""
+        self.assertIn(expected, test.log)
+
+    def test_general_makefile_config(self):
+        testrun = self.new_testrun("gcc_arm_25044425.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-makefile-config-makefile_config-no-libcapstone-found-disables-disasm-engine-support-for-perf-script-please-install-libcapstone-dev_capstone-devel",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build DESTDIR=/home/tuxbuild/.cache/tuxmake/builds/1/build/perf-install/usr ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'CC=sccache arm-linux-gnueabihf-gcc' 'HOSTCC=sccache gcc' -C tools/perf
+Makefile.config:1113: No libcapstone found, disables disasm engine support for 'perf script', please install libcapstone-dev/capstone-devel"""
+        self.assertIn(expected, test.log)
+
+    def test_general_not_found(self):
+        testrun = self.new_testrun("gcc_arm64_24934206.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-not-found-bin_sh-clang-not-found",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make -C /builds/linux/tools/testing/selftests/../../../tools/arch/arm64/tools/ OUTPUT=/builds/linux/tools/testing/selftests/../../../tools/
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/net'
+/bin/sh: 1: clang: not found"""
+        self.assertIn(expected, test.log)
+
+    def test_general_kerenel_abi(self):
+        testrun = self.new_testrun("gcc_i386_25044475.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-kernel-abi-warning-kernel-abi-header-at-tools_include_uapi_linux_if_xdp_h-differs-from-latest-version-at-include_uapi_linux_if_xdp_h",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'CC=sccache i686-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/net'
+In file included from io_uring_zerocopy_tx.c:39:
+../../../include/io_uring/mini_liburing.h: In function 'io_uring_prep_cmd':
+Warning: Kernel ABI header at 'tools/include/uapi/linux/if_xdp.h' differs from latest version at 'include/uapi/linux/if_xdp.h'"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn(
+            "Warning: Kernel ABI header at 'tools/include/uapi/linux/bpf.h' differs from latest version at 'include/uapi/linux/bpf.h'",
+            test.log,
+        )
+
+    def test_general_missing(self):
+        testrun = self.new_testrun("gcc_x86_64_26103833.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-missing-warning-missing-module_symvers-please-have-the-kernel-built-first_-page_frag-test-will-be-skipped",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/mm'
+Warning: missing Module.symvers, please have the kernel built first. page_frag test will be skipped."""
+        self.assertIn(expected, test.log)
+
+    def test_general_dtc_warning(self):
+        testrun = self.new_testrun("clang_arm64_25103120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="general-dtc-arch_arm_boot_dts_qcom_ipq-hk_dtb-warning-reg_format-_soc_nandb_nandreg-property-has-invalid-length-bytes-address-cells-size-cells",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=0 dtbs
+arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: Warning (reg_format): /soc/nand@79b0000/nand@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn(
+            "arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'",
+            test.log,
+        )
+
+    def test_general_register_allocation(self):
+        testrun = self.new_testrun("clang_i386_25431539.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="general-register-allocation-error-register-allocation-failed-maximum-depth-for-recoloring-reached_-use-fexhaustive-register-search-to-skip-cutoffs",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make  -C /builds/linux/tools/lib/bpf OUTPUT=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest/net/tools/build/libbpf/     \\
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/rseq'
+error: register allocation failed: maximum depth for recoloring reached. Use -fexhaustive-register-search to skip cutoffs"""
+        self.assertIn(expected, test.log)
