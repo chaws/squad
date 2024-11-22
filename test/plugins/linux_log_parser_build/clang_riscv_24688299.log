@@ -1,0 +1,43 @@
+tuxmake --target-arch=riscv --kconfig=tinyconfig --toolchain=clang-18 --wrapper=sccache --environment=KBUILD_BUILD_TIMESTAMP=@1721791354 --environment=KBUILD_BUILD_USER=tuxmake --environment=KBUILD_BUILD_HOST=tuxmake --environment=KCFLAGS=-ffile-prefix-map=/home/tuxbuild/.cache/tuxmake/builds/1/build/= --environment=SCCACHE_BUCKET=sccache.tuxbuild.com --runtime=podman --image=855116176053.dkr.ecr.us-east-1.amazonaws.com/tuxmake/riscv_clang-18 LLVM=1 LLVM_IAS=1 config default kernel xipkernel modules dtbs dtbs-legacy debugkernel headers
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1 tinyconfig
+Using .config as base
+Merging /builds/linux/kernel/configs/tiny.config
+Value of CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
+New value: # CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE is not set
+
+Value of CONFIG_CC_OPTIMIZE_FOR_SIZE is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
+New value: CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+
+Value of CONFIG_KERNEL_GZIP is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: CONFIG_KERNEL_GZIP=y
+New value: # CONFIG_KERNEL_GZIP is not set
+
+Value of CONFIG_SLUB_TINY is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: # CONFIG_SLUB_TINY is not set
+New value: CONFIG_SLUB_TINY=y
+
+#
+# merged configuration written to .config (needs make)
+#
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1
+ld.lld: error: undefined symbol: irq_work_queue
+>>> referenced by task_work.c
+>>>               kernel/task_work.o:(task_work_add) in archive vmlinux.a
+make[3]: *** [/builds/linux/scripts/Makefile.vmlinux:34: vmlinux] Error 1
+make[3]: Target '__default' not remade because of errors.
+make[2]: *** [/builds/linux/Makefile:1156: vmlinux] Error 2
+make[2]: Target '__all' not remade because of errors.
+make[1]: *** [/builds/linux/Makefile:224: __sub-make] Error 2
+make[1]: Target '__all' not remade because of errors.
+make: *** [Makefile:224: __sub-make] Error 2
+make: Target '__all' not remade because of errors.
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1 dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall
+mkdir -p /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1 dtbs_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1721791354 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbs.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_HDR_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr/ ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1 headers_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1721791354 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/headers.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr .

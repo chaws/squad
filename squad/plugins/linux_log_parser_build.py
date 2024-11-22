@@ -25,15 +25,39 @@ MULTILINERS_GCC = [
 
 ONELINERS_GCC = []
 
+
+MULTILINERS_CLANG = [
+    (
+        "clang-compiler",
+        gcc_clang_compiler_error_warning,
+        r"^[^\n]*(?:error|warning)[^\n]*$",
+    ),
+]
+
+ONELINERS_CLANG = [
+    (
+        "clang-compiler-single-line",
+        "^clang: (?:error|warning).*?$",
+        r"^[^\n]*(?:error|warning).*?$",
+    ),
+    (
+        "clang-compiler-fatal-error",
+        "^fatal error.*?$",
+        r"^fatal error.*?$",
+    ),
+]
+
 # Tip: broader regexes should come first
 REGEXES_GCC = MULTILINERS_GCC + ONELINERS_GCC
+REGEXES_CLANG = MULTILINERS_CLANG + ONELINERS_CLANG
 
 supported_toolchains = {
     "gcc": REGEXES_GCC,
+    "clang": REGEXES_CLANG,
 }
 
 make_regex = r"^make .*?$"
-in_file_regex = r"^[^\n]*?In file.*?:$"
+in_file_regex = r"^In file[^\n]*?[:,]$(?:\n^(?:\s+|In file)[^\n]*?[:,]$)*"
 in_function_regex = r"^[^\n]*?In function.*?:$"
 entering_dir_regex = r"^make\[(?:\d+)\]: Entering directory.*?$"
 leaving_dir_regex = r"^make\[(?:\d+)\]: Leaving directory.*?$"

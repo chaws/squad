@@ -272,7 +272,47 @@ class TestLinuxLogParserBuildCommonFunctionality(TestLinuxLogParserBuild):
         self.assertGreater(len(split_log), 1)
         self.assertEqual(joined_split_log, testrun.log_file)
 
-    def test_captures_make(self):
+    def test_split_by_regex_arm_clang(self):
+        testrun = self.new_testrun("clang_arm_26001178.log")
+        split_log = self.plugin.split_by_regex(testrun.log_file, split_regex_gcc)
+        joined_split_log = "".join(split_log)
+
+        self.assertGreater(len(split_log), 1)
+        self.assertEqual(joined_split_log, testrun.log_file)
+
+    def test_split_by_regex_arm64_clang(self):
+        testrun = self.new_testrun("clang_arm64_25103120.log")
+        split_log = self.plugin.split_by_regex(testrun.log_file, split_regex_gcc)
+        joined_split_log = "".join(split_log)
+
+        self.assertGreater(len(split_log), 1)
+        self.assertEqual(joined_split_log, testrun.log_file)
+
+    def test_split_by_regex_i386_clang(self):
+        testrun = self.new_testrun("clang_i386_25043392.log")
+        split_log = self.plugin.split_by_regex(testrun.log_file, split_regex_gcc)
+        joined_split_log = "".join(split_log)
+
+        self.assertGreater(len(split_log), 1)
+        self.assertEqual(joined_split_log, testrun.log_file)
+
+    def test_split_by_regex_riscv_clang(self):
+        testrun = self.new_testrun("clang_riscv_24688299.log")
+        split_log = self.plugin.split_by_regex(testrun.log_file, split_regex_gcc)
+        joined_split_log = "".join(split_log)
+
+        self.assertGreater(len(split_log), 1)
+        self.assertEqual(joined_split_log, testrun.log_file)
+
+    def test_split_by_regex_x86_64_clang(self):
+        testrun = self.new_testrun("clang_x86_64_25086964.log")
+        split_log = self.plugin.split_by_regex(testrun.log_file, split_regex_gcc)
+        joined_split_log = "".join(split_log)
+
+        self.assertGreater(len(split_log), 1)
+        self.assertEqual(joined_split_log, testrun.log_file)
+
+    def test_captures_make_gcc(self):
         testrun = self.new_testrun("gcc_arm_24951924.log")
         self.plugin.postprocess_testrun(testrun)
 
@@ -286,7 +326,21 @@ class TestLinuxLogParserBuildCommonFunctionality(TestLinuxLogParserBuild):
         self.assertIn(expected, test.log)
         self.assertNotIn("cc1: some warnings being treated as errors", test.log)
 
-    def test_captures_entering_dir(self):
+    def test_captures_make_clang(self):
+        testrun = self.new_testrun("clang_arm_26001178.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-test_zswap_c-warning-format-specifies-type-long-but-the-argument-has-type-size_t-aka-unsigned-int",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- HOSTCC=clang CC=clang LLVM=1 LLVM_IAS=1 kselftest-install"""
+        self.assertIn(expected, test.log)
+        self.assertNotIn("  CC       test_zswap", test.log)
+
+    def test_captures_entering_dir_gcc(self):
         testrun = self.new_testrun("gcc_arm64_24934206.log")
         self.plugin.postprocess_testrun(testrun)
 
@@ -299,7 +353,20 @@ class TestLinuxLogParserBuildCommonFunctionality(TestLinuxLogParserBuild):
         expected = """make[5]: Entering directory '/builds/linux/tools/testing/selftests/arm64/fp'"""
         self.assertIn(expected, test.log)
 
-    def test_captures_in_file_single_line(self):
+    def test_captures_entering_dir_clang(self):
+        testrun = self.new_testrun("clang_arm_26001178.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-test_zswap_c-warning-format-specifies-type-long-but-the-argument-has-type-size_t-aka-unsigned-int",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make[4]: Entering directory '/builds/linux/tools/testing/selftests/cgroup'"""
+        self.assertIn(expected, test.log)
+
+    def test_captures_in_file_single_line_gcc(self):
         testrun = self.new_testrun("gcc_i386_25044475.log")
         self.plugin.postprocess_testrun(testrun)
 
@@ -310,9 +377,23 @@ class TestLinuxLogParserBuildCommonFunctionality(TestLinuxLogParserBuild):
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         expected = """In file included from iommufd_fail_nth.c:23:"""
+
         self.assertIn(expected, test.log)
 
-    def test_captures_in_file_multiline(self):
+    def test_captures_in_file_single_line_clang(self):
+        testrun = self.new_testrun("clang_arm_24958120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-mm_vma_h-error-use-of-undeclared-identifier-user_pgtables_ceiling",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """In file included from /builds/linux/mm/early_ioremap.c:20:"""
+        self.assertIn(expected, test.log)
+
+    def test_captures_in_file_multiline_gcc(self):
         testrun = self.new_testrun("gcc_arm_24951924.log")
         self.plugin.postprocess_testrun(testrun)
 
@@ -326,7 +407,22 @@ class TestLinuxLogParserBuildCommonFunctionality(TestLinuxLogParserBuild):
                  from /builds/linux/mm/filemap.c:52:"""
         self.assertIn(expected, test.log)
 
-    def test_captures_in_function_single_line(self):
+    def test_captures_in_file_multiline_clang(self):
+        testrun = self.new_testrun("clang_arm_24958120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-mm_vma_h-error-use-of-undeclared-identifier-user_pgtables_ceiling",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """In file included from /builds/linux/mm/filemap.c:52:
+In file included from /builds/linux/mm/internal.h:22:"""
+        self.assertIn(expected, test.log)
+
+    def test_captures_in_function_single_line_gcc(self):
+        # NOTE: Only GCC prints "In function" messages.
         testrun = self.new_testrun("gcc_arm_24951924.log")
         self.plugin.postprocess_testrun(testrun)
 
@@ -340,7 +436,8 @@ class TestLinuxLogParserBuildCommonFunctionality(TestLinuxLogParserBuild):
         self.assertIn(expected, test.log)
         self.assertNotIn("cc1: some warnings being treated as errors", test.log)
 
-    def test_captures_in_function_multiline(self):
+    def test_captures_in_function_multiline_gcc(self):
+        # NOTE: Only GCC prints "In function" messages.
         testrun = self.new_testrun("gcc_arm64_24934206.log")
         self.plugin.postprocess_testrun(testrun)
 
@@ -580,3 +677,149 @@ make[5]: Entering directory '/builds/linux/tools/testing/selftests/arm64/signal'
       |  ^~~~~~~"""
         self.assertIn(expected, test.log)
         self.assertNotIn("Kernel: arch/sh/boot/zImage is ready", test.log)
+
+
+class TestLinuxLogParserBuildClangRegexes(TestLinuxLogParserBuild):
+    def test_clang_compiler_error_basic(self):
+        """Just check the error is captured and ignore the extra information
+        captured such as the "In function" and "make" lines"""
+        testrun = self.new_testrun("clang_arm_24958120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-mm_vma_h-error-use-of-undeclared-identifier-user_pgtables_ceiling",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """/builds/linux/mm/vma.h:184:19: error: use of undeclared identifier 'USER_PGTABLES_CEILING'
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^"""
+        self.assertIn(expected, test.log)
+
+    def test_clang_compiler_warning_basic(self):
+        """Just check the warning is captured and ignore the extra information
+        captured such as the "In function", "make" lines or notes"""
+        testrun = self.new_testrun("clang_arm64_25103120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-drivers_soc_rockchip_pm_domains_c-warning-shift-count-is-negative",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """/builds/linux/drivers/soc/rockchip/pm_domains.c:800:22: warning: shift count is negative [-Wshift-count-negative]
+  800 |         [RK3399_PD_TCPD0]       = DOMAIN_RK3399(8, 8, -1, false),
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
+        self.assertIn(expected, test.log)
+
+    def test_clang_compiler_error_with_arrow_and_hint(self):
+        testrun = self.new_testrun("clang_i386_25043392.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-net_xfrm_xfrm_policy_c-error-variable-dir-is-uninitialized-when-used-here",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1
+/builds/linux/net/xfrm/xfrm_policy.c:1287:8: error: variable 'dir' is uninitialized when used here [-Werror,-Wuninitialized]
+ 1287 |                 if ((dir & XFRM_POLICY_MASK) == XFRM_POLICY_OUT) {
+      |                      ^~~
+/builds/linux/net/xfrm/xfrm_policy.c:1258:9: note: initialize the variable 'dir' to silence this warning
+ 1258 |         int dir;
+      |                ^
+      |                 = 0"""
+        self.assertIn(expected, test.log)
+
+    def test_gcc_compiler_multiline_note(self):
+        testrun = self.new_testrun("clang_arm64_25103120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-drivers_soc_rockchip_pm_domains_c-warning-shift-count-is-negative",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """/builds/linux/drivers/soc/rockchip/pm_domains.c:800:22: warning: shift count is negative [-Wshift-count-negative]
+  800 |         [RK3399_PD_TCPD0]       = DOMAIN_RK3399(8, 8, -1, false),
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
+        self.assertIn(expected, test.log)
+
+    def test_clang_error_with_in_file(self):
+        testrun = self.new_testrun("clang_arm_24958120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-mm_vma_h-error-use-of-undeclared-identifier-user_pgtables_ceiling",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1
+In file included from /builds/linux/mm/memblock.c:23:
+In file included from /builds/linux/mm/internal.h:22:
+/builds/linux/mm/vma.h:184:19: error: use of undeclared identifier 'USER_PGTABLES_CEILING'
+  184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+      |                          ^"""
+        self.assertIn(expected, test.log)
+
+    def test_clang_compiler_warning_with_cc(self):
+        testrun = self.new_testrun("clang_arm64_25103120.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-drivers_soc_rockchip_pm_domains_c-warning-shift-count-is-negative",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """/builds/linux/drivers/soc/rockchip/pm_domains.c:802:21: warning: shift count is negative [-Wshift-count-negative]
+  802 |         [RK3399_PD_CCI]         = DOMAIN_RK3399(10, 10, -1, true),
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/builds/linux/drivers/soc/rockchip/pm_domains.c:133:2: note: expanded from macro 'DOMAIN_RK3399'
+  133 |         DOMAIN(pwr, status, req, req, req, wakeup)
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/builds/linux/drivers/soc/rockchip/pm_domains.c:93:27: note: expanded from macro 'DOMAIN'
+   93 |         .req_mask = (req >= 0) ? BIT(req) : 0,          \\
+      |                                  ^~~~~~~~
+/builds/linux/include/linux/bits.h:8:26: note: expanded from macro 'BIT'
+    8 | #define BIT(nr)                 (UL(1) << (nr))
+      |                                        ^  ~~~~"""
+        self.assertIn(expected, test.log)
+
+    def test_clang_compiler_single_line(self):
+        testrun = self.new_testrun("clang_arm_26001178.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-single-line-clang-error-linker-command-failed-with-exit-code-use-v-to-see-invocation",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- HOSTCC=clang CC=clang LLVM=1 LLVM_IAS=1 kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/net/lib'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)"""
+        self.assertIn(expected, test.log)
+
+    def test_clang_compiler_fatal_error(self):
+        testrun = self.new_testrun("clang_arm_26001178.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="clang-compiler-fatal-error-fatal-error-too-many-errors-emitted-stopping-now",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- HOSTCC=clang CC=clang LLVM=1 LLVM_IAS=1 kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/rseq'
+In file included from param_test.c:266:
+In file included from ./rseq.h:114:
+In file included from ./rseq-arm.h:150:
+fatal error: too many errors emitted, stopping now [-ferror-limit=]"""
+        self.assertIn(expected, test.log)
