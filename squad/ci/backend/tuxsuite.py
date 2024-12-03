@@ -10,6 +10,7 @@ from requests.adapters import HTTPAdapter, Retry
 from functools import reduce
 from urllib.parse import urljoin
 
+from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import (
     hashes,
@@ -481,22 +482,18 @@ class Backend(BaseBackend):
         if public_key is None:
             raise Exception("missing tuxsuite public key for this project")
 
-        payload = json.loads(request.body)
         signature = base64.urlsafe_b64decode(signature)
         key = serialization.load_ssh_public_key(public_key.encode("ascii"))
-        key.verify(
-            signature,
-            payload.encode("utf-8"),
-            ec.ECDSA(hashes.SHA256()),
-        )
+        try:
+            key.verify(
+                signature,
+                request.body,
+                ec.ECDSA(hashes.SHA256()),
+            )
+        except InvalidSignature:
+            raise Exception("Failed to verify signature against payload")
 
     def process_callback(self, json_payload, build, environment, backend):
-        # The payload coming from Tuxsuite is formatted as bytes,
-        # so after the first json.loads(request.body), the result
-        # will still be a string containing the actual json document
-        # We need to call json.loads() once more to get the actual
-        # python dict containing all the information we need
-        json_payload = json.loads(json_payload)
         if "kind" not in json_payload or "status" not in json_payload:
             raise Exception("`kind` and `status` are required in the payload")
 

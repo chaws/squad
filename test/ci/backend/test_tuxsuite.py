@@ -7,7 +7,6 @@ import json
 from urllib.parse import urljoin
 from django.test import TestCase
 from unittest.mock import MagicMock, Mock, patch
-from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes, serialization
 
@@ -1672,7 +1671,7 @@ class TuxSuiteTest(TestCase):
         request = Mock()
         request.headers = {}
         request.json = MagicMock(return_value={})
-        request.body = b'"{\\"content\\": 1}"'
+        request.body = b'{"content": 1}'
 
         # Missing signature header
         with self.assertRaises(Exception) as ctx:
@@ -1690,13 +1689,13 @@ class TuxSuiteTest(TestCase):
         # Invalid signature
         self.project.__settings__ = None
         self.project.project_settings = f"TUXSUITE_PUBLIC_KEY: \"{PUBLIC_SSH_KEY}\""
-        with self.assertRaises(InvalidSignature) as ctx:
+        with self.assertRaises(Exception) as ctx:
             self.tuxsuite.validate_callback(request, self.project)
-            self.assertEqual("missing tuxsuite public key for this project", str(ctx.exception))
+            self.assertEqual("Failed to verify signature against payload", str(ctx.exception))
 
         # Generate signature with testing private key
         content = b'{"signed": "content"}'
-        content_bytes = b'"{\\"signed\\": \\"content\\"}"'
+        content_bytes = b'{"signed": "content"}'
         key = serialization.load_pem_private_key(PRIVATE_SSH_KEY.encode("ascii"), None)
         signature = key.sign(content, ec.ECDSA(hashes.SHA256()))
         valid_signature = base64.urlsafe_b64encode(signature)
@@ -1721,7 +1720,7 @@ class TuxSuiteTest(TestCase):
         }
 
         self.assertFalse(TestJob.objects.filter(job_id="TEST:tuxgroup@tuxproject#123").exists())
-        testjob = self.tuxsuite.process_callback(json.dumps(payload), self.build, self.environment.slug, self.backend)
+        testjob = self.tuxsuite.process_callback(payload, self.build, self.environment.slug, self.backend)
         self.assertEqual(json.dumps(payload["status"]), testjob.input)
         self.assertTrue(TestJob.objects.filter(job_id="TEST:tuxgroup@tuxproject#123").exists())
         self.assertEqual(self.environment.slug, testjob.environment)
@@ -1737,7 +1736,7 @@ class TuxSuiteTest(TestCase):
             job_id="TEST:tuxgroup@tuxproject#1234",
         )
         self.assertEqual(None, testjob.input)
-        returned_testjob = self.tuxsuite.process_callback(json.dumps(payload), self.build, self.environment.slug, self.backend)
+        returned_testjob = self.tuxsuite.process_callback(payload, self.build, self.environment.slug, self.backend)
         self.assertEqual(testjob.id, returned_testjob.id)
         self.assertEqual(json.dumps(payload["status"]), returned_testjob.input)
 
