@@ -123,6 +123,27 @@ class TestBaseLogParser(TestCase):
             tests_with_shas_to_create, expected_tests_with_shas_to_create
         )
 
+    def test_create_name_log_dict_no_shas(self):
+        """
+        Test creating the dict containing the "name" and "log lines" pairs
+        """
+        tests_without_shas_to_create, tests_with_shas_to_create = (
+            self.log_parser.create_name_log_dict(
+                "test_name", ["log lines1", "log lines2"], create_shas=False
+            )
+        )
+        expected_tests_without_shas_to_create = defaultdict(
+            set, {"test_name": {"log lines1", "log lines2"}}
+        )
+        expected_tests_with_shas_to_create = None
+
+        self.assertDictEqual(
+            tests_without_shas_to_create, expected_tests_without_shas_to_create
+        )
+        self.assertEqual(
+            tests_with_shas_to_create, expected_tests_with_shas_to_create
+        )
+
     def test_create_squad_tests_from_name_log_dict(self):
         """
         Test creating SQUAD tests from a dictionary of test names as keys and
@@ -204,13 +225,15 @@ class TestBaseLogParser(TestCase):
         log = """[    0.123] Kernel panic - not syncing: Attempted to kill init 64! exitcode=0x00000009\n[    0.999] Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000008"""
         matches = compiled_regex.findall(log)
 
+        snippets = self.log_parser.join_matches(matches, regex)
+
         self.assertIn(
             "Kernel panic - not syncing: Attempted to kill init 64! exitcode=0x00000009",
-            matches,
+            snippets[0],
         )
         self.assertIn(
             "Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000008",
-            matches,
+            snippets[0],
         )
 
         self.assertEqual(len(matches), 2)

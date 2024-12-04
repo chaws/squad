@@ -1,0 +1,27 @@
+tuxmake --download-all-korg-gcc-toolchains --target-arch=s390 --kconfig=tinyconfig --toolchain=gcc-8 --wrapper=sccache --environment=KBUILD_BUILD_TIMESTAMP=@1732761745 --environment=KBUILD_BUILD_USER=tuxmake --environment=KBUILD_BUILD_HOST=tuxmake --environment=KCFLAGS=-ffile-prefix-map=/home/tuxbuild/.cache/tuxmake/builds/1/build/= --environment=SCCACHE_BUCKET=sccache.tuxbuild.com --runtime=podman --image=855116176053.dkr.ecr.us-east-1.amazonaws.com/tuxmake/s390_gcc-8 config default kernel xipkernel modules dtbs dtbs-legacy debugkernel headers
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- 'CC=sccache s390x-linux-gnu-gcc' 'HOSTCC=sccache gcc' tinyconfig
+Using .config as base
+Merging /builds/linux/kernel/configs/tiny.config
+Value of CONFIG_CC_OPTIMIZE_FOR_SIZE is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
+New value: CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+
+Value of CONFIG_KERNEL_XZ is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: # CONFIG_KERNEL_XZ is not set
+New value: CONFIG_KERNEL_XZ=y
+
+Value of CONFIG_SLUB_TINY is redefined by fragment /builds/linux/kernel/configs/tiny.config:
+Previous value: # CONFIG_SLUB_TINY is not set
+New value: CONFIG_SLUB_TINY=y
+
+#
+# merged configuration written to .config (needs make)
+#
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- 'CC=sccache s390x-linux-gnu-gcc' 'HOSTCC=sccache gcc'
+s390x-linux-gnu-ld: vmlinux: warning: allocated section `.got.plt' not in segment
+s390x-linux-gnu-objcopy: st1TiUjX: warning: allocated section `.got.plt' not in segment
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- 'CC=sccache s390x-linux-gnu-gcc' 'HOSTCC=sccache gcc' bzImage
+xz -T0 --force --keep /home/tuxbuild/.cache/tuxmake/builds/1/build/vmlinux
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_HDR_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr/ ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- 'CC=sccache s390x-linux-gnu-gcc' 'HOSTCC=sccache gcc' headers_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1732761745 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/headers.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr .

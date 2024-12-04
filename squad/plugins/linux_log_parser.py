@@ -44,8 +44,9 @@ class Plugin(BasePlugin, BaseLogParser):
         kernel_msgs = re.findall(f'({tstamp}{pid}? .*?)$', log, re.S | re.M) # noqa
         return '\n'.join(kernel_msgs)
 
-    def postprocess_testrun(self, testrun):
-        if testrun.log_file is None:
+    def postprocess_testrun(self, testrun, squad=True, print=False):
+        # If running as a SQUAD plugin, only run the boot/test log parser if this is not a build testrun
+        if testrun.log_file is None or (squad and testrun.tests.filter(suite__slug="build").exists()):
             return
 
         boot_log, test_log = self.__cutoff_boot_log(testrun.log_file)
@@ -56,7 +57,7 @@ class Plugin(BasePlugin, BaseLogParser):
 
         for log_type, log in logs.items():
             log = self.__kernel_msgs_only(log)
-            suite, _ = testrun.build.project.suites.get_or_create(slug=f'log-parser-{log_type}')
+            suite_name = f'log-parser-{log_type}'
 
             regex = self.compile_regexes(REGEXES)
             matches = regex.findall(log)
@@ -68,4 +69,4 @@ class Plugin(BasePlugin, BaseLogParser):
                 test_name_regex = None
                 if regex_pattern:
                     test_name_regex = re.compile(regex_pattern, re.S | re.M)
-                self.create_squad_tests(testrun, suite, test_name, snippets[regex_id], test_name_regex)
+                self.create_squad_tests(testrun, suite_name, test_name, snippets[regex_id], test_name_regex, squad=squad, print=print)

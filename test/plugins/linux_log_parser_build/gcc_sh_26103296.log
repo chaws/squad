@@ -1,0 +1,26 @@
+tuxmake --download-all-korg-gcc-toolchains --target-arch=sh --kconfig=shx3_defconfig --toolchain=gcc-11 --wrapper=sccache --environment=KBUILD_BUILD_TIMESTAMP=@1732761748 --environment=KBUILD_BUILD_USER=tuxmake --environment=KBUILD_BUILD_HOST=tuxmake --environment=KCFLAGS=-ffile-prefix-map=/home/tuxbuild/.cache/tuxmake/builds/1/build/= --environment=SCCACHE_BUCKET=sccache.tuxbuild.com --runtime=podman --image=855116176053.dkr.ecr.us-east-1.amazonaws.com/tuxmake/sh_gcc-11 config default kernel xipkernel modules dtbs dtbs-legacy debugkernel headers
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=sh CROSS_COMPILE=sh4-linux-gnu- 'CC=sccache sh4-linux-gnu-gcc' 'HOSTCC=sccache gcc' shx3_defconfig
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=sh CROSS_COMPILE=sh4-linux-gnu- 'CC=sccache sh4-linux-gnu-gcc' 'HOSTCC=sccache gcc'
+  Generating include/generated/machtypes.h
+<stdin>:1519:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+2024/11/28 02:43:30 socat-internal[881] W waitpid(-1, {}, WNOHANG): no child has exited
+/builds/linux/kernel/fork.c: In function '__do_sys_clone3':
+/builds/linux/kernel/fork.c:3095:2: warning: #warning clone3() entry point is missing, please fix [-Wcpp]
+ 3095 | #warning clone3() entry point is missing, please fix
+      |  ^~~~~~~
+  Kernel: arch/sh/boot/zImage is ready
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=sh CROSS_COMPILE=sh4-linux-gnu- 'CC=sccache sh4-linux-gnu-gcc' 'HOSTCC=sccache gcc' zImage
+<stdin>:1519:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+  Kernel: arch/sh/boot/zImage is ready
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall ARCH=sh CROSS_COMPILE=sh4-linux-gnu- 'CC=sccache sh4-linux-gnu-gcc' 'HOSTCC=sccache gcc' modules_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1732761748 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/modules.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall lib
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=sh CROSS_COMPILE=sh4-linux-gnu- 'CC=sccache sh4-linux-gnu-gcc' 'HOSTCC=sccache gcc' dtbs
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall
+mkdir -p /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_DTBS_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall/dtbs ARCH=sh CROSS_COMPILE=sh4-linux-gnu- 'CC=sccache sh4-linux-gnu-gcc' 'HOSTCC=sccache gcc' dtbs_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1732761748 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbs.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/dtbsinstall dtbs
+xz -T0 --force --keep /home/tuxbuild/.cache/tuxmake/builds/1/build/vmlinux
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_HDR_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr/ ARCH=sh CROSS_COMPILE=sh4-linux-gnu- 'CC=sccache sh4-linux-gnu-gcc' 'HOSTCC=sccache gcc' headers_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1732761748 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/headers.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr .

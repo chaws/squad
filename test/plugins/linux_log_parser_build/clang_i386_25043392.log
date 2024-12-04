@@ -1,0 +1,37 @@
+tuxmake --target-arch=i386 --kconfig=defconfig --toolchain=clang-19 --wrapper=sccache --environment=KBUILD_BUILD_TIMESTAMP=@1725536299 --environment=KBUILD_BUILD_USER=tuxmake --environment=KBUILD_BUILD_HOST=tuxmake --environment=KCFLAGS=-ffile-prefix-map=/home/tuxbuild/.cache/tuxmake/builds/1/build/= --environment=SCCACHE_BUCKET=sccache.tuxbuild.com --runtime=podman --image=855116176053.dkr.ecr.us-east-1.amazonaws.com/tuxmake/i386_clang-19 LLVM=1 LLVM_IAS=1 config default kernel xipkernel modules dtbs dtbs-legacy debugkernel headers
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1 defconfig
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1
+/builds/linux/net/xfrm/xfrm_policy.c:1287:8: error: variable 'dir' is uninitialized when used here [-Werror,-Wuninitialized]
+ 1287 |                 if ((dir & XFRM_POLICY_MASK) == XFRM_POLICY_OUT) {
+      |                      ^~~
+/builds/linux/net/xfrm/xfrm_policy.c:1258:9: note: initialize the variable 'dir' to silence this warning
+ 1258 |         int dir;
+      |                ^
+      |                 = 0
+1 error generated.
+make[5]: *** [/builds/linux/scripts/Makefile.build:244: net/xfrm/xfrm_policy.o] Error 1
+make[5]: Target 'net/xfrm/' not remade because of errors.
+make[4]: *** [/builds/linux/scripts/Makefile.build:490: net/xfrm] Error 2
+make[4]: Target 'net/' not remade because of errors.
+make[3]: *** [/builds/linux/scripts/Makefile.build:490: net] Error 2
+make[3]: Target './' not remade because of errors.
+make[2]: *** [/builds/linux/Makefile:1928: .] Error 2
+make[2]: Target '__all' not remade because of errors.
+make[1]: *** [/builds/linux/Makefile:224: __sub-make] Error 2
+make[1]: Target '__all' not remade because of errors.
+make: *** [Makefile:224: __sub-make] Error 2
+make: Target '__all' not remade because of errors.
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1 modules_install
+make[3]: *** No rule to make target 'modules.order', needed by '/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall/lib/modules/6.11.0-rc6-next-20240905/modules.order'.
+make[3]: *** No rule to make target 'modules.builtin', needed by '/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall/lib/modules/6.11.0-rc6-next-20240905/modules.builtin'.
+make[3]: *** No rule to make target 'modules.builtin.modinfo', needed by '/home/tuxbuild/.cache/tuxmake/builds/1/build/modinstall/lib/modules/6.11.0-rc6-next-20240905/modules.builtin.modinfo'.
+make[3]: Target '__modinst' not remade because of errors.
+make[2]: *** [/builds/linux/Makefile:1836: modules_install] Error 2
+make[1]: *** [/builds/linux/Makefile:224: __sub-make] Error 2
+make[1]: Target 'modules_install' not remade because of errors.
+make: *** [Makefile:224: __sub-make] Error 2
+make: Target 'modules_install' not remade because of errors.
+rm -rf /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr
+make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_HDR_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr/ ARCH=i386 SRCARCH=x86 CROSS_COMPILE=i686-linux-gnu- 'HOSTCC=sccache clang' 'CC=sccache clang' LLVM=1 LLVM_IAS=1 headers_install
+tar --sort=name --owner=tuxmake:1000 --group=tuxmake:1000 --mtime=@1725536299 --clamp-mtime -caf /home/tuxbuild/.cache/tuxmake/builds/1/build/headers.tar.xz -C /home/tuxbuild/.cache/tuxmake/builds/1/build/install_hdr .
