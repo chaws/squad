@@ -1,3 +1,7 @@
+# 1.93
+
+This 1.93 release adds support for a build log parser as well as some other minor bug fixes and improvements.
+
 # 1.92
 
 This 1.92 release avoids an extra retry when fetching errored builds/tests in Tuxsuite.
