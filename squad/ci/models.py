@@ -138,10 +138,8 @@ class Backend(models.Model):
                 completed=completed,
             )
             test_job.testrun = testrun
-        except InvalidMetadata as exception:
+        except (DuplicatedTestJob, InvalidMetadata) as exception:
             test_job.failure = str(exception)
-        except DuplicatedTestJob as exception:
-            logger.error('Failed to fetch test_job(%d): "%s"' % (test_job.id, str(exception)))
 
         if test_job.needs_postprocessing():
             # Offload postprocessing plugins to a new task

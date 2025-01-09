@@ -168,7 +168,7 @@ class BackendFetchTest(BackendTestBase):
 
     @patch('django.utils.timezone.now', return_value=NOW)
     @patch('squad.ci.models.Backend.get_implementation')
-    def test_fetch_sets_fetched_on_invalid_metadata(self, get_implementation, __now__):
+    def test_fetch_sets_fetched_on_duplicated_job(self, get_implementation, __now__):
         metadata = {"foo": "bar"}
         tests = {"foo": "pass"}
         metrics = {"bar": {"value": 1, "unit": "nuggets"}}
@@ -198,7 +198,7 @@ class BackendFetchTest(BackendTestBase):
 
         test_job.refresh_from_db()
         self.assertTrue(test_job.fetched)
-        self.assertIsNone(test_job.failure)
+        self.assertEqual('There is already a test run with job_id 999', test_job.failure)
 
     @patch('django.utils.timezone.now', return_value=NOW)
     @patch('squad.ci.models.Backend.get_implementation')
