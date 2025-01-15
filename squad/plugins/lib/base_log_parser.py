@@ -28,9 +28,19 @@ class BaseLogParser:
         return re.compile(combined, re.S | re.M)
 
     def remove_numbers_and_time(self, snippet):
+        # [   92.236941] CPU: 1 PID: 191 Comm: kunit_try_catch Tainted: G        W         5.15.75-rc1 #1
+        # <4>[   87.925462] CPU: 0 PID: 135 Comm: (crub_all) Not tainted 6.7.0-next-20240111 #14
+        # Remove '(Not t|T)ainted', to the end of the line.
+        without_tainted = re.sub(r"(Not t|T)ainted.*", "", snippet)
+
+        # x23: ffff9b7275bc6f90 x22: ffff9b7275bcfb50 x21: fff00000cc80ef88
+        # x20: 1ffff00010668fb8 x19: ffff8000800879f0 x18: 00000000805c0b5c
+        # Remove words with hex numbers.
+        without_hex = re.sub(r"\b(?:0x)?[a-fA-F0-9]+\b", "", without_tainted)
+
         # [ 1067.461794][  T132] BUG: KCSAN: data-race in do_page_fault spectre_v4_enable_task_mitigation
         # -> [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
-        without_numbers = re.sub(r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\d+)", "", snippet)
+        without_numbers = re.sub(r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\d+)", "", without_hex)
 
         # [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
         # ->  BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation

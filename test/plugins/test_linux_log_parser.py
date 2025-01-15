@@ -347,3 +347,10 @@ class TestLinuxLogParser(TestCase):
         self.assertNotIn('WARNING: CPU', test_fault.log)
         self.assertNotIn('Oops', test_fault.log)
         self.assertIn('Unhandled fault:', test_fault.log)
+
+    def test_same_sha(self):
+        testrun = self.new_testrun('duplicated-oops.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        tests = testrun.tests.all()
+        self.assertEqual(2, tests.count())
