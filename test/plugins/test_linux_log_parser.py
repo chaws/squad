@@ -354,3 +354,10 @@ class TestLinuxLogParser(TestCase):
 
         tests = testrun.tests.all()
         self.assertEqual(2, tests.count())
+
+    def test_numbers_in_function_name(self):
+        testrun = self.new_testrun('different-numbers-in-function-name-oops.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        tests = testrun.tests.all()
+        self.assertEqual(3, tests.count())

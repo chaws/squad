@@ -40,7 +40,8 @@ class BaseLogParser:
 
         # [ 1067.461794][  T132] BUG: KCSAN: data-race in do_page_fault spectre_v4_enable_task_mitigation
         # -> [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
-        without_numbers = re.sub(r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\d+)", "", without_hex)
+        # But should not remove numbers from functions.
+        without_numbers = re.sub(r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\b\d+\b(?!\s*\())", "", without_hex)
 
         # [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
         # ->  BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
