@@ -36,7 +36,7 @@ from squad.core.data import JSONTestDataParser, JSONMetricDataParser
 from squad.core.statistics import geomean
 from squad.core.notification import Notification
 from squad.core.plugins import apply_plugins
-from squad.core.utils import join_name, obj_cache
+from squad.core.utils import join_name
 from rest_framework import status
 from jinja2 import TemplateSyntaxError
 from . import exceptions
@@ -195,11 +195,6 @@ class ReceiveTestRun(object):
 
 
 def get_suite(test_run, suite_name):
-    cache_key = f"{test_run.id}/{suite_name}"
-    suite = obj_cache(Suite, cache_key)
-    if suite:
-        return suite
-
     project = test_run.build.project
     metadata, _ = SuiteMetadata.objects.get_or_create(
         kind='suite',
@@ -211,18 +206,7 @@ def get_suite(test_run, suite_name):
         slug=suite_name,
         defaults={'metadata': metadata},
     )
-
-    return obj_cache(Suite, cache_key, obj=suite)
-
-
-def get_suitemetadata(suite, test_name):
-    cache_key = f"{suite.id}/{test_name}"
-    metadata = obj_cache(SuiteMetadata, cache_key)
-    if metadata:
-        return metadata
-
-    metadata, _ = SuiteMetadata.objects.get_or_create(suite=suite.slug, name=test_name, kind='test')
-    return obj_cache(SuiteMetadata, cache_key, obj=metadata)
+    return suite
 
 
 class ParseTestRunData(object):
@@ -250,12 +234,11 @@ class ParseTestRunData(object):
             # TODO: remove check below when test_name size changes in the schema
             if len(test['test_name']) > 256:
                 continue
-
             suite = get_suite(
                 test_run,
                 test['group_name']
             )
-            metadata = get_suitemetadata(suite, test['test_name'])
+            metadata, _ = SuiteMetadata.objects.get_or_create(suite=suite.slug, name=test['test_name'], kind='test')
             full_name = join_name(suite.slug, test['test_name'])
 
             test_issues = list(itertools.chain(*[issue for regex, issue in issues_regex.items() if regex.match(full_name)]))

@@ -6,7 +6,6 @@ import hashlib
 import base64
 
 
-from collections import defaultdict
 from cryptography.fernet import Fernet
 
 
@@ -178,18 +177,3 @@ def storage_save(obj, storage_field, filename, content):
         storage_field.save(filename, ContentFile(content_bytes))
     else:
         storage_field.save(filename, content)
-
-
-__obj_cache__ = defaultdict(dict)
-
-
-def obj_cache(klass, key, obj=None):
-    global __obj_cache__
-
-    if obj:
-        __obj_cache__[klass][key] = obj
-
-    try:
-        return __obj_cache__[klass][key]
-    except KeyError:
-        return None
