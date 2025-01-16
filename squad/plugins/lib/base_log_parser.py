@@ -36,17 +36,21 @@ class BaseLogParser:
         # x23: ffff9b7275bc6f90 x22: ffff9b7275bcfb50 x21: fff00000cc80ef88
         # x20: 1ffff00010668fb8 x19: ffff8000800879f0 x18: 00000000805c0b5c
         # Remove words with hex numbers.
+        # <3>[    2.491276][    T1] BUG: KCSAN: data-race in console_emit_next_record / console_trylock_spinning
+        # -> <>[    .][    T1] BUG: KCSAN: data-race in console_emit_next_record / console_trylock_spinning
         without_hex = re.sub(r"\b(?:0x)?[a-fA-F0-9]+\b", "", without_tainted)
 
-        # [ 1067.461794][  T132] BUG: KCSAN: data-race in do_page_fault spectre_v4_enable_task_mitigation
-        # -> [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
+        # <>[ 1067.461794][  T132] BUG: KCSAN: data-race in do_page_fault spectre_v4_enable_task_mitigation
+        # -> <>[ .][  T132] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
         # But should not remove numbers from functions.
-        without_numbers = re.sub(r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\b\d+\b(?!\s*\())", "", without_hex)
+        without_numbers = re.sub(
+            r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\b\d+\b(?!\s*\())", "", without_hex
+        )
 
-        # [ .][  T] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
+        # <>[ .][  T132] BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
         # ->  BUG: KCSAN: data-race in do_page_fault spectre_v_enable_task_mitigation
         without_time = re.sub(
-            f"^{square_brackets_and_contents}({square_brackets_and_contents})?",
+            f"^<?>?{square_brackets_and_contents}({square_brackets_and_contents})?",
             "",
             without_numbers,
         )  # noqa

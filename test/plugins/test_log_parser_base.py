@@ -94,9 +94,40 @@ class TestBaseLogParser(TestCase):
             sha_sum, "1e8e593de88f4856fc03d46c4156cf0772898309f8a796595f549bcabfc1cb9f"
         )
 
-    def test_create_name_log_dict(self):
+    def test_create_name_log_dict_exclude_numbers(self):
         """
-        Test creating the dict containing the "name" and "log lines" pairs
+        Test creating the dict containing the "name" and "log lines" pairs -
+        case where we want to exclude the numbers before doing the SHA
+        """
+        tests_without_shas_to_create, tests_with_shas_to_create = (
+            self.log_parser.create_name_log_dict(
+                "test_name", ["log lines 1", "log lines 2"]
+            )
+        )
+        expected_tests_without_shas_to_create = defaultdict(
+            set, {"test_name": {"log lines 1", "log lines 2"}}
+        )
+        expected_tests_with_shas_to_create = defaultdict(
+            set,
+            {
+                "test_name-1677bef240c981a91c7f0c4321668491ff18f224ee5f4191feaa1940b09ccdaa": {
+                    "log lines 1",
+                    "log lines 2",
+                }
+            },
+        )
+
+        self.assertDictEqual(
+            tests_without_shas_to_create, expected_tests_without_shas_to_create
+        )
+        self.assertDictEqual(
+            tests_with_shas_to_create, expected_tests_with_shas_to_create
+        )
+
+    def test_create_name_log_dict_keep_numbers(self):
+        """
+        Test creating the dict containing the "name" and "log lines" pairs -
+        case where we want to keep the numbers before doing the SHA
         """
         tests_without_shas_to_create, tests_with_shas_to_create = (
             self.log_parser.create_name_log_dict(
@@ -109,8 +140,10 @@ class TestBaseLogParser(TestCase):
         expected_tests_with_shas_to_create = defaultdict(
             set,
             {
-                "test_name-2b06e6aa0f681d2b9d2de6b1e91d4b25cea58b5ce9c3dcd64b429766a8b0ecb1": {
+                "test_name-8166dde0dc110dc6d0064b55e0d09fb4589f6d68e4aa5580376858e290f4bc91": {
                     "log lines1",
+                },
+                "test_name-335a19ed20ff0d0b276e1120a5761802bb3c7ce416b24ef69b5ba4b247832f92": {
                     "log lines2",
                 }
             },
@@ -194,7 +227,7 @@ class TestBaseLogParser(TestCase):
             slug="log-parser-test"
         )
         self.log_parser.create_squad_tests(
-            self.testrun, suite, "test_name", {"log lines1", "log lines2"}
+            self.testrun, suite, "test_name", {"log lines 1", "log lines 2"}
         )
 
         test = self.testrun.tests.get(
@@ -205,12 +238,12 @@ class TestBaseLogParser(TestCase):
 
         test_with_sha = self.testrun.tests.get(
             suite__slug="log-parser-test",
-            metadata__name="test_name-2b06e6aa0f681d2b9d2de6b1e91d4b25cea58b5ce9c3dcd64b429766a8b0ecb1",
+            metadata__name="test_name-1677bef240c981a91c7f0c4321668491ff18f224ee5f4191feaa1940b09ccdaa",
         )
         self.assertFalse(test_with_sha.result)
         self.assertIsNotNone(test_with_sha.log)
-        self.assertIn("log lines1", test_with_sha.log)
-        self.assertIn("log lines2", test_with_sha.log)
+        self.assertIn("log lines 1", test_with_sha.log)
+        self.assertIn("log lines 2", test_with_sha.log)
 
     def test_compile_regex_single(self):
         regex = [
