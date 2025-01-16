@@ -200,9 +200,11 @@ class Plugin(BasePlugin, BaseLogParser):
             # there is a match
             return None
         snippet = matches[0]
-        without_numbers_and_time = self.remove_numbers_and_time(snippet)
+        without_numbers = re.sub(
+            r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\b\d+\b(?!\s*\())", "", snippet
+        )
 
-        name = slugify(self.post_process_test_name(without_numbers_and_time))
+        name = slugify(self.post_process_test_name(without_numbers))
 
         return name
 

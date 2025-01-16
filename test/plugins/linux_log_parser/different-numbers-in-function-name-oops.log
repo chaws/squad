@@ -1,0 +1,53 @@
+[  140.297674] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+[  140.298941] Modules linked in:
+[  140.299833] CPU: 1 UID: 0 PID: 620 Comm: kunit_try_catch_32k Tainted: G    B            N 6.13.0-rc7 #1
+[  140.300812] Tainted: [B]=BAD_PAGE, [N]=TEST
+[  140.301340] Hardware name: linux,dummy-virt (DT)
+[  140.302131] pstate: 12402009 (nzcV daif +PAN -UAO +TCO -DIT -SSBS BTYPE=--)
+[  140.303752] pc : kunit_test_null_dereference+0x70/0x170
+[  140.304314] lr : kunit_generic_run_threadfn_adapter+0x88/0x100
+[  140.305223] sp : ffff800083347dc0
+[  140.305778] x29: ffff800083347e20 x28: 0000000000000000 x27: 0000000000000000
+[  140.307079] x26: 0000000000000000 x25: 0000000000000000 x24: fff00000cc80ef80
+[  140.308158] x23: ffff9b7275bc6f90 x22: ffff9b7275bcfb50 x21: fff00000cc80ef88
+[  140.309193] x20: 1ffff00010668fb8 x19: ffff8000800879f0 x18: 00000000805c0b5c
+[  140.310184] x17: 0000000000000001 x16: fff00000da505ca0 x15: 00000000007e992b
+[  140.311172] x14: 00000000ca2562db x13: 1ffe00001815cb24 x12: fffd800018da43a2
+[  140.312208] x11: 1ffe000018da43a1 x10: fffd800018da43a1 x9 : ffff9b7275bc7018
+[  140.313293] x8 : ffff800083347cb8 x7 : 0000000000000001 x6 : 0000000041b58ab3
+[  140.314333] x5 : ffff700010668fb8 x4 : 00000000f1f1f1f1 x3 : 0000000000000003
+[  140.315379] x2 : dfff800000000000 x1 : fff00000c6d21440 x0 : ffff8000800879f0
+[  140.316474] Call trace:
+[  140.316927]  kunit_test_null_dereference+0x70/0x170 (P)
+[  140.317646]  kunit_generic_run_threadfn_adapter+0x88/0x100
+[  140.318315]  kthread+0x24c/0x2d0
+[  140.318860]  ret_from_fork+0x10/0x20
+[  140.320008] Code: b90004a3 d5384101 52800063 aa0003f3 (39c00042)
+[  140.321163] ---[ end trace 0000000000000000 ]---
+
+[  112.633643] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+[  112.635528] Modules linked in:
+[  112.636558] CPU: 0 UID: 0 PID: 621 Comm: kunit_try_catch_64k Tainted: G    B            N 6.13.0-rc7 #1
+[  112.637505] Tainted: [B]=BAD_PAGE, [N]=TEST
+[  112.638145] Hardware name: linux,dummy-virt (DT)
+[  112.638662] pstate: 12402009 (nzcV daif +PAN -UAO +TCO -DIT -SSBS BTYPE=--)
+[  112.639813] pc : kunit_test_null_dereference+0x70/0x170
+[  112.640694] lr : kunit_generic_run_threadfn_adapter+0x88/0x100
+[  112.641563] sp : ffff800083177dc0
+[  112.641998] x29: ffff800083177e20 x28: 0000000000000000 x27: 0000000000000000
+[  112.643470] x26: 0000000000000000 x25: 0000000000000000 x24: fff00000c9daff00
+[  112.644889] x23: ffff9b153cfc6f90 x22: ffff9b153cfcfb50 x21: fff00000c9daff08
+[  112.645963] x20: 1ffff0001062efb8 x19: ffff8000800879f0 x18: 00000000a76e9934
+[  112.646909] x17: 000000008055b2b1 x16: 0000000000000100 x15: 0000000000000000
+[  112.648068] x14: 1ffe00001b49c778 x13: fff00000da4e3c98 x12: fffd8000191643a2
+[  112.649116] x11: 1ffe0000191643a1 x10: fffd8000191643a1 x9 : ffff9b153cfc7018
+[  112.650156] x8 : ffff800083177cb8 x7 : 0000000000000001 x6 : 0000000041b58ab3
+[  112.651201] x5 : ffff70001062efb8 x4 : 00000000f1f1f1f1 x3 : 0000000000000003
+[  112.652392] x2 : dfff800000000000 x1 : fff00000c8b21440 x0 : ffff8000800879f0
+[  112.653691] Call trace:
+[  112.654100]  kunit_test_null_dereference+0x70/0x170 (P)
+[  112.654712]  kunit_generic_run_threadfn_adapter+0x88/0x100
+[  112.655400]  kthread+0x24c/0x2d0
+[  112.655931]  ret_from_fork+0x10/0x20
+[  112.657443] Code: b90004a3 d5384101 52800063 aa0003f3 (39c00042)
+[  112.658772] ---[ end trace 0000000000000000 ]---
