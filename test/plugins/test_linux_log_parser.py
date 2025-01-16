@@ -64,7 +64,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kernelexceptiontrace.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-kernelsmpc-smp_call_function_many_cond')
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-kernelsmp-smp_call_function_many_cond')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -76,7 +76,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kernelexceptiontrace_without_squarebraces.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-kernelsmpc-smp_call_function_many_cond')
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-kernelsmp-smp_call_function_many_cond')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -101,7 +101,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kcsan_simple.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='kcsan-bug-kcsan-data-race-in-do_page_fault-spectre_v_enable_task_mitigation')
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='kcsan-bug-kcsan-data-race-in-do_page_fault-spectre_v4_enable_task_mitigation')
 
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
@@ -175,8 +175,7 @@ class TestLinuxLogParser(TestCase):
 
         testrun = self.new_testrun('kernel_bug_and_invalid_opcode.log', job_id='1000')
         self.plugin.postprocess_testrun(testrun)
-
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='exception-kernel-bug-at-usrsrckernelarchxkvmmmummuc')
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='exception-kernel-bug-at-usrsrckernelarchx86kvmmmummu')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -201,9 +200,9 @@ class TestLinuxLogParser(TestCase):
         self.plugin.postprocess_testrun(testrun)
 
         tests = testrun.tests
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc')
-        test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_objectc-radeon_ttm_bo_destroy')
-        test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversregulatorcorec-_regulator_putpart')
+        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in')
+        test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy')
+        test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversregulatorcore-_regulator_putpart')
         test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops-oops-preempt-smp')
         test_fault = tests.get(suite__slug='log-parser-test', metadata__name='fault-unhandled-fault-external-abort-on-non-linefetch-at')
 
@@ -298,7 +297,7 @@ class TestLinuxLogParser(TestCase):
         self.assertNotIn('Kernel panic', test.log)
 
         # Now check if a test with sha digest in the name
-        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='internal-error-oops-oops-bug-preempt-smp-112aca90e0eaf87ac104ae4e9aeea46f2757ac81faf013c77696d081c109aecc')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='internal-error-oops-oops-bug-preempt-smp-5c448a8183918455f8d9381bb4b6ee8a593b25c4aeaa85d376fa0fd9cbd5840c')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertIn('Internal error: Oops - BUG: 0 [#0] PREEMPT SMP', test.log)
@@ -310,9 +309,9 @@ class TestLinuxLogParser(TestCase):
 
         tests = testrun.tests
 
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-ffffffffcc-18fbe2dd02a2df7ba9e8d2ef289ca7b76beb8f8f8253621ff47902378ee6df11')
-        test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_objectc-radeon_ttm_bo_destroy-77251099bfa081e5c942070a569fe31163336e61a80bda7304cd59f0f4b82080')
-        test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversregulatorcorec-_regulator_putpart-d44949024d5373185a7381cb9dd291b13c117d6b93feb576a431e5376025004f')
+        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-630e6949dbf4d18f6ab71c0864524cf3e60da1380fe7fd5acbb99d8f5d01ab21')
+        test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy-51fc34b6c857dfc70f7ee985b21731cc1745e97a216193a258a1ad90a6cbb9c8')
+        test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy-dc992cca96cada94f4930abe87d60c6de25d404f11313bd64f2217d9408e15ef')
         test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops-oops-preempt-smp-4e1ddddb2c142178a8977e7d973c2a13db2bb978aa471c0049ee39fe3fe4d74c')
         test_fault = tests.get(suite__slug='log-parser-test', metadata__name='fault-unhandled-fault-external-abort-on-non-linefetch-at-6f9e3ab8f97e35c1e9167fed1e01c6149986819c54451064322b7d4208528e07')
 
