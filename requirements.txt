@@ -3,7 +3,7 @@ celery
 cryptography
 coreapi
 django_crispy_forms==1.14.0
-Django>=3
+Django<5,>=3
 django-allauth
 django-bootstrap3
 django-celery-results
@@ -20,6 +20,7 @@ importlib-metadata>3
 Jinja2==3.0.3
 Markdown
 msgpack>=0.5.0
+psycopg2-binary
 python_dateutil
 PyYAML>=5.1
 PyJWT

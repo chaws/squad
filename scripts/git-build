@@ -23,6 +23,6 @@ for po in $(find squad/*/locale -name \*.po); do
     chronic msgfmt -o ${po%.po}.mo ${po}
 done
 
-SQUAD_RELEASE=1 chronic python3 setup.py bdist_wheel
+SQUAD_RELEASE=1 chronic python3 -m build
 
 echo "$v" > dist/LASTBUILD

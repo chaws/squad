@@ -1,69 +1,40 @@
-FROM debian:bullseye-backports
+FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
+COPY requirements.txt /requirements.txt
 
 RUN apt-get update -q=2 && \
     apt-get -qq install --no-install-recommends iproute2 auto-apt-proxy >/dev/null && \
     apt-get -qq install --no-install-recommends >/dev/null \
-        python3 \
-        python3-aiohttp \
-        python3-asgiref \
-        python3-celery \
-        python3-coreapi  \
-        python3-cryptography \
-        python3-dateutil \
-        python3-dev \
-        python3-future \
-        python3-gunicorn \
-        python3-importlib-metadata \
-        python3-jinja2 \
-        python3-jwt \
-        python3-markdown \
-        python3-msgpack \
-        python3-pip \
-        python3-psycopg2 \
-        python3-requests \
-        python3-setuptools \
-        python3-sqlparse \
-        python3-svgwrite \
-        python3-wheel \
-        python3-whitenoise \
-        python3-yaml \
-        python3-zipp \
-        python3-zmq \
         fail2ban \
         gettext \
+        gcc \
         git \
         libdbd-pg-perl \
         libldap2-dev \
         libpq-dev \
+        libsasl2-dev \
         libyaml-dev \
         moreutils \
+        openssh-client \
         postgresql-client \
+        python3-dev \
+        python3-pip \
+        python3-psycopg2 \
+        python3-venv \
         unzip \
-        wget \
-        openssh-client && \
-    apt-get -qq -t bullseye-backports install --no-install-recommends >/dev/null \
-        python3-django \
-        python3-django-auth-ldap \
-        python3-django-celery-results \
-        python3-django-crispy-forms \
-        python3-django-debug-toolbar \
-        python3-django-filters \
-        python3-djangorestframework \
-        python3-djangorestframework-filters && \
-    pip3 install --no-dependencies \
-        "amqp>=5.0.5" \
-        squad-linaro-plugins \
-        sentry-sdk==0.14.3 \
-        "django-simple-history>3.0" \
-        django-bootstrap3 \
-        django-cors-headers \
-        drf-extensions \
-        django-allauth \
-        django-simple-history==3.1.1 \
-        django-health-check==3.16.4 && \
-    pip3 install boto3==1.15 django-storages[google]==1.13.2 asgiref==3.7.2
+        wget && \
+    python3 -m venv /venv/ && . /venv/bin/activate && \
+    pip install -r /requirements.txt && \
+    pip install \
+        build \
+        django-auth-ldap \
+        django-storages[s3] \
+        sentry-sdk[django] && \
+    pip install --no-dependencies squad-linaro-plugins
+
+# Make sure python virtual environment is always on
+ENV PATH="/venv/bin:$PATH"
 
 # Prepare the environment
 COPY . /squad-build/
@@ -72,12 +43,25 @@ ENV SQUAD_STATIC_DIR=/app/static
 
 RUN cd /squad-build && ./scripts/git-build && \
     pip3 install --no-dependencies ./dist/squad*.whl && \
-    cd / && rm -rf /squad-build && apt-get remove -y git && apt-get autoremove -y && \
     mkdir -p /app/static && \
     useradd -d /app squad && \
     python3 -m squad.frontend && \
     squad-admin collectstatic --noinput --verbosity 0 && \
     chown -R squad:squad /app && \
     cd /app
+
+# Clean environment
+RUN rm -rf /squad-build && \
+    apt-get remove -y \
+        gcc \
+        git \
+        libpq-dev \
+        libsasl2-dev \
+        libyaml-dev \
+        python3-dev \
+        libsasl2-dev && \
+    apt-get clean && \
+    apt-get autoremove -y && \
+    . /venv/bin/activate && pip uninstall -y build && pip cache purge
 
 USER squad

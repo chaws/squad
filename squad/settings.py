@@ -263,7 +263,7 @@ USE_TZ = True
 # http://whitenoise.evans.io/en/stable/django.html
 STATIC_URL = '/static/'
 STATIC_ROOT = os.getenv('SQUAD_STATIC_DIR', os.path.join(DATA_DIR, 'static'))
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Squad default storage directory
 MEDIA_ROOT = os.getenv('SQUAD_STORAGE_DIR', 'storage')
