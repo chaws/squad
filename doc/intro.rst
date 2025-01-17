@@ -232,7 +232,9 @@ strings. The following fields are recognized:
   test run
 * ``datetime``: timestamp of the test run, as a ISO-8601 date
   representation, with seconds. This is the representation that ``date
-  --iso-8601=seconds`` gives you.
+  --iso-8601=seconds`` gives you. If datetime is not supplied in the
+  metadata, the datetime of a test run will be set to the current
+  timestamp during creation.
 * ``job_id``: identifier for the test run. Must be unique for the
   project. **This field is mandatory**
 * ``job_status``: string identifying the status of the project. SQUAD

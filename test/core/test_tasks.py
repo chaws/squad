@@ -7,7 +7,7 @@ import yaml
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase
 from django.utils import timezone
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 from squad.core.models import Group, TestRun, Status, Build, ProjectStatus, SuiteVersion, PatchSource, KnownIssue, EmailTemplate, Callback
@@ -580,6 +580,27 @@ class ReceiveTestRunTest(TestCase):
         build = Build.objects.get(version='199')
 
         self.assertEqual(yesterday, build.datetime)
+
+    def test_build_datetime_not_in_metadata(self):
+        # In the case where datetime is not in metadata, check it is set to
+        # timezone.now()
+
+        #  Mock datetime so we can check it at the end
+        now_mocked = timezone.now()
+        with patch('django.utils.timezone.now', Mock(return_value=now_mocked)):
+            receive = ReceiveTestRun(self.project)
+
+            metadata = {
+                "job_id": '999',
+                "job_status": 'pass',
+                "job_url": 'https://example.com/jobs/999',
+                "build_url": 'https://example/com/builds/777',
+            }
+
+            receive('199', 'myenv', metadata_file=json.dumps(metadata))
+            build = Build.objects.get(version='199')
+
+            self.assertEqual(now_mocked, build.datetime)
 
     @patch('squad.core.tasks.ValidateTestRun.__call__')
     def test_should_validate_test_run(self, validator_mock):
