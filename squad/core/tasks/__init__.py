@@ -178,6 +178,8 @@ class ReceiveTestRun(object):
 
         testrun.refresh_from_db()
 
+        # This keeps the datetime of the build in line with the earliest
+        # observed testrun.datetime.
         if not build.datetime or testrun.datetime < build.datetime:
             build.datetime = testrun.datetime
             build.save()

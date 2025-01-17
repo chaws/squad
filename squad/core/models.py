@@ -493,6 +493,9 @@ class Build(models.Model):
         ordering = ['datetime']
 
     def save(self, *args, **kwargs):
+        # Initialize this to timezone.now(), then if a testrun is seen with an
+        # earlier datetime, keep this value up to date with the earliest
+        # testrun.datetime (handled in ReceiveTestRun.__call__).
         if not self.datetime:
             self.datetime = timezone.now()
         with transaction.atomic():
@@ -806,6 +809,9 @@ class TestRun(models.Model):
         unique_together = ('build', 'job_id')
 
     def save(self, *args, **kwargs):
+        # testrun.datetime will take datetime from the metadata if it exists
+        # (during ReceiveTestRun.__call__). If datetime is not in the metadata,
+        # set it to timezone.now()
         if not self.datetime:
             self.datetime = timezone.now()
         if self.__metadata__:
