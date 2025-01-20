@@ -1,3 +1,8 @@
+# 1.93.1
+
+This 1.93.1 release has minor bug fixes on log parser plugin and it silences a warning
+when receiving a job that already exist within a build.
+
 # 1.93
 
 This 1.93 release adds support for a build log parser as well as some other minor bug fixes and improvements.
