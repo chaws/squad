@@ -1,3 +1,4 @@
+import os
 import re
 from collections import defaultdict
 
@@ -5,6 +6,13 @@ from django.test import TestCase
 
 from squad.core.models import Group
 from squad.plugins.lib.base_log_parser import BaseLogParser
+from squad.plugins.linux_log_parser import Plugin
+
+
+def read_sample_file(name):
+    if not name.startswith('/'):
+        name = os.path.join(os.path.dirname(__file__), 'log_parser_base', name)
+    return open(name).read()
 
 
 def compile_regex(regex):
@@ -22,6 +30,13 @@ class TestBaseLogParser(TestCase):
         self.build = self.project.builds.create(version="1")
         self.env = self.project.environments.create(slug="myenv")
         self.testrun = self.build.test_runs.create(environment=self.env, job_id="123")
+        self.plugin = Plugin()
+
+    def new_testrun(self, logfile, job_id='999'):
+        log = read_sample_file(logfile)
+        testrun = self.build.test_runs.create(environment=self.env, job_id=job_id)
+        testrun.save_log_file(log)
+        return testrun
 
     def test_remove_numbers_and_time(self):
         """
@@ -335,3 +350,19 @@ class TestBaseLogParser(TestCase):
         }
 
         self.assertDictEqual(snippets, expected_snippets)
+
+    def test_kfence_seconds(self):
+        """
+        Test removing numbers and time from a string containing timestamp,
+        non-hex number and hex number
+        """
+        testrun = self.new_testrun('kfence-seconds.log')
+        self.plugin.postprocess_testrun(testrun)
+
+        tests = testrun.tests
+        expected_output = read_sample_file('kfence-seconds-expected.log')
+
+        test_kfence_seconds = tests.get(suite__slug='log-parser-test', metadata__name='kfence-bug-kfence-use-after-free-read-in-test_use_after_free_read-12cdfd85b20ffda2c398b1d6f97a7d5230cd4f2caf19ef0fb38bbc98469d3bde')
+        numbers_and_time_removed = self.log_parser.remove_numbers_and_time(test_kfence_seconds.log)
+
+        self.assertEqual(numbers_and_time_removed.strip(), expected_output.strip())
