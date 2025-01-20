@@ -1,0 +1,31 @@
+[   38.983084] ==================================================================
+[   38.983891] BUG: KFENCE: use-after-free read in test_use_after_free_read+0x114/0x248
+[   38.983891] 
+[   38.984660] Use-after-free read at 0x000000000c4e69db (in kfence-#139):
+[   38.985493]  test_use_after_free_read+0x114/0x248
+[   38.986291]  kunit_try_run_case+0x14c/0x3d0
+[   38.986852]  kunit_generic_run_threadfn_adapter+0x88/0x100
+[   38.987564]  kthread+0x24c/0x2d0
+[   38.988116]  ret_from_fork+0x10/0x20
+[   38.988694] 
+[   38.989048] kfence-#139: 0x000000000c4e69db-0x00000000321ff8ff, size=32, cache=test
+[   38.989048] 
+[   38.989930] allocated by task 285 on cpu 0 at 38.982743s (0.007174s ago):
+[   38.990710]  test_alloc+0x22c/0x620
+[   38.991284]  test_use_after_free_read+0xd0/0x248
+[   38.991953]  kunit_try_run_case+0x14c/0x3d0
+[   38.992471]  kunit_generic_run_threadfn_adapter+0x88/0x100
+[   38.993193]  kthread+0x24c/0x2d0
+[   38.993734]  ret_from_fork+0x10/0x20
+[   38.994274] 
+[   38.994629] freed by task 285 on cpu 0 at 38.982847s (0.011771s ago):
+[   38.995567]  test_use_after_free_read+0xf0/0x248
+[   38.996133]  kunit_try_run_case+0x14c/0x3d0
+[   38.996757]  kunit_generic_run_threadfn_adapter+0x88/0x100
+[   38.997475]  kthread+0x24c/0x2d0
+[   38.997965]  ret_from_fork+0x10/0x20
+[   38.998467] 
+[   38.998850] CPU: 0 UID: 0 PID: 285 Comm: kunit_try_catch Tainted: G    B            N 6.13.0-rc7 #1
+[   38.999779] Tainted: [B]=BAD_PAGE, [N]=TEST
+[   39.000370] Hardware name: linux,dummy-virt (DT)
+[   39.000984] ==================================================================

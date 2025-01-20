@@ -1,0 +1,31 @@
+ ==================================================================
+[   .] BUG: KFENCE: use-after-free read in test_use_after_free_read+/
+[   .] 
+[   .] Use-after-free read at  (in kfence-#):
+[   .]  test_use_after_free_read+/
+[   .]  kunit_try_run_case+/
+[   .]  kunit_generic_run_threadfn_adapter+/
+[   .]  kthread+/
+[   .]  ret_from_fork+/
+[   .] 
+[   .] kfence-#: -, size=, cache=test
+[   .] 
+[   .] allocated by task  on cpu  at  ( ago):
+[   .]  test_alloc+/
+[   .]  test_use_after_free_read+/
+[   .]  kunit_try_run_case+/
+[   .]  kunit_generic_run_threadfn_adapter+/
+[   .]  kthread+/
+[   .]  ret_from_fork+/
+[   .] 
+[   .] freed by task  on cpu  at  ( ago):
+[   .]  test_use_after_free_read+/
+[   .]  kunit_try_run_case+/
+[   .]  kunit_generic_run_threadfn_adapter+/
+[   .]  kthread+/
+[   .]  ret_from_fork+/
+[   .] 
+[   .] CPU:  UID:  PID:  Comm: kunit_try_catch 
+[   .] 
+[   .] Hardware name: linux,dummy-virt (DT)
+[   .] ==================================================================

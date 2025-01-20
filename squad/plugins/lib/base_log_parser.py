@@ -28,10 +28,13 @@ class BaseLogParser:
         return re.compile(combined, re.S | re.M)
 
     def remove_numbers_and_time(self, snippet):
+        # allocated by task 285 on cpu 0 at 38.982743s (0.007174s ago):
+        # Removes [digit(s)].[digit(s)]s
+        cleaned_seconds = re.sub(r"\b\d+\.\d+s\b", "", snippet)
         # [   92.236941] CPU: 1 PID: 191 Comm: kunit_try_catch Tainted: G        W         5.15.75-rc1 #1
         # <4>[   87.925462] CPU: 0 PID: 135 Comm: (crub_all) Not tainted 6.7.0-next-20240111 #14
         # Remove '(Not t|T)ainted', to the end of the line.
-        without_tainted = re.sub(r"(Not t|T)ainted.*", "", snippet)
+        without_tainted = re.sub(r"(Not t|T)ainted.*", "", cleaned_seconds)
 
         # x23: ffff9b7275bc6f90 x22: ffff9b7275bcfb50 x21: fff00000cc80ef88
         # x20: 1ffff00010668fb8 x19: ffff8000800879f0 x18: 00000000805c0b5c
