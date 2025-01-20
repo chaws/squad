@@ -42,7 +42,8 @@ class Backend(object):
         tests = {test: (random.randint(1, 10) <= 8) and "pass" or 'fail' for test in TESTS}
         metrics = {metric: random.random() for metric in METRICS}
         logs = "a fake log file\ndate: " + time.strftime('%c') + "\n"
-        return (status, completed, metadata, tests, metrics, logs)
+        attachments = {}
+        return (status, completed, metadata, tests, metrics, logs, attachments)
 
     def listen(self):
         max_id = 0

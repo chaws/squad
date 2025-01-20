@@ -116,7 +116,8 @@ class BackendFetchTest(BackendTestBase):
         metadata = {"foo": "bar"}
         tests = {"foo": "pass"}
         metrics = {"bar": {"value": 1, "unit": ""}}
-        results = ('Complete', True, metadata, tests, metrics, "abc")
+        attachments = {}
+        results = ('Complete', True, metadata, tests, metrics, "abc", attachments)
 
         project_status = self.build.status
         tests_pass_so_far = project_status.tests_pass
@@ -172,7 +173,8 @@ class BackendFetchTest(BackendTestBase):
         metadata = {"foo": "bar"}
         tests = {"foo": "pass"}
         metrics = {"bar": {"value": 1, "unit": "nuggets"}}
-        results = ('Complete', True, metadata, tests, metrics, "abc")
+        attachments = {}
+        results = ('Complete', True, metadata, tests, metrics, "abc", attachments)
 
         impl = MagicMock()
         impl.fetch = MagicMock(return_value=results)
@@ -206,7 +208,8 @@ class BackendFetchTest(BackendTestBase):
         metadata = {"foo": "bar"}
         tests = {}
         metrics = {}
-        results = ('Complete', True, metadata, tests, metrics, "abc")
+        attachments = {}
+        results = ('Complete', True, metadata, tests, metrics, "abc", attachments)
 
         impl = MagicMock()
         impl.fetch = MagicMock(return_value=results)
@@ -240,7 +243,8 @@ class BackendFetchTest(BackendTestBase):
         metadata = {"foo": "bar"}
         tests = {"foo": "pass"}
         metrics = {}
-        results = ('Complete', True, metadata, tests, metrics, "abc")
+        attachments = {}
+        results = ('Complete', True, metadata, tests, metrics, "abc", attachments)
 
         impl = MagicMock()
         impl.fetch = MagicMock(return_value=results)
@@ -274,7 +278,8 @@ class BackendFetchTest(BackendTestBase):
         metadata = {"foo": "bar"}
         tests = {}
         metrics = {"foo": {"value": 10, "unit": "boxes"}}
-        results = ('Complete', True, metadata, tests, metrics, "abc")
+        attachments = {}
+        results = ('Complete', True, metadata, tests, metrics, "abc", attachments)
 
         impl = MagicMock()
         impl.fetch = MagicMock(return_value=results)
@@ -308,7 +313,8 @@ class BackendFetchTest(BackendTestBase):
         metadata = {"foo": "bar"}
         tests = {"foo": "pass"}
         metrics = {"bar": {"value": 1, "unit": "donuts"}}
-        results = ('Complete', True, metadata, tests, metrics, "abc")
+        attachments = {}
+        results = ('Complete', True, metadata, tests, metrics, "abc", attachments)
         test_job_url = "http://www.example.com"
 
         impl = MagicMock()
@@ -343,7 +349,8 @@ class BackendFetchTest(BackendTestBase):
         metadata = {"foo": "bar"}
         tests = {"foo": "pass"}
         metrics = {"bar": {"value": 1, "unit": ""}}
-        results = ('Incomplete', False, metadata, tests, metrics, "abc")
+        attachments = {}
+        results = ('Incomplete', False, metadata, tests, metrics, "abc", attachments)
         #                        ^^^^^ job resulted in an infra failure
 
         impl = MagicMock()
@@ -382,7 +389,8 @@ class BackendFetchTest(BackendTestBase):
         metadata = {"foo": "bar"}
         tests = {}
         metrics = {}
-        results = ('Incomplete', False, metadata, tests, metrics, "abc")
+        attachments = {}
+        results = ('Incomplete', False, metadata, tests, metrics, "abc", attachments)
         #                        ^^^^^ job resulted in an infra failure
 
         impl = MagicMock()
@@ -415,7 +423,7 @@ class BackendFetchTest(BackendTestBase):
     @patch('squad.ci.backend.null.Backend.fetch')
     @patch('squad.ci.models.ReceiveTestRun.__call__')
     def test_fetch_sets_fetched_at(self, receive, backend_fetch, backend_job_url):
-        backend_fetch.return_value = ('Completed', True, {}, {}, {}, None)
+        backend_fetch.return_value = ('Completed', True, {}, {}, {}, None, {})
 
         env = self.project.environments.create(slug='foo')
         receive.return_value = (self.build.test_runs.create(environment=env), None)
@@ -437,7 +445,7 @@ class BackendFetchTest(BackendTestBase):
     def test_fetch_postprocessing(self, receive, backend_fetch, backend_job_url, postprocess):
         self.project.enabled_plugins_list = ['linux_log_parser']
         self.project.save()
-        backend_fetch.return_value = ('Completed', True, {}, {}, {}, None)
+        backend_fetch.return_value = ('Completed', True, {}, {}, {}, None, {})
 
         env = self.project.environments.create(slug='foo')
         receive.return_value = (self.build.test_runs.create(environment=env), None)
@@ -595,7 +603,8 @@ class TestJobTest(TestCase):
         tests = {'mysuite/mytest': 'pass'}
         metrics = {}
         logs = ''
-        return status, completed, metadata, tests, metrics, logs
+        attachments = {}
+        return status, completed, metadata, tests, metrics, logs, attachments
 
     @patch('requests.post')
     @patch('squad.ci.backend.null.Backend.fetch', side_effect=mock_backend_fetch)

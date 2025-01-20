@@ -618,7 +618,7 @@ class LavaTest(TestCase):
             job_id='1234',
             target=self.project,
             backend=self.backend)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
 
         self.assertEqual(JOB_METADATA, metadata)
 
@@ -631,7 +631,7 @@ class LavaTest(TestCase):
             job_id='1234',
             target=self.project,
             backend=self.backend)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
 
         self.assertEqual({}, metadata)
 
@@ -644,7 +644,7 @@ class LavaTest(TestCase):
             job_id='1234',
             target=self.project,
             backend=self.backend)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
 
         self.assertEqual({"suite1": "1.0"}, metadata['suite_versions'])
 
@@ -868,7 +868,7 @@ class LavaTest(TestCase):
             job_id='1234',
             target=self.project,
             backend=self.backend)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
 
         self.assertEqual(len(results), 2)
         self.assertIn('log', results['DefinitionFoo/case_bar'].keys())
@@ -887,7 +887,7 @@ class LavaTest(TestCase):
             job_id='1234',
             target=self.project,
             backend=self.backend)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
 
         self.assertEqual(len(results), 2)
         self.assertIn('log', results['DefinitionFoo/case_bar'].keys())
@@ -911,7 +911,7 @@ class LavaTest(TestCase):
             target=self.project,
             target_build=self.build,
             environment="foo_env")
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
 
         self.assertEqual(len(results), 3)
         self.assertEqual(len(metrics), 2)
@@ -927,7 +927,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         self.assertFalse(completed)
 
     @patch("squad.ci.backend.lava.Backend.__download_full_log__", return_value=LOG_DATA)
@@ -939,7 +939,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         self.assertFalse(completed)
         self.assertEqual(TEST_RESULTS_INFRA_FAILURE_STR[0]['metadata'], testjob.failure)
 
@@ -955,7 +955,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         self.assertFalse(completed)
         resubmit.assert_not_called()
 
@@ -968,7 +968,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         self.assertFalse(completed)
 
     @patch("squad.ci.backend.lava.Backend.__download_full_log__", return_value=LOG_DATA)
@@ -988,7 +988,7 @@ class LavaTest(TestCase):
             resubmitted_count=1)
         resubmitted_job.save()
         lava.resubmit = MagicMock(return_value=resubmitted_job)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         lava.resubmit.assert_called()
         # there should be an admin email sent after resubmission
         self.assertEqual(1, len(mail.outbox))
@@ -1012,7 +1012,7 @@ class LavaTest(TestCase):
             resubmitted_count=1)
         resubmitted_job.save()
         lava.resubmit = MagicMock(return_value=resubmitted_job)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         lava.resubmit.assert_called()
         # there should not be an admin email sent after resubmission
         self.assertEqual(0, len(mail.outbox))
@@ -1027,7 +1027,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         lava_resubmit.assert_called()
         new_test_job = TestJob.objects.all().last()
         self.assertEqual(1, new_test_job.resubmitted_count)
@@ -1044,7 +1044,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         lava_resubmit.assert_called()
         new_test_job = TestJob.objects.all().last()
         self.assertEqual(1, new_test_job.resubmitted_count)
@@ -1060,7 +1060,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         lava_resubmit.assert_called()
         new_test_job = TestJob.objects.all().last()
         self.assertEqual(1, new_test_job.resubmitted_count)
@@ -1076,7 +1076,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         lava_resubmit.assert_called()
         new_test_job = TestJob.objects.all().last()
         self.assertEqual(1, new_test_job.resubmitted_count)
@@ -1092,7 +1092,7 @@ class LavaTest(TestCase):
             job_id='1234',
             backend=self.backend,
             target=self.project)
-        status, completed, metadata, results, metrics, logs = lava.fetch(testjob)
+        status, completed, metadata, results, metrics, logs, attachments = lava.fetch(testjob)
         lava_resubmit.assert_called()
         new_test_job = TestJob.objects.all().last()
         self.assertEqual(1, new_test_job.resubmitted_count)

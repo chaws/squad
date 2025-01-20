@@ -70,7 +70,8 @@ class FetchTest(TestCase):
         logs = ''
         test_job.failure = None
         test_job.save()
-        return status, completed, metadata, tests, metrics, logs
+        attachments = {}
+        return status, completed, metadata, tests, metrics, logs, attachments
 
     @patch('squad.ci.models.Backend.fetch')
     def test_fetch(self, fetch_method):
@@ -160,7 +161,8 @@ class FetchTestRaceCondition(TransactionTestCase):
         tests = {}
         metrics = {}
         logs = ''
-        return status, completed, metadata, tests, metrics, logs
+        attachments = {}
+        return status, completed, metadata, tests, metrics, logs, attachments
 
     @tag('skip_sqlite')
     @patch('squad.ci.backend.null.Backend.job_url', return_value='http://url')
@@ -219,7 +221,8 @@ class FetchTestRaceConditionWaitAllJobsToBeFetched(TransactionTestCase):
         tests = {}
         metrics = {}
         logs = ''
-        return status, completed, metadata, tests, metrics, logs
+        attachments = {}
+        return status, completed, metadata, tests, metrics, logs, attachments
 
     def mock_receive_testrun(target, update_project_status):
         global __sleeping__

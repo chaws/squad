@@ -109,7 +109,7 @@ class Backend(models.Model):
             test_job.fetched_at = timezone.now()
             test_job.save()
 
-        status, completed, metadata, tests, metrics, logs = results
+        status, completed, metadata, tests, metrics, logs, attachments = results
 
         if not completed:
             tests = {}
@@ -136,6 +136,7 @@ class Backend(models.Model):
                 metrics_file=json.dumps(metrics),
                 log_file=logs,
                 completed=completed,
+                attachments=attachments,
             )
             test_job.testrun = testrun
         except (DuplicatedTestJob, InvalidMetadata) as exception:

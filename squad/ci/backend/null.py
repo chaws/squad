@@ -70,8 +70,9 @@ class Backend:
         proper id.
 
         The return value must be a tuple (status, completed, metadata, tests,
-        metrics, logs), where status and logs are strings, metadata, tests and
-        metrics are dictionaries, and completed is a boolean.
+        metrics, logs, attachments), where status and logs are strings,
+        metadata, tests and metrics are dictionaries, and completed is a
+        boolean.
 
         On errors, implementations can raise two classes of exceptions:
             * squad.ci.exceptions.FetchIssue, when there is an unrecoverable
