@@ -51,17 +51,17 @@ MULTILINERS_GENERAL = [
     (
         "general-not-a-git-repo",
         r"^[^\n]*fatal: not a git repository.*?not set\)\.$",
-        r"^[^\n]*fatal: not a git repository.*?$",
+        r"fatal: not a git repository.*?$",
     ),
     (
         "general-unexpected-argument",
         r"^[^\n]*error: Found argument.*?--help$",
-        r"^[^\n]*error: Found argument.*?$",
+        r"error: Found argument.*?$",
     ),
     (
         "general-broken-32-bit",
         r"^[^\n]*Warning: you seem to have a broken 32-bit build.*?(?:If[^\n]*?try:(?:\n|\s+.+?$)+)+",
-        r"^[^\n]*Warning:.*?$",
+        r"Warning:.*?$",
     ),
     (
         "general-makefile-overriding",
@@ -76,27 +76,27 @@ MULTILINERS_GENERAL = [
     (
         "general-ldd",
         r"^[^\n]*?lld:[^\n]+?(?:warning|error):.*?$(?:\n^>>>[^\n]+)*",
-        r"^[^\n]*?lld:.*?$",
+        r"lld:.*?$",
     ),
     (
         "general-ld",
         r"^[^\n]*?ld:[^\n]+?(?:warning|error):[^\n]*?$(?:\n^[^\n]*?NOTE:[^\n]+)*",
-        r"^[^\n]*?ld:[^\n]+?(?:warning|error):.*?$",
+        r"(?:warning|error):.*?$",
     ),
     (
         "general-objcopy",
         r"^[^\n]*?objcopy:[^\n]+?(?:warning|error):[^\n]*?$(?:\n^[^\n]*?NOTE:[^\n]+)*",
-        r"^[^\n]*?objcopy:[^\n]+?(?:warning|error):.*?$",
+        r"(?:warning|error):.*?$",
     ),
     (
         "general-ld-undefined-reference",
         r"^[^\n]*?ld[^\n]*?$\n^[^\n]+undefined reference.*?$",
-        r"^[^\n]+undefined reference.*?$",
+        r"undefined reference.*?$",
     ),
     (
         "general-modpost",
         r"^[^\n]*?WARNING: modpost:[^\n]*?$(?:\n^To see.*?:$\n^.*?$)?",
-        r"^[^\n]*?WARNING.*?$",
+        r"WARNING.*?$",
     ),
     (
         "general-python-traceback",
@@ -134,22 +134,22 @@ ONELINERS_GENERAL = [
     (
         "general-kernel-abi",
         r"^Warning: Kernel ABI header at.*?$",
-        r"^Warning: Kernel ABI header at.*?$",
+        r"Warning: Kernel ABI header at.*?$",
     ),
     (
         "general-missing",
         r"^Warning: missing.*?$",
-        r"^Warning: missing.*?$",
+        r"Warning: missing.*?$",
     ),
     (
         "general-dtc",
         r"^[^\n]*?Warning \([^\n]*?\).*?$",
-        r"^[^\n]*?Warning.*?$",
+        r"Warning.*?$",
     ),
     (
         "general-register-allocation",
         r"^[^\n]*?error: register allocation failed.*?$",
-        r"^[^\n]*?error.*?$",
+        r"error.*?$",
     ),
 ]
 
