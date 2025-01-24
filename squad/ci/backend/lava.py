@@ -718,7 +718,8 @@ class Backend(BaseBackend):
                     # automatically resubmit in some cases
                     if error_type in ['Infrastructure', 'Job', 'Test']:
                         self.__resubmit_job__(test_job, metadata)
-        return (data[status_key], completed, job_metadata, results, metrics, self.__parse_log__(raw_logs))
+        attachments = {}
+        return (data[status_key], completed, job_metadata, results, metrics, self.__parse_log__(raw_logs), attachments)
 
     def __resubmit_job__(self, test_job, metadata):
         infra_messages_re_list = []

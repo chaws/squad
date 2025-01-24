@@ -146,7 +146,7 @@ class BuildTest(TestCase):
         env1 = self.project.environments.create(slug='env1', expected_test_runs=1)
         backend = Backend.objects.create(name='foobar', implementation_type='null')
 
-        fetch.return_value = ('OK', True, {}, {'test1': 'pass'}, {}, '...')
+        fetch.return_value = ('OK', True, {}, {'test1': 'pass'}, {}, '...', {})
 
         t1 = TestJob.objects.create(
             job_id='1',
@@ -184,7 +184,7 @@ class BuildTest(TestCase):
         env1 = self.project.environments.create(slug='env1', expected_test_runs=2)
         backend = Backend.objects.create(name='foobar', implementation_type='null')
 
-        fetch.return_value = ('OK', True, {}, {'test1': 'pass'}, {}, '...')
+        fetch.return_value = ('OK', True, {}, {'test1': 'pass'}, {}, '...', {})
 
         t1 = TestJob.objects.create(
             job_id='1',

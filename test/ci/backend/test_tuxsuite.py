@@ -639,14 +639,119 @@ class TuxSuiteTest(TestCase):
         with requests_mock.Mocker() as fake_request:
             fake_request.get(build_url, json=build_results)
             fake_request.get(urljoin(build_download_url, 'build.log'), text=build_logs)
+            fake_request.get(urljoin(build_download_url, 'config'), text='config contents')
+            fake_request.get(urljoin(build_download_url, 'tuxmake_reproducer.sh'), text='tuxmake_reproducer.sh contents')
+            fake_request.get(urljoin(build_download_url, 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
             self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(build_logs, logs)
+
+            # Check attachments
+            expected_contents = {
+                'config': b'config contents',
+                'tuxmake_reproducer.sh': b'tuxmake_reproducer.sh contents',
+                'tux_plan.yaml': b'tux_plan.yaml contents',
+            }
+
+            for name, content in expected_contents.items():
+                self.assertEqual(len(content), attachments[name].size)
+                self.assertEqual(content, attachments[name].read())
+
+        self.assertEqual(build_results['build_name'], testjob.name)
+        mock_fetch_from_results_input.assert_not_called()
+
+    @patch("squad.ci.backend.tuxsuite.Backend.fetch_from_results_input")
+    def test_fetch_build_results_with_no_attachments(self, mock_fetch_from_results_input):
+        job_id = 'BUILD:tuxgroup@tuxproject#123'
+        testjob = self.build.test_jobs.create(target=self.project, backend=self.backend, job_id=job_id)
+        build_url = urljoin(TUXSUITE_URL, '/groups/tuxgroup/projects/tuxproject/builds/123')
+        build_download_url = 'http://builds.tuxbuild.com/123'
+
+        # Only fetch when finished
+        with requests_mock.Mocker() as fake_request:
+            fake_request.get(build_url, json={'state': 'running'})
+            results = self.tuxsuite.fetch(testjob)
+            self.assertEqual(None, results)
+
+        build_logs = 'dummy build log'
+        build_results = {
+            'retry': 0,
+            'state': 'finished',
+            'build_status': 'pass',
+            'build_name': 'tux-build',
+            'git_repo': 'https://github.com/Linaro/linux-canaries.git',
+            'git_ref': 'v5.9',
+            'git_describe': 'v5.9',
+            'git_sha': 'bbf5c979011a099af5dc76498918ed7df445635b',
+            'git_short_log': 'bbf5c979011a ("Linux 5.9")',
+            'kernel_version': '5.9.0',
+            'kconfig': ['tinyconfig'],
+            'target_arch': 'x86_64',
+            'toolchain': 'gcc-10',
+            'download_url': build_download_url,
+            'provisioning_time': '2022-03-25T15:42:06.570362',
+            'running_time': '2022-03-25T15:44:16.223590',
+            'finished_time': '2022-03-25T15:46:56.095902',
+            'warnings_count': '2',
+            'tuxmake_metadata': {
+                'results': {
+                    'duration': {
+                        'build': '42',
+                    },
+                },
+            },
+        }
+
+        expected_metadata = {
+            'job_url': build_url,
+            'job_id': job_id,
+            'build_status': 'pass',
+            'git_repo': 'https://github.com/Linaro/linux-canaries.git',
+            'git_ref': 'v5.9',
+            'git_describe': 'v5.9',
+            'git_sha': 'bbf5c979011a099af5dc76498918ed7df445635b',
+            'git_short_log': 'bbf5c979011a ("Linux 5.9")',
+            'kernel_version': '5.9.0',
+            'kconfig': ['tinyconfig'],
+            'target_arch': 'x86_64',
+            'toolchain': 'gcc-10',
+            'download_url': build_download_url,
+            'config': f'{build_download_url}/config',
+            'does_not_exist': None,
+            'build_name': 'tux-build',
+        }
+
+        expected_tests = {
+            'build/tux-build': 'pass',
+        }
+
+        expected_metrics = {
+            'build/tux-build-duration': '42',
+            'build/tux-build-warnings': '2',
+        }
+
+        with requests_mock.Mocker() as fake_request:
+            fake_request.get(build_url, json=build_results)
+            fake_request.get(urljoin(build_download_url, 'build.log'), text=build_logs)
+            fake_request.get(urljoin(build_download_url, 'config'), status_code=404)
+            fake_request.get(urljoin(build_download_url, 'tuxmake_reproducer.sh'), status_code=404)
+            fake_request.get(urljoin(build_download_url, 'tux_plan.yaml'), status_code=404)
+
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
+            self.assertEqual('Complete', status)
+            self.assertTrue(completed)
+            self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
+            self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
+            self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
+            self.assertEqual(build_logs, logs)
+
+            # Check attachments
+            self.assertEqual(0, len(attachments))
 
         self.assertEqual(build_results['build_name'], testjob.name)
         mock_fetch_from_results_input.assert_not_called()
@@ -708,8 +813,11 @@ class TuxSuiteTest(TestCase):
         with requests_mock.Mocker() as fake_request:
             fake_request.get(build_url, json=build_results)
             fake_request.get(urljoin(build_download_url, 'build.log'), status_code=404)
+            fake_request.get(urljoin(build_download_url, 'config'), text='config contents')
+            fake_request.get(urljoin(build_download_url, 'tuxmake_reproducer.sh'), text='tuxmake_reproducer.sh contents')
+            fake_request.get(urljoin(build_download_url, 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Incomplete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -770,7 +878,7 @@ class TuxSuiteTest(TestCase):
         with requests_mock.Mocker() as fake_request:
             fake_request.get(test_url, json=test_results)
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Canceled', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
@@ -867,8 +975,10 @@ class TuxSuiteTest(TestCase):
             fake_request.get(build_url, json=build_results)
             fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -966,8 +1076,10 @@ class TuxSuiteTest(TestCase):
             fake_request.get(build_url, json=build_results)
             fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -1049,8 +1161,10 @@ class TuxSuiteTest(TestCase):
             fake_request.get(test_url, json=test_results)
             fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -1145,9 +1259,11 @@ class TuxSuiteTest(TestCase):
             fake_request.get(build_url, json=build_results)
             fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
             fake_request.get(test_url, json=job_data)
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -1245,8 +1361,10 @@ class TuxSuiteTest(TestCase):
             fake_request.get(build_url, json=build_results)
             fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -1302,7 +1420,7 @@ class TuxSuiteTest(TestCase):
         with requests_mock.Mocker() as fake_request:
             fake_request.get(test_url, json=test_results)
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Incomplete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -1370,8 +1488,10 @@ class TuxSuiteTest(TestCase):
             fake_request.get(test_url, json=test_results)
             fake_request.get(urljoin(test_url + '/', 'logs'), text='{"error": "File not found"}', status_code=404)
             fake_request.get(urljoin(test_url + '/', 'results'), json={'error': 'File not found'}, status_code=404)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -1439,8 +1559,10 @@ class TuxSuiteTest(TestCase):
             fake_request.get(test_url, json=test_results)
             fake_request.get(urljoin(test_url + '/', 'logs'), text='{"error": "File not found"}', status_code=404)
             fake_request.get(urljoin(test_url + '/', 'results'), json={'error': 'File not found'}, status_code=404)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -1519,8 +1641,10 @@ class TuxSuiteTest(TestCase):
             fake_request.get(build_url, json=build_results)
             fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
@@ -1528,7 +1652,7 @@ class TuxSuiteTest(TestCase):
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
 
-            self.assertEqual(5, fake_request.call_count)
+            self.assertEqual(7, fake_request.call_count)
 
         self.assertEqual('ltp-smoke', testjob.name)
 
@@ -1582,9 +1706,13 @@ class TuxSuiteTest(TestCase):
             fake_request.get(urljoin(sanity_test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
             fake_request.get(urljoin(sanity_test_url + '/', 'results'), json=test_results_json)
+            fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(sanity_test_url + '/', 'reproducer'), text='reproducer contents')
+            fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
+            fake_request.get(urljoin(sanity_test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
             # Fetch sanity job first
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(sanity_testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(sanity_testjob)
             receive = ReceiveTestRun(sanity_testjob.target, update_project_status=False)
             testrun, _ = receive(
                 version=sanity_testjob.target_build.version,
@@ -1594,13 +1722,14 @@ class TuxSuiteTest(TestCase):
                 metrics_file=json.dumps(metrics),
                 log_file=logs,
                 completed=completed,
+                attachments=attachments,
             )
-            self.assertEqual(4, fake_request.call_count)
+            self.assertEqual(6, fake_request.call_count)
 
             # Now fetch test, and make sure no extra requests were made
-            _, _, metadata, _, _, _ = self.tuxsuite.fetch(testjob)
+            _, _, metadata, _, _, _, _ = self.tuxsuite.fetch(testjob)
             self.assertEqual(build_name, metadata['build_name'])
-            self.assertEqual(7, fake_request.call_count)
+            self.assertEqual(11, fake_request.call_count)
 
         self.assertEqual('ltp-smoke', testjob.name)
 
@@ -1813,8 +1942,11 @@ class TuxSuiteTest(TestCase):
         with requests_mock.Mocker() as fake_request:
             fake_request.get(build_url, json=build_results)
             fake_request.get(urljoin(build_download_url, 'build.log'), text=build_logs)
+            fake_request.get(urljoin(build_download_url, 'config'), text='config contents')
+            fake_request.get(urljoin(build_download_url, 'tuxmake_reproducer.sh'), text='tuxmake_reproducer.sh contents')
+            fake_request.get(urljoin(build_download_url, 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
-            status, completed, metadata, tests, metrics, logs = self.tuxsuite.fetch(testjob)
+            status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))

@@ -12,6 +12,7 @@ metadata = {'foo': 'bar'}
 tests = {'test1': 'pass'}
 metrics = {'metric1': {"value": 1, "unit": ""}}
 logs = "hello world\nfinished\n"
+attachments = {}
 
 
 class BuildNotificationFromCI(TestCase):
@@ -20,7 +21,7 @@ class BuildNotificationFromCI(TestCase):
     @patch('squad.ci.backend.null.Backend.job_url', return_value="http://example.com/123")
     @patch('squad.ci.backend.null.Backend.fetch')
     def test_fetch_triggers_notification(self, fetch, job_url, notify):
-        fetch.return_value = (job_status, completed, metadata, tests, metrics, logs)
+        fetch.return_value = (job_status, completed, metadata, tests, metrics, logs, attachments)
 
         group = Group.objects.create(slug='mygroup')
         project = group.projects.create(slug='myproject')

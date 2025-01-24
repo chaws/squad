@@ -48,7 +48,7 @@ class FakeBackendTest(TestCase):
     def test_fetch(self):
         job = TestJob.objects.create(backend=self.backend, target=self.project)
         impl = FakeBackend(self.backend)
-        (status, completed, metadata, tests, metrics, logs) = impl.fetch(job)
+        (status, completed, metadata, tests, metrics, logs, attachments) = impl.fetch(job)
         self.assertIsInstance(status, str)
         self.assertIsInstance(completed, bool)
         self.assertIsInstance(metadata, dict)

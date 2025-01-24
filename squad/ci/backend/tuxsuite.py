@@ -17,6 +17,8 @@ from cryptography.hazmat.primitives import (
     serialization,
 )
 
+from django.core.files.base import ContentFile
+
 from squad.ci.backend.null import Backend as BaseBackend
 from squad.ci.exceptions import FetchIssue, TemporaryFetchIssue
 from squad.ci.models import TestJob
@@ -284,7 +286,14 @@ class Backend(BaseBackend):
             except KeyError:
                 raise FetchIssue('Missing duration from build results')
 
-        return status, completed, metadata, tests, metrics, logs
+        attachment_list = ["config", "tuxmake_reproducer.sh", "tux_plan.yaml"]
+        attachments = {}
+        for name in attachment_list:
+            response = self.fetch_url(results['download_url'], name)
+            if response.ok:
+                attachments[name] = ContentFile(response.content)
+
+        return status, completed, metadata, tests, metrics, logs, attachments
 
     def parse_oebuild_results(self, test_job, job_url, results, settings):
         required_keys = ['download_url', 'result']
@@ -301,6 +310,7 @@ class Backend(BaseBackend):
             metadata['sources'] = sources
 
         # Create tests and metrics
+        attachments = {}
         tests = {}
         metrics = {}
         completed = True
@@ -308,7 +318,7 @@ class Backend(BaseBackend):
         tests['build/build'] = 'pass' if results['result'] == 'pass' else 'fail'
         logs = self.fetch_url(results['download_url'], 'build.log').text
 
-        return status, completed, metadata, tests, metrics, logs
+        return status, completed, metadata, tests, metrics, logs, attachments
 
     def update_metadata_from_file(self, results, metadata):
         if "download_url" in results:
@@ -327,6 +337,7 @@ class Backend(BaseBackend):
         tests = {}
         metrics = {}
         logs = ''
+        attachments = {}
 
         # Pick up some metadata from results
         metadata_keys = settings.get('TEST_METADATA_KEYS', [])
@@ -361,7 +372,7 @@ class Backend(BaseBackend):
 
             self.add_skip_boot_test(tests, metadata)
 
-            return status, completed, metadata, tests, metrics, logs
+            return status, completed, metadata, tests, metrics, logs, attachments
 
         # Fetch results even if the job fails, but has results
         if results['result'] == 'fail':
@@ -370,12 +381,12 @@ class Backend(BaseBackend):
         elif results['result'] == 'error':
             test_job.failure = 'tuxsuite infrastructure error'
             self.add_skip_boot_test(tests, metadata)
-            return 'Incomplete', completed, metadata, tests, metrics, logs
+            return 'Incomplete', completed, metadata, tests, metrics, logs, attachments
 
         elif results['result'] == 'canceled':
             test_job.failure = 'tuxsuite job canceled'
             self.add_skip_boot_test(tests, metadata)
-            return 'Canceled', completed, metadata, tests, metrics, logs
+            return 'Canceled', completed, metadata, tests, metrics, logs, attachments
 
         # If boot result is unkown, a retry is needed, otherwise, it either passed or failed
         if 'unknown' == results['results']['boot']:
@@ -383,6 +394,13 @@ class Backend(BaseBackend):
 
         # Retrieve TuxRun log
         logs = self.fetch_url(job_url + '/', 'logs?format=txt').text
+
+        attachment_list = ["reproducer", "tux_plan.yaml"]
+        attachments = {}
+        for name in attachment_list:
+            response = self.fetch_url(job_url + '/', name)
+            if response.ok:
+                attachments[name] = ContentFile(response.content)
 
         # Follow up the chain and retrieve build name
         self.set_build_name(test_job, job_url, results, metadata, settings)
@@ -407,7 +425,7 @@ class Backend(BaseBackend):
                     # test_log = self.get_test_log(log_dict, test)
                     tests[test_name] = result
 
-        return status, completed, metadata, tests, metrics, logs
+        return status, completed, metadata, tests, metrics, logs, attachments
 
     def fetch(self, test_job):
         url = self.job_url(test_job)
