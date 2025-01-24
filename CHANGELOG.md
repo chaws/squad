@@ -1,3 +1,7 @@
+# 1.93.2
+
+This 1.93.2 release add minor bug fixes in the linux log parser plugin.
+
 # 1.93.1
 
 This 1.93.1 release has minor bug fixes on log parser plugin and it silences a warning
