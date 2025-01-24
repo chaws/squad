@@ -36,7 +36,7 @@ from squad.core.data import JSONTestDataParser, JSONMetricDataParser
 from squad.core.statistics import geomean
 from squad.core.notification import Notification
 from squad.core.plugins import apply_plugins
-from squad.core.utils import join_name
+from squad.core.utils import join_name, split_dict
 from rest_framework import status
 from jinja2 import TemplateSyntaxError
 from . import exceptions
@@ -45,7 +45,6 @@ from . import exceptions
 from .notification import maybe_notify_project_status
 from .notification import notify_patch_build_created
 from .notification import notify_delayed_report_callback, notify_delayed_report_email
-
 
 test_parser = JSONTestDataParser
 metric_parser = JSONMetricDataParser
@@ -214,49 +213,130 @@ def get_suite(test_run, suite_name):
 class ParseTestRunData(object):
 
     @staticmethod
+    def create_suites(project, suites_slugs):
+        # Insert/Get all suites at once, not likely to be a big list
+        SuiteMetadata.objects.bulk_create([
+            SuiteMetadata(
+                kind='suite',
+                suite=suite,
+                name='-',
+            ) for suite in suites_slugs
+        ], ignore_conflicts=True)
+
+        suites_metadata_ids = {
+            m.suite: m.id for m in SuiteMetadata.objects.filter(kind='suite', name='-', suite__in=suites_slugs)
+        }
+
+        Suite.objects.bulk_create([
+            Suite(
+                project=project,
+                slug=suite,
+                metadata_id=suites_metadata_ids[suite],
+            ) for suite in suites_slugs
+        ], ignore_conflicts=True)
+
+        return {s.slug: s.id for s in project.suites.filter(slug__in=suites_slugs)}
+
+    @staticmethod
+    def create_tests_batch(testrun, tests_batch, issues_by_full_name, suites_ids):
+
+        # Create SuiteMetadata in bulk
+        SuiteMetadata.objects.bulk_create([
+            SuiteMetadata(
+                suite=test['suite_slug'],
+                name=test['test_name'],
+                kind='test',
+            ) for test in tests_batch.values()
+        ], ignore_conflicts=True)
+
+        # We need the extra SELECT due to `ignore_conflicts=True` above
+        metadata_ids = {}
+        metadata_names = {}
+        metadatas = SuiteMetadata.objects.filter(
+            kind='test',
+            name__in=[
+                t['test_name'] for t in tests_batch.values()
+            ]
+        ).all()
+
+        for metadata in metadatas:
+            full_name = join_name(metadata.suite, metadata.name)
+            metadata_ids[full_name] = metadata.id
+            metadata_names[metadata.id] = full_name
+
+        # Create tests in batch
+        created_tests = Test.objects.bulk_create([
+            Test(
+                test_run=testrun,
+                suite_id=suites_ids[test['suite_slug']],
+                metadata_id=metadata_ids[full_name],
+                result=test['result'],
+                log=test['log'],
+                has_known_issues=test['has_known_issues'],
+                build_id=testrun.build_id,
+                environment_id=testrun.environment_id,
+            ) for full_name, test in tests_batch.items()
+        ])
+
+        # Attach known issues, if any
+        for test in created_tests:
+            test_full_name = metadata_names[test.metadata_id]
+            test_full_name = join_name(metadata.suite, metadata.name)
+            issues = issues_by_full_name[test_full_name]
+            if len(issues) > 0:
+                test.known_issues.add(*issues)
+
+    @staticmethod
     def __call__(test_run):
         if test_run.data_processed:
             return
 
-        issues = {}
-        for issue in KnownIssue.active_by_environment(test_run.environment):
-            issues.setdefault(issue.test_name, [])
-            issues[issue.test_name].append(issue)
+        project = test_run.build.project
 
         # Issues' test_name should be interpreted as regexes
         # so compile them prior to matching against test names
         # The * character should be replaced by .*?, which is regex for "everything"
+        issues = defaultdict(list)
         issues_regex = {}
+        for issue in KnownIssue.active_by_environment(test_run.environment):
+            issues[issue.test_name].append(issue)
+
         for test_name_regex in issues.keys():
             pattern = re.escape(test_name_regex).replace('\\*', '.*?')
             regex = re.compile(pattern)
             issues_regex[regex] = issues[test_name_regex]
 
+        tests_details = {}
+        suites_slugs = set()
+        issues_by_full_name = {}
         for test in test_parser()(test_run.tests_file):
             # TODO: remove check below when test_name size changes in the schema
             if len(test['test_name']) > 256:
                 continue
-            suite = get_suite(
-                test_run,
-                test['group_name']
-            )
-            metadata, _ = SuiteMetadata.objects.get_or_create(suite=suite.slug, name=test['test_name'], kind='test')
-            full_name = join_name(suite.slug, test['test_name'])
 
-            test_issues = list(itertools.chain(*[issue for regex, issue in issues_regex.items() if regex.match(full_name)]))
+            full_name = join_name(test['group_name'], test['test_name'])
+            test_issues = list(itertools.chain(*[
+                issue for regex, issue in issues_regex.items()
+                if regex.match(full_name)
+            ]))
 
-            test_obj = Test.objects.create(
-                test_run=test_run,
-                suite=suite,
-                metadata=metadata,
-                result=test['pass'],
-                log=test['log'],
-                has_known_issues=bool(test_issues),
-                build=test_run.build,
-                environment=test_run.environment,
-            )
-            for issue in test_issues:
-                test_obj.known_issues.add(issue)
+            suites_slugs.add(test['group_name'])
+            tests_details[full_name] = {
+                'suite_slug': test['group_name'],
+                'test_name': test['test_name'],
+                'result': test['pass'],
+                'log': test['log'],
+                'has_known_issues': bool(test_issues),
+            }
+
+            issues_by_full_name[full_name] = test_issues
+
+        suites_ids = ParseTestRunData.create_suites(project, suites_slugs)
+
+        # Insert tests in batches
+        batch_size = 1000
+        for batch in split_dict(tests_details, batch_size):
+            ParseTestRunData.create_tests_batch(test_run, batch, issues_by_full_name, suites_ids)
 
         for metric in metric_parser()(test_run.metrics_file):
             # TODO: remove check below when test_name size changes in the schema
