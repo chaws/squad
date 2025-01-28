@@ -1027,6 +1027,37 @@ riscv64-linux-gnu-ld: kernel/task_work.o: in function `task_work_add':
 task_work.c:(.text+0x9a): undefined reference to `irq_work_queue'"""
         self.assertIn(expected, test.log)
 
+    def test_general_ld_with_tmp_before_warning(self):
+        testrun = self.new_testrun("gcc_x86_64_26861563.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-ld-warning-relocation-in-read-only-section-_text",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make  -C /builds/linux/tools/lib/bpf OUTPUT=/home/tuxbuild/.cache/tuxmake/builds/3/build/kselftest/net/tools/build/libbpf/     \\
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/rseq'
+/usr/lib/gcc-cross/i686-linux-gnu/13/../../../../i686-linux-gnu/bin/ld: /tmp/ccvyLu0o.o: warning: relocation in read-only section `.text'"""
+        self.assertIn(expected, test.log)
+
+    def test_general_ld_with_tmp_after_warning(self):
+        testrun = self.new_testrun("gcc_x86_64_26788931.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-ld-warning-missing-_note_gnu-stack-section-implies-executable-stack",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/sgx'
+/usr/bin/ld: warning: /tmp/ccKMDOYT.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker"""
+        self.assertIn(expected, test.log)
+
     def test_general_objcopy_warning(self):
         testrun = self.new_testrun("gcc_s390_26103313.log")
         self.plugin.postprocess_testrun(testrun)

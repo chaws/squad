@@ -204,7 +204,10 @@ class Plugin(BasePlugin, BaseLogParser):
             r"(0x[a-f0-9]+|[<\[][0-9a-f]+?[>\]]|\b\d+\b(?!\s*\())", "", snippet
         )
 
-        name = slugify(self.post_process_test_name(without_numbers))
+        # Remove tmp .o files
+        without_tmp = re.sub(r"\/tmp\S*?\/\S*?\.o", "", without_numbers)
+
+        name = slugify(self.post_process_test_name(without_tmp))
 
         return name
 
