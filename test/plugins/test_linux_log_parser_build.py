@@ -982,6 +982,20 @@ ld.lld: error: undefined symbol: irq_work_queue
 >>>               kernel/task_work.o:(task_work_add) in archive vmlinux.a"""
         self.assertIn(expected, test.log)
 
+    def test_general_lld_warning(self):
+        testrun = self.new_testrun("clang_arm64_2957859.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="general-ldd-lld-warning-vmlinux_a_arm_attributes-is-being-placed-in-_arm_attributes",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- HOSTCC=clang CC=clang LLVM=1 LLVM_IAS=1
+ld.lld: warning: vmlinux.a(arch/arm64/mm/pgd.o):(.ARM.attributes) is being placed in '.ARM.attributes'"""
+        self.assertIn(expected, test.log)
+
     def test_general_ld_warning(self):
         testrun = self.new_testrun("gcc_i386_25044475.log")
         self.plugin.postprocess_testrun(testrun)
