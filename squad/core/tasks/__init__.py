@@ -282,7 +282,7 @@ class ParseTestRunData(object):
         for test in created_tests:
             test_full_name = metadata_names[test.metadata_id]
             test_full_name = join_name(metadata.suite, metadata.name)
-            issues = issues_by_full_name[test_full_name]
+            issues = issues_by_full_name.get(test_full_name, [])
             if len(issues) > 0:
                 test.known_issues.add(*issues)
 
