@@ -1,3 +1,9 @@
+# 1.93.3
+
+This 1.93.3 release adds performance improvement when fetching test results. 
+
+Also it bumps SQUAD's Python version to 3.11.
+
 # 1.93.2
 
 This 1.93.2 release add minor bug fixes in the linux log parser plugin.
