@@ -1,3 +1,7 @@
+# 1.93.4
+
+This 1.93.4 release adds a hotfix for a bug added in 1.93.3.
+
 # 1.93.3
 
 This 1.93.3 release adds performance improvement when fetching test results. 
@@ -23,7 +27,7 @@ This 1.92 release avoids an extra retry when fetching errored builds/tests in Tu
 
 # 1.91
 
-This 1.91 release brings a few changes worth pointing out separately:
+his 1.91 release brings a few changes worth pointing out separately:
 
 * Tuxsuite backend: add support for changing environment name if "test_name" is present. Artificial boot tests
 when jobs fail or get canceled. Also checks if the testjob's project contains a token allowing authenticated
