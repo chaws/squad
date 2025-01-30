@@ -11,7 +11,7 @@ local_settings=$(ls -1 squad/local_settings.py 2>/dev/null || true)
 if [ -n "$local_settings" ]; then
     mv "$local_settings" "$local_settings".off
 fi
-python3 setup.py sdist bdist_wheel
+python3 -m build
 
 # test
 tar=$(mktemp tar.XXXXXXXXX)

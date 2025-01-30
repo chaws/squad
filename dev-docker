@@ -25,21 +25,16 @@ fi
 dockerfile="$datadir"/../Dockerfile.dev
 (
   sed -e '1,/# Prepare the environment/!d' "$basedir"/Dockerfile
-  echo 'RUN apt-get update -q2 && \
+  echo 'COPY requirements-dev.txt /app/requirements-dev.txt'
+  echo 'RUN sed -i "1d" /app/requirements-dev.txt && \
+            pip install -r /app/requirements-dev.txt && \
             apt-get install -q2 \
-	        tmux \
-		flake8 \
-		python3-django-extensions \
-		python3-pytest \
-		python3-pytest-django \
-		python3-requests-mock \
-		ipython3 \
-		rabbitmq-server \
-		chromium \
-		nodejs \
-		ruby-foreman \
-		procps && \'
-  echo "    pip3 install --no-dependencies django-bootstrap3"
+                tmux \
+                rabbitmq-server \
+                chromium \
+                nodejs \
+                ruby-foreman \
+                procps'
 
   if [ ! -z "${has_input}" ]
   then
