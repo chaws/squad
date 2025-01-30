@@ -534,7 +534,10 @@ def remove_delayed_reports():
 @transaction.atomic
 def cleanup_build(build_id):
     build = Build.objects.get(pk=build_id)
-    BuildPlaceholder.objects.create(project=build.project, version=build.version)
+    build_placeholder, created = BuildPlaceholder.objects.get_or_create(project=build.project, version=build.version)
+    if not created:  # Update build deletion date when placeholder already exists
+        build_placeholder.build_deleted_at = timezone.now()
+        build_placeholder.save()
     build.delete()
 
 
