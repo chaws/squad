@@ -1,4 +1,4 @@
-image: python:3.9
+image: python:3.11
 
 
 stages:
@@ -95,6 +95,6 @@ release-pypi:
     - when: never
   script:
     - env | sort
-    - python3 -m pip install --upgrade twine
+    - python3 -m pip install --upgrade twine build
     - ./scripts/build ${CI_COMMIT_TAG}
     - twine upload dist/*
