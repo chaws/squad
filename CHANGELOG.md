@@ -1,3 +1,7 @@
+# 1.93.5
+
+This release adds a bugfix on BuildPlaceHolder.
+
 # 1.93.4
 
 This 1.93.4 release adds a hotfix for a bug added in 1.93.3.
