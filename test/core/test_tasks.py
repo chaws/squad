@@ -817,7 +817,6 @@ class CleanupOldBuildsTest(TestCase):
         # Build placeholder exists
         self.assertTrue(self.project.build_placeholders.filter(version='1').exists())
         first_placeholder = self.project.build_placeholders.filter(version='1').get()
-        old_delete_date = first_placeholder.build_deleted_at
 
         # Simulates CI reset or infra change, build ID reseted to 1
         build_id = self.create_build('1').id
