@@ -972,7 +972,7 @@ WARNING: unmet direct dependencies detected for GET_FREE_REGION
 
         test = testrun.tests.get(
             suite__slug="log-parser-build-clang",
-            metadata__name="general-ldd-ld_lld-error-undefined-symbol-irq_work_queue",
+            metadata__name="general-ldd-lld-error-undefined-symbol-irq_work_queue",
         )
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
@@ -982,13 +982,27 @@ ld.lld: error: undefined symbol: irq_work_queue
 >>>               kernel/task_work.o:(task_work_add) in archive vmlinux.a"""
         self.assertIn(expected, test.log)
 
+    def test_general_lld_warning(self):
+        testrun = self.new_testrun("clang_arm64_2957859.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-clang",
+            metadata__name="general-ldd-lld-warning-vmlinux_a_arm_attributes-is-being-placed-in-_arm_attributes",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- HOSTCC=clang CC=clang LLVM=1 LLVM_IAS=1
+ld.lld: warning: vmlinux.a(arch/arm64/mm/pgd.o):(.ARM.attributes) is being placed in '.ARM.attributes'"""
+        self.assertIn(expected, test.log)
+
     def test_general_ld_warning(self):
         testrun = self.new_testrun("gcc_i386_25044475.log")
         self.plugin.postprocess_testrun(testrun)
 
         test = testrun.tests.get(
             suite__slug="log-parser-build-gcc",
-            metadata__name="general-ld-usr_lib_gcc-cross_i-linux-gnu______________i-linux-gnu_bin_ld-warning-creating-dt_textrel-in-a-pie",
+            metadata__name="general-ld-warning-creating-dt_textrel-in-a-pie",
         )
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
@@ -1003,7 +1017,7 @@ make[4]: Entering directory '/builds/linux/tools/testing/selftests/rseq'
 
         test = testrun.tests.get(
             suite__slug="log-parser-build-gcc",
-            metadata__name="general-ld-arm-linux-gnueabihf-ld-warning-_home_tuxbuild__cache_tuxmake_builds__build_arch_arm_tests_regs_load_o-missing-_note_gnu-stack-section-implies-executable-stack",
+            metadata__name="general-ld-warning-_home_tuxbuild__cache_tuxmake_builds__build_arch_arm_tests_regs_load_o-missing-_note_gnu-stack-section-implies-executable-stack",
         )
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
@@ -1018,7 +1032,7 @@ arm-linux-gnueabihf-ld: NOTE: This behaviour is deprecated and will be removed i
 
         test = testrun.tests.get(
             suite__slug="log-parser-build-gcc",
-            metadata__name="general-ld-undefined-reference-task_work_c_text-undefined-reference-to-irq_work_queue",
+            metadata__name="general-ld-undefined-reference-undefined-reference-to-irq_work_queue",
         )
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
@@ -1027,13 +1041,44 @@ riscv64-linux-gnu-ld: kernel/task_work.o: in function `task_work_add':
 task_work.c:(.text+0x9a): undefined reference to `irq_work_queue'"""
         self.assertIn(expected, test.log)
 
+    def test_general_ld_with_tmp_before_warning(self):
+        testrun = self.new_testrun("gcc_x86_64_26861563.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-ld-warning-relocation-in-read-only-section-_text",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make  -C /builds/linux/tools/lib/bpf OUTPUT=/home/tuxbuild/.cache/tuxmake/builds/3/build/kselftest/net/tools/build/libbpf/     \\
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/rseq'
+/usr/lib/gcc-cross/i686-linux-gnu/13/../../../../i686-linux-gnu/bin/ld: /tmp/ccvyLu0o.o: warning: relocation in read-only section `.text'"""
+        self.assertIn(expected, test.log)
+
+    def test_general_ld_with_tmp_after_warning(self):
+        testrun = self.new_testrun("gcc_x86_64_26788931.log")
+        self.plugin.postprocess_testrun(testrun)
+
+        test = testrun.tests.get(
+            suite__slug="log-parser-build-gcc",
+            metadata__name="general-ld-warning-missing-_note_gnu-stack-section-implies-executable-stack",
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        expected = """make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build INSTALL_PATH=/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest_install ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' kselftest-install
+make[4]: Entering directory '/builds/linux/tools/testing/selftests/sgx'
+/usr/bin/ld: warning: /tmp/ccKMDOYT.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker"""
+        self.assertIn(expected, test.log)
+
     def test_general_objcopy_warning(self):
         testrun = self.new_testrun("gcc_s390_26103313.log")
         self.plugin.postprocess_testrun(testrun)
 
         test = testrun.tests.get(
             suite__slug="log-parser-build-gcc",
-            metadata__name="general-objcopy-sx-linux-gnu-objcopy-sttiujx-warning-allocated-section-_got_plt-not-in-segment",
+            metadata__name="general-objcopy-warning-allocated-section-_got_plt-not-in-segment",
         )
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
@@ -1231,7 +1276,7 @@ Warning: missing Module.symvers, please have the kernel built first. page_frag t
 
         test = testrun.tests.get(
             suite__slug="log-parser-build-clang",
-            metadata__name="general-dtc-arch_arm_boot_dts_qcom_ipq-hk_dtb-warning-reg_format-_soc_nandb_nandreg-property-has-invalid-length-bytes-address-cells-size-cells",
+            metadata__name="general-dtc-warning-reg_format-_soc_nandb_nandreg-property-has-invalid-length-bytes-address-cells-size-cells",
         )
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
