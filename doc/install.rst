@@ -288,7 +288,7 @@ Docker compose setup
 Alternatively, SQUAD can be run inside a Docker container using `Docker Compose
 <https://docs.docker.com/compose/>`_. A baseline setup is provided here__.
 
-__ https://github.com/linaro/squad/tree/master/docker
+__ https://gitlab.com/Linaro/squad/squad/tree/master/docker
 
 Not only will this run all SQUAD processes, but also automatically pull and
 start all required services to run a local SQUAD instance with a web interface.

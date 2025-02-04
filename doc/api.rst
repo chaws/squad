@@ -428,7 +428,7 @@ SQUAD team has been working on a client tool that help users query the API
 easily, using a Python descriptive way of interacting with the backend.
 
 If you are interested in using such tool, please check it out in
-`SQUAD-Client <https://github.com/Linaro/squad-client>`_
+`SQUAD-Client <https://gitlab.com/Linaro/squad/squad-client>`_
 
 Badges
 ------
@@ -480,7 +480,7 @@ Google Data Studio
 ------------------
 
 SQUAD has an implementation of the Google Data Studio Community Connector under
-https://github.com/Linaro/squad/tree/master/scripts/community_connector/
+https://gitlab.com/Linaro/squad/squad/tree/master/scripts/community_connector/
 There is also an existing deployment which will pull data from
 https://qa-reports.linaro.org/ and resides in this location (it is currently
 restricted to Linaro members):

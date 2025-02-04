@@ -30,7 +30,7 @@ setup(
     version=__version__,
     author='Antonio Terceiro',
     author_email='antonio.terceiro@linaro.org',
-    url='https://github.com/Linaro/squad',
+    url='https://gitlab.com/Linaro/squad/squad',
     packages=find_packages(exclude=['test*']),
     include_package_data=True,
     entry_points={

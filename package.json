@@ -19,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Linaro/squad.git"
+    "url": "git+https://gitlab.com/Linaro/squad/squad.git"
   },
   "author": "Stevan Radaković <stevan.radakovic@linaro.org>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Linaro/squad/issues"
+    "url": "https://gitlab.com/Linaro/squad/squad/-/issues"
   },
-  "homepage": "https://github.com/Linaro/squad#readme"
+  "homepage": "https://gitlab.com/Linaro/squad/squad#readme"
 }

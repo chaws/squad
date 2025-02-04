@@ -11,7 +11,7 @@
         "logoUrl": "https://www.linaro.org/assets/content/linaro-logo.png",
         "company": "Linaro Ltd.",
         "companyUrl": "https://linaro.org",
-        "addonUrl": "https://github.com/Linaro/squad",
+        "addonUrl": "https://gitlab.com/Linaro/squad/squad",
         "supportUrl": "https://github.com/google/datastudio/issues",
         "description": "SQUAD metrics"
     }
