@@ -1,11 +1,11 @@
 .. image:: squad.svg
-   :target: squad.svg
+   :height: 100px
+|
+.. image:: https://img.shields.io/gitlab/pipeline-status/Linaro%2Fsquad%2Fsquad?branch=master&label=Pipeline%20-%20master
+.. image:: https://img.shields.io/gitlab/v/tag/Linaro%2Fsquad%2Fsquad?label=Latest%20Release
 
 SQUAD - Software Quality Dashboard
 ==================================
-
-.. |tests| image:: https://github.com/Linaro/squad/actions/workflows/test.yml/badge.svg?branch=master
-
 
 SQUAD is a Software Quality Dashboard written in Python 3. It uses
 Django.

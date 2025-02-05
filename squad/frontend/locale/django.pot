@@ -523,9 +523,9 @@ msgstr ""
 #: squad/frontend/templates/django/rest_framework/api.html:59
 #: squad/frontend/templates/squad/base.jinja2:82
 msgid ""
-"<a href=\"https://github.com/Linaro/squad\">Source code</a> and <a "
-"href=\"https://github.com/Linaro/squad/issues\">Issue tracker</a> are "
-"available on Github."
+"<a href=\"https://gitlab.com/Linaro/squad/squad\">Source code</a> and <a "
+"href=\"https://gitlab.com/Linaro/squad/squad/-/issues\">Issue tracker</a> are "
+"available on GitLab."
 msgstr ""
 
 #: squad/frontend/templates/squad/build-nav.jinja2:13
