@@ -1015,7 +1015,7 @@ class BuildViewSet(NestedViewSetMixin, ModelViewSet):
     def status(self, request, pk=None):
         try:
             build = self.get_object()
-            qs = build.test_runs.prefetch_related('environment', Prefetch("status", queryset=Status.objects.filter(suite=None)))
+            qs = build.test_runs.prefetch_related('environment', Prefetch("status", queryset=Status.objects.filter(suite=None))).defer('metadata_file')
             enriched_details = self.__enrich_status_details__(request, qs)
             serializer = ProjectStatusSerializer(build.status, many=False, context={'request': request, 'enriched_details': enriched_details})
             return Response(serializer.data)
