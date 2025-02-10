@@ -1,3 +1,8 @@
+# 1.93.6
+
+This release adds pytz as in the default docker image as it is used in some deployments of SQUAD.
+Also, the release comes with minor performance improvements dealing with TestRuns.
+
 # 1.93.5
 
 This release adds a bugfix on BuildPlaceHolder.
