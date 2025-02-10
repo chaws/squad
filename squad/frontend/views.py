@@ -507,6 +507,7 @@ def test_run_suite_tests(request, group_slug, project_slug, build_version, testr
     ).order_by(Case(When(result=False, then=0), When(result=True, then=2), default=1), 'metadata__name')
 
     paginator = Paginator(all_tests, 100)
+    paginator.count = context['status'].tests_total
     page = request.GET.get('page', '1')
     context['tests'] = paginator.page(page)
 
