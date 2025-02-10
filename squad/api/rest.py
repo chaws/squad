@@ -355,6 +355,9 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
         # Instantiate the superclass normally
         super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
 
+        if 'request' not in self.context:
+            return
+
         fields = self.context['request'].query_params.get('fields')
         if fields:
             fields = fields.split(',')
@@ -1539,8 +1542,9 @@ class TestRunViewSet(ModelViewSet):
         Presents summary view for each suite present in this test run
     """
     queryset = TestRun.objects.prefetch_related(
+        "attachments",
         Prefetch("status", queryset=Status.objects.filter(suite=None))
-    ).order_by("-id")
+    ).defer("metadata_file").order_by("-id")
     project_lookup_key = 'build__project__in'
     serializer_class = TestRunSerializer
     filterset_fields = (
