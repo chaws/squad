@@ -1,3 +1,8 @@
+# 1.94
+
+This release adds support for cleaning data of testruns that were stopped in the middle of fetching due to some
+temporarily infra error.
+
 # 1.93.6
 
 This release adds pytz as in the default docker image as it is used in some deployments of SQUAD.
