@@ -1269,7 +1269,15 @@ class RestApiTest(APITestCase):
         self.assertEqual(data.status_code, 200)
         self.assertEqual(data.json()['job_id'], self.testjob5.job_id)
         self.assertEqual(data.json()['status'], 'Queued for fetching')
-        fetch_task.assert_called_with(self.testjob5.id)
+        fetch_task.assert_called_with(self.testjob5.id, clean_testrun=False)
+
+    @patch('squad.ci.tasks.fetch.delay')
+    def test_testjob_fetch_clean_testrun(self, fetch_task):
+        data = self.post('/api/testjobs/%d/fetch/' % self.testjob5.id, {'clean_testrun': True})
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(data.json()['job_id'], self.testjob5.job_id)
+        self.assertEqual(data.json()['status'], 'Queued for fetching')
+        fetch_task.assert_called_with(self.testjob5.id, clean_testrun=True)
 
     def test_testjob_backend_filter(self):
         data = self.get('/api/testjobs/?backend__implementation_type=fake')

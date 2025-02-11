@@ -7,7 +7,7 @@ export function FetchController($scope, $http, $timeout) {
         if ($scope.done) return
         $scope.loading = true
 
-        $http.post("/api/testjobs/" + test_job_id + "/fetch/").then(
+        $http.post("/api/testjobs/" + test_job_id + "/fetch/", {"clean_testrun": true}).then(
             function(response) {
                 $timeout(function() {
                     $scope.loading = false

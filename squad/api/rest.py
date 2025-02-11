@@ -1767,11 +1767,20 @@ class TestJobViewSet(ModelViewSet):
 
     @action(detail=True, methods=['post'], suffix='fetch')
     def fetch(self, request, **kwargs):
+        clean_testrun = request.data.get('clean_testrun') is not None
+
         testjob = self.get_object()
         testjob.fetched = False
         testjob.fetch_attempts = 0
-        testjob.save()
-        fetch.delay(testjob.id)
+        testjob.subtasks_count = 0
+        testjob.job_status = None
+        testjob.save(update_fields=[
+            'fetched',
+            'fetch_attempts',
+            'subtasks_count',
+            'job_status',
+        ])
+        fetch.delay(testjob.id, clean_testrun=clean_testrun)
         log_change(request, testjob, "Testjob queued for fetching")
         return Response({'job_id': testjob.job_id, 'status': 'Queued for fetching'}, status=status.HTTP_200_OK)
 

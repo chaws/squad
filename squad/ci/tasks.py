@@ -25,10 +25,19 @@ def poll(backend_id=None):
 
 
 @celery.task
-def fetch(job_id):
+def fetch(job_id, clean_testrun=False):
     logger.info("fetching %s" % job_id)
+
     try:
         testjob = TestJob.objects.get(pk=job_id)
+        if clean_testrun and testjob.testrun:
+            logger.info("clean_testrun=True, cleaning job's testrun")
+            testrun = testjob.testrun
+            testjob.testrun = None
+            testjob.save()
+
+            testrun.delete()
+
         if testjob.job_id:
             testjob.backend.fetch(testjob.id)
     except TestJob.DoesNotExist:

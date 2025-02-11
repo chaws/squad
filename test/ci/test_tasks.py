@@ -138,6 +138,17 @@ class FetchTest(TestCase):
         fetch.apply(args=[99999999999])
         fetch_method.assert_not_called()
 
+    @patch('squad.ci.models.Backend.fetch')
+    def test_fetch_clean_testrun(self, fetch_method):
+        env = self.test_job.target.environments.create(slug="myenv")
+        self.test_job.testrun = self.test_job.target_build.test_runs.create(environment=env)
+        self.test_job.save()
+        clean_testrun = True
+        fetch.apply(args=[self.test_job.id, clean_testrun])
+        fetch_method.assert_called_with(self.test_job.id)
+        self.test_job.refresh_from_db()
+        self.assertIsNone(self.test_job.testrun)
+
 
 class FetchTestRaceCondition(TransactionTestCase):
 
