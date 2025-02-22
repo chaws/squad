@@ -224,7 +224,7 @@ class ParseTestRunData(object):
         ], ignore_conflicts=True)
 
         suites_metadata_ids = {
-            m.suite: m.id for m in SuiteMetadata.objects.filter(kind='suite', name='-', suite__in=suites_slugs)
+            m.suite: m.id for m in SuiteMetadata.objects.filter(name='-', suite__in=suites_slugs) if m.kind == 'suite'
         }
 
         Suite.objects.bulk_create([
@@ -253,13 +253,15 @@ class ParseTestRunData(object):
         metadata_ids = {}
         metadata_names = {}
         metadatas = SuiteMetadata.objects.filter(
-            kind='test',
             name__in=[
                 t['test_name'] for t in tests_batch.values()
             ]
         ).all()
 
         for metadata in metadatas:
+            if metadata.kind != 'test':
+                continue
+
             full_name = join_name(metadata.suite, metadata.name)
             metadata_ids[full_name] = metadata.id
             metadata_names[metadata.id] = full_name
