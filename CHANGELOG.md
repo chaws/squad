@@ -1,3 +1,7 @@
+# 1.94.1
+
+This release adds a minor performance improvement fix.
+
 # 1.94
 
 This release adds support for cleaning data of testruns that were stopped in the middle of fetching due to some
