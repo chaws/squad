@@ -900,7 +900,7 @@ class TuxSuiteTest(TestCase):
             results = self.tuxsuite.fetch(testjob)
             self.assertEqual(None, results)
 
-        test_logs = 'dummy test log'
+        test_logs = "\n".join([f"line {i}" for i in range(1, 1000)])
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'device': 'qemu-armv7',
@@ -986,6 +986,7 @@ class TuxSuiteTest(TestCase):
             self.assertEqual(sorted(expected_tests.items()), sorted(tests_results.items()))
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
+            self.assertEqual("line 958", tests["ltp-smoke/access01"]["log"])
 
         self.assertEqual('ltp-smoke', testjob.name)
 
