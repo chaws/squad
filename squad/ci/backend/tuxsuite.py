@@ -407,7 +407,7 @@ class Backend(BaseBackend):
 
         # Create a boot test
         boot_test_name = 'boot/' + (metadata.get('build_name') or 'boot')
-        tests[boot_test_name] = results['results']['boot']
+        tests[boot_test_name] = {'result': results['results']['boot']}
 
         # Really fetch test results
         tests_results = self.fetch_url(job_url + '/', 'results').json()
@@ -423,7 +423,7 @@ class Backend(BaseBackend):
 
                     # TODO: Log lines are off coming from TuxRun/LAVA
                     # test_log = self.get_test_log(log_dict, test)
-                    tests[test_name] = result
+                    tests[test_name] = {"result": result}
 
         return status, completed, metadata, tests, metrics, logs, attachments
 

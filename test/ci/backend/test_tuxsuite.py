@@ -979,10 +979,11 @@ class TuxSuiteTest(TestCase):
             fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
             status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
+            tests_results = {k: v["result"] for k, v in tests.items()}
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
-            self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
+            self.assertEqual(sorted(expected_tests.items()), sorted(tests_results.items()))
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
 
@@ -1080,10 +1081,11 @@ class TuxSuiteTest(TestCase):
             fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
             status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
+            tests_results = {k: v["result"] for k, v in tests.items()}
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
-            self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
+            self.assertEqual(sorted(expected_tests.items()), sorted(tests_results.items()))
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
             self.assertEqual('new-env-name', testjob.environment)
@@ -1165,10 +1167,11 @@ class TuxSuiteTest(TestCase):
             fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
             status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
+            tests_results = {k: v["result"] for k, v in tests.items()}
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
-            self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
+            self.assertEqual(sorted(expected_tests.items()), sorted(tests_results.items()))
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
 
@@ -1264,10 +1267,11 @@ class TuxSuiteTest(TestCase):
             fake_request.get(test_url, json=job_data)
 
             status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
+            tests_results = {k: v["result"] for k, v in tests.items()}
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
-            self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
+            self.assertEqual(sorted(expected_tests.items()), sorted(tests_results.items()))
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
 
@@ -1365,10 +1369,11 @@ class TuxSuiteTest(TestCase):
             fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
             status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
+            tests_results = {k: v["result"] for k, v in tests.items()}
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
-            self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
+            self.assertEqual(sorted(expected_tests.items()), sorted(tests_results.items()))
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
 
@@ -1645,10 +1650,11 @@ class TuxSuiteTest(TestCase):
             fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
 
             status, completed, metadata, tests, metrics, logs, attachments = self.tuxsuite.fetch(testjob)
+            tests_results = {k: v["result"] for k, v in tests.items()}
             self.assertEqual('Complete', status)
             self.assertTrue(completed)
             self.assertEqual(sorted(expected_metadata.items()), sorted(metadata.items()))
-            self.assertEqual(sorted(expected_tests.items()), sorted(tests.items()))
+            self.assertEqual(sorted(expected_tests.items()), sorted(tests_results.items()))
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
 
