@@ -394,6 +394,7 @@ class Backend(BaseBackend):
 
         # Retrieve TuxRun log
         logs = self.fetch_url(job_url + '/', 'logs?format=txt').text
+        log_lines = logs.splitlines()
 
         attachment_list = ["reproducer", "tux_plan.yaml"]
         attachments = {}
@@ -407,7 +408,7 @@ class Backend(BaseBackend):
 
         # Create a boot test
         boot_test_name = 'boot/' + (metadata.get('build_name') or 'boot')
-        tests[boot_test_name] = results['results']['boot']
+        tests[boot_test_name] = {'result': results['results']['boot']}
 
         # Really fetch test results
         tests_results = self.fetch_url(job_url + '/', 'results').json()
@@ -420,10 +421,18 @@ class Backend(BaseBackend):
                 for name, test_data in suite_tests.items():
                     test_name = f'{suite_name}/{name}'
                     result = test_data['result']
-
-                    # TODO: Log lines are off coming from TuxRun/LAVA
-                    # test_log = self.get_test_log(log_dict, test)
-                    tests[test_name] = result
+                    if "starttc" in test_data:
+                        starttc = test_data["starttc"] - 1  # LAVA data counts from 1, we count from 0
+                        if "endtc" in test_data:
+                            # no -1 as the second index of the slice needs to be
+                            # greater than the first to get at least one item.
+                            endtc = test_data["endtc"]
+                        else:
+                            endtc = starttc + 2
+                        log_snippet = "\n".join(log_lines[starttc:endtc])
+                    else:
+                        log_snippet = None
+                    tests[test_name] = {"result": result, "log": log_snippet}
 
         return status, completed, metadata, tests, metrics, logs, attachments
 
