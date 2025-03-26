@@ -1,3 +1,7 @@
+# 1.95
+
+This release collects log snippets for Tuxsuite backend.
+
 # 1.94.1
 
 This release adds a minor performance improvement fix.
