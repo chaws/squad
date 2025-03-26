@@ -138,6 +138,9 @@ class Command(BaseCommand):
         backend_name = options.get("BACKEND")
         if backend_name:
             backend = Backend.objects.get(name=backend_name)
-            Listener(backend).run()
+            try:
+                Listener(backend).run()
+            except NotImplementedError:
+                logger.info('Backend %s: does not implement a listener' % backend.name)
         else:
             ListenerManager().run()
