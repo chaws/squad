@@ -4,7 +4,7 @@ set -eu
 
 # Starts a local rabbitmq server if there is none running already
 
-if pgrep -fa rabbitmq_server >/dev/null; then
+if pgrep -fa erlang.*rabbitmq >/dev/null; then
     echo "rabbitmq-server already running, no need for a new one"
     exec sleep infinity
 fi
