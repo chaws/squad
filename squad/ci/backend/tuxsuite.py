@@ -414,9 +414,6 @@ class Backend(BaseBackend):
         tests_results = self.fetch_url(job_url + '/', 'results').json()
         if tests_results.get('error', None) is None:
             for suite, suite_tests in tests_results.items():
-                if suite == 'lava':
-                    continue
-
                 suite_name = re.sub(r'^[0-9]+_', '', suite)
                 for name, test_data in suite_tests.items():
                     test_name = f'{suite_name}/{name}'
