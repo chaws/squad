@@ -69,7 +69,7 @@ def _register(attr, fn=None, name=None, takes_context=None):
 
 
 def _update_local_env(attr, func, name=None, takes_context=None):
-    global _local_env
+    global _local_env  # noqa
 
     if takes_context:
         func.contextfunction = True
