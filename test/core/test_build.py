@@ -3,8 +3,8 @@ from django.test import TestCase
 from django.utils import timezone
 from unittest.mock import patch
 
-
 from squad.core.models import Group, Project, Build, KnownIssue, SuiteMetadata
+from squad.core.tasks import RecordTestRunStatus
 from squad.ci.models import TestJob, Backend
 
 
@@ -227,7 +227,10 @@ class BuildTest(TestCase):
         testrun1.tests.create(build=testrun1.build, environment=testrun1.environment, suite=foo, metadata=foo_test1_metadata, result=True)
         testrun1.tests.create(build=testrun1.build, environment=testrun1.environment, suite=foo, metadata=foo_pla_metadata, result=True)
         testrun1.tests.create(build=testrun1.build, environment=testrun1.environment, suite=bar, metadata=bar_test1_metadata, result=False)
+        RecordTestRunStatus()(testrun1)
+
         testrun2.tests.create(build=testrun2.build, environment=testrun2.environment, suite=foo, metadata=foo_test1_metadata, result=True)
+        RecordTestRunStatus()(testrun2)
 
         # make sure 'xfail' is covered by test
         issue = KnownIssue.objects.create(title='pla is broken', test_name='qux')
