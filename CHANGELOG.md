@@ -1,3 +1,8 @@
+# 1.96
+
+This release takes in LAVA logs in Tuxsuite.
+The release also fixes a long-running query by reusing pre-calculated suite statuses.
+
 # 1.95
 
 This release collects log snippets for Tuxsuite backend.
