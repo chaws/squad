@@ -1,7 +1,7 @@
 import json
 import yaml
 import logging
-from collections import OrderedDict, Counter
+from collections import Counter, defaultdict
 from hashlib import sha1
 from itertools import groupby
 import re
@@ -676,36 +676,62 @@ class Build(models.Model):
 
     @property
     def test_suites_by_environment(self):
-        test_runs = self.test_runs.prefetch_related(
-            'tests',
-            'tests__suite',
-            'environment',
-        )
-        template = OrderedDict((
-            ('fail', 0),
-            ('pass', 0),
-            ('skip', 0),
-            ('xfail', 0),
-        ))
-        result = OrderedDict()
-        envlist = set([t.environment for t in test_runs])
-        for env in sorted(envlist, key=lambda env: env.slug):
-            result[env] = dict()
-        for tr in test_runs:
-            for t in tr.tests.all():
-                if t.suite in result[tr.environment].keys():
-                    result[tr.environment][t.suite][t.status] += 1
-                else:
-                    if t.suite not in result[tr.environment]:
-                        result[tr.environment][t.suite] = template.copy()
-                    result[tr.environment][t.suite][t.status] += 1
-        for env in result.keys():
-            # there should only be one key in the most nested dict
-            result[env] = sorted(
-                result[env].items(),
-                key=lambda suite_dict: suite_dict[0].slug)
+        """
+        Return a sorted dictionary like
+        {
+            "env1": [
+                ("suite1", {"fail": 0, "pass": 0, "skip": 0, "xfail": 0}),
+                ("suite2", {"fail": 0, "pass": 0, "skip": 0, "xfail": 0}),
+                ...
+            ],
+            "env2": [
+                ("suite1", {"fail": 0, "pass": 0, "skip": 0, "xfail": 0}),
+                ("suite2", {"fail": 0, "pass": 0, "skip": 0, "xfail": 0}),
+                ...
+            ],
+            ...
+        }
 
-        return result
+        Sorted by env slug, and then by suite slug
+        """
+
+        tmp_results = defaultdict(
+            lambda: defaultdict(
+                lambda: {
+                    "fail": 0,
+                    "pass": 0,
+                    "skip": 0,
+                    "xfail": 0,
+                }
+            )
+        )
+
+        statuses = Status.objects.filter(
+            test_run__build=self,
+            suite__isnull=False
+        ).prefetch_related(
+            'test_run__environment',
+            'suite',
+        ).order_by(
+            'test_run__environment__slug',
+            'suite__slug',
+        )
+
+        for status in statuses:
+            env = status.test_run.environment
+            suite = status.suite
+
+            tmp_results[env][suite]['fail'] += status.tests_fail
+            tmp_results[env][suite]['pass'] += status.tests_pass
+            tmp_results[env][suite]['skip'] += status.tests_skip
+            tmp_results[env][suite]['xfail'] += status.tests_xfail
+
+        results = defaultdict(list)
+        for env, suites in tmp_results.items():
+            for suite, status in suites.items():
+                results[env].append((suite, status))
+
+        return results
 
     def test_jobs_summary(self, per_environment=False):
         testjobs = self.test_jobs.only('environment', 'job_status', 'target_build').order_by('environment')
