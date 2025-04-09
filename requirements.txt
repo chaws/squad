@@ -1,7 +1,6 @@
 aiohttp
 celery
 cryptography
-coreapi
 django_crispy_forms==1.14.0
 Django<5,>=3
 django-allauth

@@ -419,7 +419,7 @@ built and it's available at /api/schema URL. Example usage with coreapi-cli:
 More details about coreapi can be found on coreapi website and DRF website:
 
  * http://www.coreapi.org/
- * https://www.django-rest-framework.org/topics/api-clients/
+ * https://www.django-rest-framework.org/community/mozilla-grant/#client-libraries
 
 SQUAD-Client
 -------------------------
