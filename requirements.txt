@@ -29,6 +29,5 @@ requests
 setuptools
 sqlparse
 svgwrite
-wheel
 whitenoise
 pytz
