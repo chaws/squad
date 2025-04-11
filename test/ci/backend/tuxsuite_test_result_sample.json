@@ -4,18 +4,30 @@
             "result": "pass"
         },
         "file-download": {
-            "duration": "9.95",
-            "extra": {
-                "label": "rootfs",
-                "md5sum": "89e4eea0fecf498dcc97e37b17daad5f",
-                "sha256sum": "d0bd412d3c540d821447e39a94bba91864f7b143b966c80f247857fa708057db",
-                "sha512sum": "c36c5ed44ab8b207e1250c770f6ba4f5f67f4d40d53d450589cd567c070a38ff2f626d0322f18acfcdc29db73774821f181ffb731010c334e2b0ab1c36daa673",
-                "size": 48628967
+            "url_repo": {
+                "namespace": "common",
+                "level": "1.1.3.1.1.1",
+                "duration": "0.44",
+                "result": "pass",
+                "extra": {
+                    "label": "url_repo",
+                    "size": 13697125,
+                    "sha256sum": "2b93882efdc3ea9db81de6e9aeeabab6d35dcf95a898aeaa995db44583b29062"
+                }
             },
-            "level": "1.5.1",
-            "namespace": "common",
-            "result": "pass"
+            "rootfs": {
+                "namespace": "common",
+                "level": "1.5.1",
+                "duration": "8.99",
+                "result": "pass",
+                "extra": {
+                    "label": "rootfs",
+                    "size": 111407012,
+                    "sha256sum": "71bcc7bc8dbd4ac7d02d52aed8886662999d6e6c790f9b9e5220beaf580ccfc1"
         },
+        "url": "https://storage.tuxboot.com/debian/trixie/arm64/rootfs.ext4.xz"
+      }
+    },
         "test-overlay": {
             "duration": "0.00",
             "extra": {
