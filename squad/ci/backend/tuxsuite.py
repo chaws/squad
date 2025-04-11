@@ -417,7 +417,9 @@ class Backend(BaseBackend):
                 suite_name = re.sub(r'^[0-9]+_', '', suite)
                 for name, test_data in suite_tests.items():
                     test_name = f'{suite_name}/{name}'
-                    result = test_data['result']
+                    result = test_data.get('result')
+                    if not result:
+                        continue
                     if "starttc" in test_data:
                         starttc = test_data["starttc"] - 1  # LAVA data counts from 1, we count from 0
                         if "endtc" in test_data:
