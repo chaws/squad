@@ -421,11 +421,18 @@ class Backend(BaseBackend):
                     if not result:
                         continue
                     if "starttc" in test_data:
-                        starttc = test_data["starttc"] - 1  # LAVA data counts from 1, we count from 0
+                        try:
+                            # LAVA data counts from 1, we count from 0
+                            starttc = int(test_data["starttc"]) - 1
+                        except ValueError:
+                            continue
                         if "endtc" in test_data:
-                            # no -1 as the second index of the slice needs to be
-                            # greater than the first to get at least one item.
-                            endtc = test_data["endtc"]
+                            try:
+                                # no -1 as the second index of the slice needs to be
+                                # greater than the first to get at least one item.
+                                endtc = int(test_data["endtc"])
+                            except ValueError:
+                                endtc = starttc + 2
                         else:
                             endtc = starttc + 2
                         log_snippet = "\n".join(log_lines[starttc:endtc])
