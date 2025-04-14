@@ -195,9 +195,9 @@
             "starttc": 994
         },
         "ping602": {
-            "endtc": 997,
+            "endtc": "997",
             "result": "skip",
-            "starttc": 997
+            "starttc": "997"
         }
     }
 }
