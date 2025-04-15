@@ -902,7 +902,7 @@ class TuxSuiteTest(TestCase):
             self.assertEqual(None, results)
 
         test_logs = "\n".join([f"line {i}" for i in range(1, 1000)])
-        yaml_logs = "\n".join([f"- {{\"dt\": \"2025-04-09T13:15:59.421673\", \"lvl\": \"target\", \"msg\": \"line {i}\"}}" for i in range(1, 1000)])
+        yaml_logs = "\n".join([f"- {{\"dt\": \"2025-04-09T13:15:59.421673\", \"lvl\": \"target\", \"msg\": \"line {i}\\0\"}}" for i in range(1, 1000)])
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'device': 'qemu-armv7',

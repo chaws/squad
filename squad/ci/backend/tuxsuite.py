@@ -446,7 +446,7 @@ class Backend(BaseBackend):
                         else:
                             endtc = starttc + 2
                         log_lines = [
-                            line["msg"]
+                            line["msg"].replace("\x00", "")
                             for line in log_data[starttc:endtc]
                             if filter_log(line)
                         ]
