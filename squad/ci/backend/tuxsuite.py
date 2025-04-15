@@ -392,9 +392,12 @@ class Backend(BaseBackend):
         if 'unknown' == results['results']['boot']:
             return None
 
-        # Retrieve TuxRun log
+        # Retrieve plain text log
         logs = self.fetch_url(job_url + '/', 'logs?format=txt').text
-        log_lines = logs.splitlines()
+
+        # Retrieve YAML log
+        log_structured = self.fetch_url(results["download_url"], 'lava-logs.yaml').text
+        log_data = yaml.safe_load(log_structured)
 
         attachment_list = ["reproducer", "tux_plan.yaml"]
         attachments = {}
@@ -409,6 +412,13 @@ class Backend(BaseBackend):
         # Create a boot test
         boot_test_name = 'boot/' + (metadata.get('build_name') or 'boot')
         tests[boot_test_name] = {'result': results['results']['boot']}
+
+        lava_signal = re.compile("^<LAVA_SIGNAL_")
+
+        def filter_log(line):
+            return type(line["msg"]) is str \
+                and line["lvl"] == "target" \
+                and not lava_signal.match(line["msg"])
 
         # Really fetch test results
         tests_results = self.fetch_url(job_url + '/', 'results').json()
@@ -435,7 +445,12 @@ class Backend(BaseBackend):
                                 endtc = starttc + 2
                         else:
                             endtc = starttc + 2
-                        log_snippet = "\n".join(log_lines[starttc:endtc])
+                        log_lines = [
+                            line["msg"]
+                            for line in log_data[starttc:endtc]
+                            if filter_log(line)
+                        ]
+                        log_snippet = "\n".join(log_lines)
                     else:
                         log_snippet = None
                     tests[test_name] = {"result": result, "log": log_snippet}
