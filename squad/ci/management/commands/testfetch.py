@@ -31,17 +31,24 @@ class Command(BaseCommand):
             type=str,
             help='Project to fetch the data into (Format: foo/bar)',
         )
+        parser.add_argument(
+            'BUILD',
+            type=str,
+            nargs="?",
+            help='Build to fetch the data into',
+        )
 
     def handle(self, *args, **options):
         backend_name = options.get("BACKEND")
         job_id = options.get("JOBID")
         group_slug, project_slug = options.get("PROJECT").split('/')
+        _build = options.get("BUILD") or str(time.time())
 
         backend = Backend.objects.get(name=backend_name)
 
         group, _ = Group.objects.get_or_create(slug=group_slug)
         project, _ = group.projects.get_or_create(slug=project_slug)
-        build = project.builds.create(version=str(time.time()))
+        build, _ = project.builds.get_or_create(version=_build)
 
         testjob = backend.test_jobs.create(target=project, job_id=job_id, target_build=build)
 
