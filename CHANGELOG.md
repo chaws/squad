@@ -1,3 +1,8 @@
+# 1.96.1
+
+This release fixes small bugs in the previous release regarding picking up log snippets
+from Tuxsuite jobs.
+
 # 1.96
 
 This release takes in LAVA logs in Tuxsuite.
