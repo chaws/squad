@@ -77,6 +77,12 @@ class FrontendTest(TestCase):
         self.assertContains(response, '<strong>mygroup</strong>', html=True, count=1)
         self.assertIsNotNone(re.search(r'2</span>\s*projects', response.content.decode()))
 
+    def test_home_unauthenticated(self):
+        client = Client()
+        with self.settings(LOCK_HOME_PAGE=True):
+            response = client.get('/')
+            self.assertEqual(401, response.status_code)
+
     def test_home_project_count(self):
         # Test with a logged in user that is not part of the group
         client = Client()
