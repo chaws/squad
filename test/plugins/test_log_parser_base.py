@@ -362,7 +362,7 @@ class TestBaseLogParser(TestCase):
         tests = testrun.tests
         expected_output = read_sample_file('kfence-seconds-expected.log')
 
-        test_kfence_seconds = tests.get(suite__slug='log-parser-test', metadata__name='kfence-bug-kfence-use-after-free-read-in-test_use_after_free_read-12cdfd85b20ffda2c398b1d6f97a7d5230cd4f2caf19ef0fb38bbc98469d3bde')
+        test_kfence_seconds = tests.get(suite__slug='log-parser-boot', metadata__name='kfence-bug-kfence-use-after-free-read-in-test_use_after_free_read-12cdfd85b20ffda2c398b1d6f97a7d5230cd4f2caf19ef0fb38bbc98469d3bde')
         numbers_and_time_removed = self.log_parser.remove_numbers_and_time(test_kfence_seconds.log)
 
         self.assertEqual(numbers_and_time_removed.strip(), expected_output.strip())

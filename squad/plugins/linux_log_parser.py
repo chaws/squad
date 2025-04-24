@@ -32,9 +32,9 @@ class Plugin(BasePlugin, BaseLogParser):
         # Attempt to split the log in " login:"
         logs = log.split(' login:', 1)
 
-        # 1 string means no split was done, consider all logs as test log
+        # 1 string means no split was done, consider all logs as boot log
         if len(logs) == 1:
-            return '', log
+            return log, ''
 
         boot_log = logs[0]
         test_log = logs[1]
