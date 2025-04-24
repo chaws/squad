@@ -153,7 +153,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kfence.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='kfence-bug-kfence-memory-corruption-in-kfree')
+        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='kfence-bug-kfence-memory-corruption-in-kfree')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)

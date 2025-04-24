@@ -29,16 +29,23 @@ REGEXES = MULTILINERS + ONELINERS
 
 class Plugin(BasePlugin, BaseLogParser):
     def __cutoff_boot_log(self, log):
-        # Attempt to split the log in " login:"
-        logs = log.split(' login:', 1)
+        split_patterns = [r" login:", r"console:/", r"root@(.*):[/~]#"]
+        split_index = None
 
-        # 1 string means no split was done, consider all logs as boot log
-        if len(logs) == 1:
-            return log, ''
+        for pattern in split_patterns:
+            match = re.search(pattern, log)
+            if match:
+                # Find the earliest split point
+                if split_index is None or match.start() < split_index:
+                    split_index = match.start()
 
-        boot_log = logs[0]
-        test_log = logs[1]
-        return boot_log, test_log
+        if split_index is not None:
+            boot_log = log[:split_index]
+            test_log = log[split_index:]
+            return boot_log, test_log
+
+        # No match found; return whole log as boot log
+        return log, ""
 
     def __kernel_msgs_only(self, log):
         kernel_msgs = re.findall(f'({tstamp}{pid}? .*?)$', log, re.S | re.M) # noqa
