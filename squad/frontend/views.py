@@ -2,7 +2,9 @@ import json
 import mimetypes
 
 from django.db.models import Case, When, Prefetch, Max
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect, reverse
@@ -16,7 +18,7 @@ from squad.core.models import Build, Subscription, TestRun, SuiteMetadata, UserP
 from squad.core.queries import get_metric_data, test_confidence
 from squad.frontend.queries import get_metrics_list
 from squad.frontend.utils import file_type, alphanum_sort
-from squad.http import auth
+from squad.http import auth, auth_user_from_request
 from collections import OrderedDict
 
 
@@ -75,6 +77,11 @@ def get_build_testrun_or_404(build, test_run_id):
 
 
 def home(request):
+
+    if settings.LOCK_HOME_PAGE:
+        user = auth_user_from_request(request, request.user)
+        if not user.is_authenticated:
+            raise PermissionDenied()
 
     ordering = request.GET.get('order')
     if ordering not in ['by_name', 'last_updated']:

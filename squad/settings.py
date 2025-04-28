@@ -444,6 +444,9 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
 # Django requires that this specification is present in settings.py
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
+# Force SQUAD to require login to access home page. This should reduce the risk of crawlers bots.
+LOCK_HOME_PAGE = False
+
 try:
     from squad.local_settings import *  # noqa: F401,F403
 except ImportError:
