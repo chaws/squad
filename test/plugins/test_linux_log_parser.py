@@ -33,7 +33,7 @@ class TestLinuxLogParser(TestCase):
 
         with self.assertRaises(Exception) as ctx:
             testrun.tests.get(suite__slug='log-parser-boot')
-            testrun.tests.get(suite__slug='log-parser-test')
+            testrun.tests.get(suite__slug='log-parser-boot')
 
         self.assertEqual("Test matching query does not exist.", str(ctx.exception))
 
@@ -64,7 +64,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kernelexceptiontrace.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-kernelsmp-smp_call_function_many_cond')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='exception-warning-cpu-pid-at-kernelsmp-smp_call_function_many_cond')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -76,7 +76,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kernelexceptiontrace_without_squarebraces.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-kernelsmp-smp_call_function_many_cond')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='exception-warning-cpu-pid-at-kernelsmp-smp_call_function_many_cond')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -88,7 +88,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kasan.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='kasan-bug-kasan-slab-out-of-bounds-in-kmalloc_oob_right')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='kasan-bug-kasan-slab-out-of-bounds-in-kmalloc_oob_right')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -101,7 +101,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kcsan_simple.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='kcsan-bug-kcsan-data-race-in-do_page_fault-spectre_v4_enable_task_mitigation')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='kcsan-bug-kcsan-data-race-in-do_page_fault-spectre_v4_enable_task_mitigation')
 
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
@@ -128,7 +128,7 @@ class TestLinuxLogParser(TestCase):
         testrun = self.new_testrun('kernelpanic-multiline.log')
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-attempted-to-kill-init-exitcode')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='panic-multiline-kernel-panic-not-syncing-attempted-to-kill-init-exitcode')
         self.assertFalse(test.result)
         self.assertIsNotNone(test.log)
         self.assertNotIn('Booting Linux', test.log)
@@ -200,11 +200,11 @@ class TestLinuxLogParser(TestCase):
         self.plugin.postprocess_testrun(testrun)
 
         tests = testrun.tests
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in')
-        test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy')
-        test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversregulatorcore-_regulator_putpart')
-        test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops-oops-preempt-smp')
-        test_fault = tests.get(suite__slug='log-parser-test', metadata__name='fault-unhandled-fault-external-abort-on-non-linefetch-at')
+        test_panic = tests.get(suite__slug='log-parser-boot', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in')
+        test_exception = tests.get(suite__slug='log-parser-boot', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy')
+        test_warning = tests.get(suite__slug='log-parser-boot', metadata__name='warning-warning-cpu-pid-at-driversregulatorcore-_regulator_putpart')
+        test_oops = tests.get(suite__slug='log-parser-boot', metadata__name='oops-oops-preempt-smp')
+        test_fault = tests.get(suite__slug='log-parser-boot', metadata__name='fault-unhandled-fault-external-abort-on-non-linefetch-at')
 
         self.assertFalse(test_panic.result)
         self.assertNotIn('Boot CPU', test_panic.log)
@@ -252,7 +252,7 @@ class TestLinuxLogParser(TestCase):
         self.plugin.postprocess_testrun(testrun)
 
         tests = testrun.tests
-        test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-suspicious-rcu-usage')
+        test_warning = tests.get(suite__slug='log-parser-boot', metadata__name='warning-warning-suspicious-rcu-usage')
 
         self.assertFalse(test_warning.result)
 
@@ -271,7 +271,7 @@ class TestLinuxLogParser(TestCase):
         testrun.save_log_file(log)
         self.plugin.postprocess_testrun(testrun)
 
-        test = testrun.tests.get(suite__slug='log-parser-test', metadata__name='panic-kernel-panic-not-syncing')
+        test = testrun.tests.get(suite__slug='log-parser-boot', metadata__name='panic-kernel-panic-not-syncing')
         self.assertIsNotNone(test.metadata)
 
     def test_boot_log(self):
@@ -309,11 +309,11 @@ class TestLinuxLogParser(TestCase):
 
         tests = testrun.tests
 
-        test_panic = tests.get(suite__slug='log-parser-test', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-630e6949dbf4d18f6ab71c0864524cf3e60da1380fe7fd5acbb99d8f5d01ab21')
-        test_exception = tests.get(suite__slug='log-parser-test', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy-51fc34b6c857dfc70f7ee985b21731cc1745e97a216193a258a1ad90a6cbb9c8')
-        test_warning = tests.get(suite__slug='log-parser-test', metadata__name='warning-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy-dc992cca96cada94f4930abe87d60c6de25d404f11313bd64f2217d9408e15ef')
-        test_oops = tests.get(suite__slug='log-parser-test', metadata__name='oops-oops-preempt-smp-4e1ddddb2c142178a8977e7d973c2a13db2bb978aa471c0049ee39fe3fe4d74c')
-        test_fault = tests.get(suite__slug='log-parser-test', metadata__name='fault-unhandled-fault-external-abort-on-non-linefetch-at-6f9e3ab8f97e35c1e9167fed1e01c6149986819c54451064322b7d4208528e07')
+        test_panic = tests.get(suite__slug='log-parser-boot', metadata__name='panic-multiline-kernel-panic-not-syncing-stack-protector-kernel-stack-is-corrupted-in-630e6949dbf4d18f6ab71c0864524cf3e60da1380fe7fd5acbb99d8f5d01ab21')
+        test_exception = tests.get(suite__slug='log-parser-boot', metadata__name='exception-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy-51fc34b6c857dfc70f7ee985b21731cc1745e97a216193a258a1ad90a6cbb9c8')
+        test_warning = tests.get(suite__slug='log-parser-boot', metadata__name='warning-warning-cpu-pid-at-driversgpudrmradeonradeon_object-radeon_ttm_bo_destroy-dc992cca96cada94f4930abe87d60c6de25d404f11313bd64f2217d9408e15ef')
+        test_oops = tests.get(suite__slug='log-parser-boot', metadata__name='oops-oops-preempt-smp-4e1ddddb2c142178a8977e7d973c2a13db2bb978aa471c0049ee39fe3fe4d74c')
+        test_fault = tests.get(suite__slug='log-parser-boot', metadata__name='fault-unhandled-fault-external-abort-on-non-linefetch-at-6f9e3ab8f97e35c1e9167fed1e01c6149986819c54451064322b7d4208528e07')
 
         self.assertFalse(test_panic.result)
         self.assertNotIn('Boot CPU', test_panic.log)
