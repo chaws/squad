@@ -1,3 +1,8 @@
+# 1.97
+
+This release adds an optional feature for checking authentication on the home page. This can
+be helpful on installations that get hit by crawlers.
+
 # 1.96.1
 
 This release fixes small bugs in the previous release regarding picking up log snippets
