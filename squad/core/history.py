@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 
 from squad.core.queries import test_confidence
 from squad.core.utils import parse_name
-from squad.core.models import SuiteMetadata, KnownIssue, Environment, Build
+from squad.core.models import SuiteMetadata, KnownIssue, Environment, Build, Test
 
 
 class TestResult(object):
@@ -64,15 +64,17 @@ class TestHistory(object):
         suite = project.suites.prefetch_related('metadata').get(slug=suite_slug)
         metadata = SuiteMetadata.objects.get(kind='test', suite=suite_slug, name=test_name)
 
-        results = defaultdict()
+        results = {b: defaultdict(list) for b in builds}
         environments_ids = set()
-        for build in builds:
-            results[build] = defaultdict(list)
-            for test in build.tests.filter(metadata=metadata).order_by():
-                test.metadata = metadata
-                test.suite = suite
-                results[build][test.environment_id].append(test)
-                environments_ids.add(test.environment_id)
+        builds_ids = {b.id: b for b in builds}
+
+        tests = Test.objects.filter(build__in=builds, metadata=metadata).order_by()
+        for test in tests:
+            test.metadata = metadata
+            test.suite = suite
+            build = builds_ids[test.build_id]
+            results[build][test.environment_id].append(test)
+            environments_ids.add(test.environment_id)
 
         results_without_duplicates = defaultdict()
         for build in results:
