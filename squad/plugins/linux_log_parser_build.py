@@ -317,6 +317,7 @@ class Plugin(BasePlugin, BaseLogParser):
 
         # If running in SQUAD, create the suite
         suite_name = f"log-parser-build-{toolchain_name}"
+        suite, _ = testrun.build.project.suites.get_or_create(slug=suite_name)
 
         blocks_to_process = self.split_by_regex(testrun.log_file, split_regex_gcc)
 
@@ -330,7 +331,7 @@ class Plugin(BasePlugin, BaseLogParser):
                 test_name_regex = re.compile(regex_pattern, re.S | re.M)
             self.create_squad_tests(
                 testrun,
-                suite_name,
+                suite,
                 test_name,
                 snippets[regex_id],
                 test_name_regex,

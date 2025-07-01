@@ -124,7 +124,7 @@ class BaseLogParser:
 
     def create_squad_tests_from_name_log_dict(
         self,
-        suite_name,
+        suite,
         testrun,
         tests_without_shas_to_create,
         tests_with_shas_to_create=None,
@@ -134,8 +134,6 @@ class BaseLogParser:
         # class outside of SQUAD for testing and developing log parser
         # patterns.
         from squad.core.models import SuiteMetadata
-
-        suite, _ = testrun.build.project.suites.get_or_create(slug=suite_name)
 
         for name, lines in tests_without_shas_to_create.items():
             metadata, _ = SuiteMetadata.objects.get_or_create(
@@ -183,7 +181,7 @@ class BaseLogParser:
     def create_squad_tests(
         self,
         testrun,
-        suite_name,
+        suite,
         test_name,
         lines,
         test_regex=None,
@@ -204,13 +202,13 @@ class BaseLogParser:
         )
         if print:
             self.print_squad_tests_from_name_log_dict(
-                suite_name,
+                suite.slug,
                 tests_without_shas_to_create,
                 tests_with_shas_to_create,
             )
         if squad:
             self.create_squad_tests_from_name_log_dict(
-                suite_name,
+                suite,
                 testrun,
                 tests_without_shas_to_create,
                 tests_with_shas_to_create,
