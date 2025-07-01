@@ -1595,7 +1595,7 @@ class TestRunViewSet(ModelViewSet):
     @action(detail=True, methods=['get'], suffix='metrics')
     def metrics(self, request, pk=None):
         testrun = self.get_object()
-        metrics = testrun.metrics.prefetch_related('suite').order_by('id')
+        metrics = testrun.metrics.prefetch_related('suite', 'metadata').order_by('id')
         paginator = CursorPaginationWithPageSize()
         page = paginator.paginate_queryset(metrics, request)
         serializer = MetricSerializer(page, many=True, context={'request': request}, remove_fields=['test_run', 'id', 'suite'])
