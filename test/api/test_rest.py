@@ -1451,3 +1451,14 @@ class RestApiTest(APITestCase):
 
         data = self.hit(f'/api/statuses/?test_run__environment_id={self.environment.id}')
         self.assertEqual(3, len(data['results']))
+
+    def test_cursor_pagination(self):
+        # "r=1&p=core.KnownIssue.None"
+        bad_cursor = "cj0xJnA9Y29yZS5Lbm93bklzc3VlLk5vbmU="
+        response = self.client.get(f'/api/tests/?cursor={bad_cursor}&ordering-known_issues')
+        self.assertEqual(404, response.status_code)
+
+        # "p=7393358884"
+        good_cursor = "cD03MzkzMzU4ODg0"
+        response = self.client.get(f'/api/tests/?cursor={good_cursor}&ordering-known_issues')
+        self.assertEqual(200, response.status_code)
