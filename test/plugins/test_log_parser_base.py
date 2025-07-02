@@ -233,6 +233,74 @@ class TestBaseLogParser(TestCase):
         self.assertIsNotNone(test_with_sha2.log)
         self.assertEqual(test_with_sha2.log, "log2a")
 
+    def test_create_squad_tests_from_name_log_dict_truncate_long_log(self):
+        """
+        Test log length limit for log parser test - log should be truncated at
+        1000000 characters. This is hardcoded in base_log_parser
+        """
+        tests_without_shas_to_create = {"test_name": ["a" * 1000000 + "b"]}
+        tests_with_shas_to_create = {
+            "test_name-sha1": ["a" * 1000000, "b"],
+        }
+        suite, _ = self.testrun.build.project.suites.get_or_create(
+            slug="log-parser-test"
+        )
+        self.log_parser.create_squad_tests_from_name_log_dict(
+            suite,
+            self.testrun,
+            tests_without_shas_to_create,
+            tests_with_shas_to_create,
+        )
+
+        test = self.testrun.tests.get(
+            suite__slug="log-parser-test", metadata__name="test_name"
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertEqual(test.log, "a" * 1000000)
+        self.assertEqual(len(test.log), 1000000)
+
+        test_with_sha1 = self.testrun.tests.get(
+            suite__slug="log-parser-test", metadata__name="test_name-sha1"
+        )
+        self.assertFalse(test_with_sha1.result)
+        self.assertIsNotNone(test_with_sha1.log)
+        self.assertEqual(test_with_sha1.log, "a" * 1000000)
+        self.assertEqual(len(test_with_sha1.log), 1000000)
+
+    def test_create_squad_tests_from_name_log_dict_max_entries(self):
+        """
+        Test log length limit for log parser test - log should be truncated at
+        100 entries. This is hardcoded in base_log_parser
+        """
+        tests_without_shas_to_create = {"test_name": ["a"] * 200}
+        tests_with_shas_to_create = {
+            "test_name-sha1": ["a"] * 200,
+        }
+        suite, _ = self.testrun.build.project.suites.get_or_create(
+            slug="log-parser-test"
+        )
+        self.log_parser.create_squad_tests_from_name_log_dict(
+            suite,
+            self.testrun,
+            tests_without_shas_to_create,
+            tests_with_shas_to_create,
+        )
+
+        test = self.testrun.tests.get(
+            suite__slug="log-parser-test", metadata__name="test_name"
+        )
+        self.assertFalse(test.result)
+        self.assertIsNotNone(test.log)
+        self.assertEqual(test.log, "\n".join("a" * 100))
+
+        test_with_sha1 = self.testrun.tests.get(
+            suite__slug="log-parser-test", metadata__name="test_name-sha1"
+        )
+        self.assertFalse(test_with_sha1.result)
+        self.assertIsNotNone(test_with_sha1.log)
+        self.assertEqual(test_with_sha1.log, "\n---\n".join("a" * 100))
+
     def test_create_tests(self):
         """
         Test the wrapper for extracting the regexes then creating the SQUAD
