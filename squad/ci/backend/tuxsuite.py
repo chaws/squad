@@ -321,6 +321,7 @@ class Backend(BaseBackend):
         return status, completed, metadata, tests, metrics, logs, attachments
 
     def update_metadata_from_file(self, results, metadata):
+        logger.debug("Updating metadata using tuxusuite metadata file")
         if "download_url" in results:
             download_url = results["download_url"]
             try:
@@ -332,6 +333,7 @@ class Backend(BaseBackend):
                 pass
 
     def parse_test_results(self, test_job, job_url, results, settings):
+        logger.debug("Parsing Tuxsuite test results")
         status = 'Complete'
         completed = True
         tests = {}
@@ -360,6 +362,7 @@ class Backend(BaseBackend):
         except ValueError:
             pass
         test_job.name = ','.join(results['tests'])
+        logger.debug(f"Set job name: {test_job.name}")
 
         if results['results'] == {}:
             waiting_for = results.get('waiting_for')
@@ -372,6 +375,7 @@ class Backend(BaseBackend):
 
             self.add_skip_boot_test(tests, metadata)
 
+            logger.debug("No results found, aborting")
             return status, completed, metadata, tests, metrics, logs, attachments
 
         # Fetch results even if the job fails, but has results
@@ -381,15 +385,18 @@ class Backend(BaseBackend):
         elif results['result'] == 'error':
             test_job.failure = 'tuxsuite infrastructure error'
             self.add_skip_boot_test(tests, metadata)
+            logger.debug("Job has ran into an error in Tuxsuite")
             return 'Incomplete', completed, metadata, tests, metrics, logs, attachments
 
         elif results['result'] == 'canceled':
             test_job.failure = 'tuxsuite job canceled'
             self.add_skip_boot_test(tests, metadata)
+            logger.debug("Job has ran been canceled in Tuxsuite")
             return 'Canceled', completed, metadata, tests, metrics, logs, attachments
 
         # If boot result is unkown, a retry is needed, otherwise, it either passed or failed
         if 'unknown' == results['results']['boot']:
+            logger.debug("Job has unknown boot result in Tuxsuite")
             return None
 
         # Retrieve plain text log
@@ -402,6 +409,7 @@ class Backend(BaseBackend):
         attachment_list = ["reproducer", "tux_plan.yaml"]
         attachments = {}
         for name in attachment_list:
+            logger.debug(f"Downloading {name}")
             response = self.fetch_url(job_url + '/', name)
             if response.ok:
                 attachments[name] = ContentFile(response.content)
@@ -458,15 +466,18 @@ class Backend(BaseBackend):
         return status, completed, metadata, tests, metrics, logs, attachments
 
     def fetch(self, test_job):
+        logger.debug("Fetching Tuxsuite job")
         url = self.job_url(test_job)
 
         settings = self.__resolve_settings__(test_job)
         self.auth_token = settings.get('TUXSUITE_TOKEN', None)
 
         if test_job.input:
+            logger.debug("Fetching results from local storage (results input)")
             results = self.fetch_from_results_input(test_job)
             test_job.input = None
         else:
+            logger.debug(f"Fetching results from {url}")
             results = self.fetch_url(url).json()
 
         if results.get('state') != 'finished':

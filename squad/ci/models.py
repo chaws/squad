@@ -81,6 +81,7 @@ class Backend(models.Model):
 
         with transaction.atomic():
             try:
+                logger.debug("Atomically selectin job for fetching")
                 test_job = TestJob.objects.select_for_update(nowait=True).get(pk=job_id)
                 if test_job.fetched or test_job.fetch_attempts >= test_job.backend.max_fetch_attempts:
                     return
@@ -89,6 +90,7 @@ class Backend(models.Model):
                 return
 
             try:
+                logger.debug("Fetching job from the backend")
                 test_job.last_fetch_attempt = timezone.now()
                 results = self.get_implementation().fetch(test_job)
                 if results is None:
@@ -127,6 +129,7 @@ class Backend(models.Model):
         if test_job.url is not None:
             metadata['job_url'] = test_job.url
         try:
+            logger.debug("Parsing job results")
             receive = ReceiveTestRun(test_job.target, update_project_status=False)
             testrun, _ = receive(
                 version=test_job.target_build.version,
@@ -148,9 +151,11 @@ class Backend(models.Model):
 
             # Avoids cyclic import errors
             from squad.ci.tasks import postprocess_testjob
+            logger.debug("Sending job for post processing")
             postprocess_testjob.delay(test_job.id, status)
         else:
             # Remove the 'Fetching' job_status only after all work is done
+            logger.debug("Job finished, updating status")
             test_job.update_statuses(status)
 
     def __postprocess_testjob__(self, test_job, job_status):
@@ -183,6 +188,7 @@ class Backend(models.Model):
             TestJob.set_subtasks_count(test_job.id, len(plugins_with_subtasks))
 
         for plugin_name, plugin in plugins.items():
+            logger.debug(f"Post-processing job: {plugin_name}")
             try:
                 if plugin.has_subtasks():
                     postprocess_testjob_subtasks.delay(plugin_name, test_job.id, job_status)
@@ -192,6 +198,7 @@ class Backend(models.Model):
                 logger.error("Plugin postprocessing error: " + str(e) + "\n" + traceback.format_exc())
 
         if not has_subtasks:
+            logger.debug("Job finished, updating status")
             # Remove the 'Fetching' job_status only after all work is done
             test_job.update_statuses(job_status)
 
