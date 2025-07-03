@@ -4,6 +4,10 @@ from collections import defaultdict
 
 from django.template.defaultfilters import slugify
 
+# Artificially limit the log length allowed in the SQUAD test
+MAX_LOG_LENGTH = 1000000
+MAX_LOG_ENTRIES = 100
+
 REGEX_NAME = 0
 REGEX_BODY = 1
 REGEX_EXTRACT_NAME = 2
@@ -142,7 +146,7 @@ class BaseLogParser:
             testrun.tests.create(
                 suite=suite,
                 result=(len(lines) == 0),
-                log="\n".join(lines),
+                log="\n".join(list(lines)[:MAX_LOG_ENTRIES])[:MAX_LOG_LENGTH],
                 metadata=metadata,
                 build=testrun.build,
                 environment=testrun.environment,
@@ -155,7 +159,7 @@ class BaseLogParser:
                 testrun.tests.create(
                     suite=suite,
                     result=False,
-                    log="\n---\n".join(lines),
+                    log="\n---\n".join(list(lines)[:MAX_LOG_ENTRIES])[:MAX_LOG_LENGTH],
                     metadata=metadata,
                     build=testrun.build,
                     environment=testrun.environment,
