@@ -1,3 +1,8 @@
+# 1.98
+
+This release includes a fix to memory consumption when parsing Tuxsuite YAML logs.
+Also, it include a few other performance improvements.
+
 # 1.97
 
 This release adds an optional feature for checking authentication on the home page. This can
