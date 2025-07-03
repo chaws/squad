@@ -150,7 +150,7 @@ class Backend(BaseBackend):
         uid = result["uid"]
         return f"{_type}:{project}#{uid}"
 
-    def fetch_url(self, *urlbits):
+    def fetch_url(self, *urlbits, stream=False):
         url = reduce(urljoin, urlbits)
 
         try:
@@ -158,7 +158,7 @@ class Backend(BaseBackend):
             if hasattr(self, 'auth_token') and self.auth_token is not None:
                 headers = {'Authorization': self.auth_token}
 
-            response = Backend.get_session().request("GET", url, headers=headers)
+            response = Backend.get_session().request("GET", url, headers=headers, stream=stream)
         except Exception as e:
             raise TemporaryFetchIssue(f"Can't retrieve from {url}: {e}")
 
@@ -399,12 +399,31 @@ class Backend(BaseBackend):
             logger.debug("Job has unknown boot result in Tuxsuite")
             return None
 
-        # Retrieve plain text log
-        logs = self.fetch_url(job_url + '/', 'logs?format=txt').text
-
         # Retrieve YAML log
-        log_structured = self.fetch_url(results["download_url"], 'lava-logs.yaml').text
-        log_data = yaml.safe_load(log_structured)
+        # NOTE: using `yaml.safe_load` consumes a LOT of memory, avoid when possible
+        logger.debug("Downloading logs as yaml")
+        log_data = []
+        response = self.fetch_url(results["download_url"], 'lava-logs.yaml', stream=True)
+        for line in response.iter_lines():
+            if line is None:
+                continue
+
+            line = line.decode("utf-8")
+
+            if '"target"' not in line:
+                log_data.append(None)
+                continue
+
+            try:
+                # 64 is the start of the target log in yaml log files
+                # -2 is to cut off the end of log line that yaml format has: "}
+                raw_line = line[64:-2]
+                log_data.append(raw_line)
+            except IndexError:
+                log_data.append(None)
+
+        # Retrieve plain text log
+        logs = '\n'.join([line for line in log_data if line])
 
         attachment_list = ["reproducer", "tux_plan.yaml"]
         attachments = {}
@@ -421,12 +440,8 @@ class Backend(BaseBackend):
         boot_test_name = 'boot/' + (metadata.get('build_name') or 'boot')
         tests[boot_test_name] = {'result': results['results']['boot']}
 
-        lava_signal = re.compile("^<LAVA_SIGNAL_")
-
         def filter_log(line):
-            return type(line["msg"]) is str \
-                and line["lvl"] == "target" \
-                and not lava_signal.match(line["msg"])
+            return line and not line.startswith("<LAVA_SIGNAL_")
 
         # Really fetch test results
         tests_results = self.fetch_url(job_url + '/', 'results').json()
@@ -454,7 +469,7 @@ class Backend(BaseBackend):
                         else:
                             endtc = starttc + 2
                         log_lines = [
-                            line["msg"].replace("\x00", "")
+                            line.replace("\x00", "")
                             for line in log_data[starttc:endtc]
                             if filter_log(line)
                         ]
