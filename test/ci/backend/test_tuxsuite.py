@@ -902,7 +902,7 @@ class TuxSuiteTest(TestCase):
             self.assertEqual(None, results)
 
         test_logs = "\n".join([f"line {i}" for i in range(1, 1000)])
-        yaml_logs = "\n".join([f"- {{\"dt\": \"2025-04-09T13:15:59.421673\", \"lvl\": \"target\", \"msg\": \"line {i}\\0\"}}" for i in range(1, 1000)])
+        yaml_logs = "\n".join([f'- {{"dt": "2025-04-09T13:15:59.421673", "lvl": "target", "msg": "line {i}"}}' for i in range(1, 1000)])
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'device': 'qemu-armv7',
@@ -976,7 +976,6 @@ class TuxSuiteTest(TestCase):
         with requests_mock.Mocker() as fake_request:
             fake_request.get(test_url, json=test_results)
             fake_request.get(build_url, json=build_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(storage_url + '/', 'lava-logs.yaml'), text=yaml_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
             fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
@@ -1008,7 +1007,7 @@ class TuxSuiteTest(TestCase):
             self.assertEqual(None, results)
 
         test_logs = 'dummy test log'
-        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "info", "msg": "dummy test log"}'
+        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "target", "msg": "dummy test log"}'
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'device': 'qemu-armv7',
@@ -1083,7 +1082,6 @@ class TuxSuiteTest(TestCase):
         with requests_mock.Mocker() as fake_request:
             fake_request.get(test_url, json=test_results)
             fake_request.get(build_url, json=build_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(storage_url + '/', 'lava-logs.yaml'), text=yaml_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
             fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
@@ -1108,7 +1106,7 @@ class TuxSuiteTest(TestCase):
         storage_url = "https://storage.example.com/tuxgroup/tuxproject/123/"
 
         test_logs = 'dummy test log'
-        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "info", "msg": "dummy test log"}'
+        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "target", "msg": "dummy test log"}'
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'device': 'qemu-armv7',
@@ -1173,7 +1171,6 @@ class TuxSuiteTest(TestCase):
 
         with requests_mock.Mocker() as fake_request:
             fake_request.get(test_url, json=test_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(storage_url + '/', 'lava-logs.yaml'), text=yaml_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
             fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
@@ -1198,7 +1195,7 @@ class TuxSuiteTest(TestCase):
         storage_url = "https://storage.example.com/tuxgroup/tuxproject/123/"
 
         test_logs = 'dummy test log'
-        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "info", "msg": "dummy test log"}'
+        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "target", "msg": "dummy test log"}'
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'device': 'qemu-armv7',
@@ -1276,7 +1273,6 @@ class TuxSuiteTest(TestCase):
         testjob.input = json.dumps(test_results)
         with requests_mock.Mocker() as fake_request:
             fake_request.get(build_url, json=build_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(storage_url + '/', 'lava-logs.yaml'), text=yaml_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
             fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
@@ -1308,7 +1304,7 @@ class TuxSuiteTest(TestCase):
             self.assertEqual(None, results)
 
         test_logs = 'dummy test log'
-        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "info", "msg": "dummy test log"}'
+        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "target", "msg": "dummy test log"}'
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'device': 'qemu-armv7',
@@ -1383,7 +1379,6 @@ class TuxSuiteTest(TestCase):
         with requests_mock.Mocker() as fake_request:
             fake_request.get(test_url, json=test_results)
             fake_request.get(build_url, json=build_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(storage_url + '/', 'lava-logs.yaml'), text=yaml_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
             fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
@@ -1512,7 +1507,6 @@ class TuxSuiteTest(TestCase):
 
         with requests_mock.Mocker() as fake_request:
             fake_request.get(test_url, json=test_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text='{"error": "File not found"}', status_code=404)
             fake_request.get(urljoin(test_url + '/', 'results'), json={'error': 'File not found'}, status_code=404)
             fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
             fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
@@ -1583,7 +1577,6 @@ class TuxSuiteTest(TestCase):
 
         with requests_mock.Mocker() as fake_request:
             fake_request.get(test_url, json=test_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text='{"error": "File not found"}', status_code=404)
             fake_request.get(urljoin(test_url + '/', 'results'), json={'error': 'File not found'}, status_code=404)
             fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
             fake_request.get(urljoin(test_url + '/', 'tux_plan.yaml'), text='tux_plan.yaml contents')
@@ -1608,7 +1601,7 @@ class TuxSuiteTest(TestCase):
         storage_url = "https://storage.example.com/tuxgroup/tuxproject/123/"
 
         test_logs = 'dummy test log'
-        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "info", "msg": "dumumy test log"}'
+        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "target", "msg": "dummy test log"}'
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'uid': '124',
@@ -1668,7 +1661,6 @@ class TuxSuiteTest(TestCase):
             fake_request.get(test_url, json=test_results)
             fake_request.get(sanity_test_url, json=sanity_test_results)
             fake_request.get(build_url, json=build_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(storage_url, 'lava-logs.yaml'), text=yaml_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
             fake_request.get(urljoin(test_url + '/', 'reproducer'), text='reproducer contents')
@@ -1683,7 +1675,7 @@ class TuxSuiteTest(TestCase):
             self.assertEqual(sorted(expected_metrics.items()), sorted(metrics.items()))
             self.assertEqual(test_logs, logs)
 
-            self.assertEqual(9, fake_request.call_count)
+            self.assertEqual(8, fake_request.call_count)
 
         self.assertEqual('ltp-smoke', testjob.name)
 
@@ -1697,8 +1689,7 @@ class TuxSuiteTest(TestCase):
         build_url = urljoin(TUXSUITE_URL, '/groups/tuxgroup/projects/tuxproject/builds/456')
         storage_url = "https://storage.example.com/tuxgroup/tuxproject/123/"
 
-        test_logs = 'dummy test log'
-        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "info", "msg": "dummy test log"}'
+        yaml_logs = '- {"dt": "2025-04-09T13:15:59.421673", "lvl": "target", "msg": "dummy test log"}'
         test_results = {
             'project': 'tuxgroup/tuxproject',
             'uid': '124',
@@ -1737,8 +1728,6 @@ class TuxSuiteTest(TestCase):
             fake_request.get(test_url, json=test_results)
             fake_request.get(sanity_test_url, json=sanity_test_results)
             fake_request.get(build_url, json=build_results)
-            fake_request.get(urljoin(test_url + '/', 'logs'), text=test_logs)
-            fake_request.get(urljoin(sanity_test_url + '/', 'logs'), text=test_logs)
             fake_request.get(urljoin(storage_url, 'lava-logs.yaml'), text=yaml_logs)
             fake_request.get(urljoin(test_url + '/', 'results'), json=test_results_json)
             fake_request.get(urljoin(sanity_test_url + '/', 'results'), json=test_results_json)
@@ -1760,12 +1749,12 @@ class TuxSuiteTest(TestCase):
                 completed=completed,
                 attachments=attachments,
             )
-            self.assertEqual(8, fake_request.call_count)
+            self.assertEqual(7, fake_request.call_count)
 
             # Now fetch test, and make sure no extra requests were made
             _, _, metadata, _, _, _, _ = self.tuxsuite.fetch(testjob)
             self.assertEqual(build_name, metadata['build_name'])
-            self.assertEqual(15, fake_request.call_count)
+            self.assertEqual(13, fake_request.call_count)
 
         self.assertEqual('ltp-smoke', testjob.name)
 

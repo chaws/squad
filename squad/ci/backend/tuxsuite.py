@@ -150,7 +150,7 @@ class Backend(BaseBackend):
         uid = result["uid"]
         return f"{_type}:{project}#{uid}"
 
-    def fetch_url(self, *urlbits):
+    def fetch_url(self, *urlbits, stream=False):
         url = reduce(urljoin, urlbits)
 
         try:
@@ -158,7 +158,7 @@ class Backend(BaseBackend):
             if hasattr(self, 'auth_token') and self.auth_token is not None:
                 headers = {'Authorization': self.auth_token}
 
-            response = Backend.get_session().request("GET", url, headers=headers)
+            response = Backend.get_session().request("GET", url, headers=headers, stream=stream)
         except Exception as e:
             raise TemporaryFetchIssue(f"Can't retrieve from {url}: {e}")
 
@@ -321,6 +321,7 @@ class Backend(BaseBackend):
         return status, completed, metadata, tests, metrics, logs, attachments
 
     def update_metadata_from_file(self, results, metadata):
+        logger.debug("Updating metadata using tuxusuite metadata file")
         if "download_url" in results:
             download_url = results["download_url"]
             try:
@@ -332,6 +333,7 @@ class Backend(BaseBackend):
                 pass
 
     def parse_test_results(self, test_job, job_url, results, settings):
+        logger.debug("Parsing Tuxsuite test results")
         status = 'Complete'
         completed = True
         tests = {}
@@ -360,6 +362,7 @@ class Backend(BaseBackend):
         except ValueError:
             pass
         test_job.name = ','.join(results['tests'])
+        logger.debug(f"Set job name: {test_job.name}")
 
         if results['results'] == {}:
             waiting_for = results.get('waiting_for')
@@ -372,6 +375,7 @@ class Backend(BaseBackend):
 
             self.add_skip_boot_test(tests, metadata)
 
+            logger.debug("No results found, aborting")
             return status, completed, metadata, tests, metrics, logs, attachments
 
         # Fetch results even if the job fails, but has results
@@ -381,27 +385,50 @@ class Backend(BaseBackend):
         elif results['result'] == 'error':
             test_job.failure = 'tuxsuite infrastructure error'
             self.add_skip_boot_test(tests, metadata)
+            logger.debug("Job has ran into an error in Tuxsuite")
             return 'Incomplete', completed, metadata, tests, metrics, logs, attachments
 
         elif results['result'] == 'canceled':
             test_job.failure = 'tuxsuite job canceled'
             self.add_skip_boot_test(tests, metadata)
+            logger.debug("Job has ran been canceled in Tuxsuite")
             return 'Canceled', completed, metadata, tests, metrics, logs, attachments
 
         # If boot result is unkown, a retry is needed, otherwise, it either passed or failed
         if 'unknown' == results['results']['boot']:
+            logger.debug("Job has unknown boot result in Tuxsuite")
             return None
 
-        # Retrieve plain text log
-        logs = self.fetch_url(job_url + '/', 'logs?format=txt').text
-
         # Retrieve YAML log
-        log_structured = self.fetch_url(results["download_url"], 'lava-logs.yaml').text
-        log_data = yaml.safe_load(log_structured)
+        # NOTE: using `yaml.safe_load` consumes a LOT of memory, avoid when possible
+        logger.debug("Downloading logs as yaml")
+        log_data = []
+        response = self.fetch_url(results["download_url"], 'lava-logs.yaml', stream=True)
+        for line in response.iter_lines():
+            if line is None:
+                continue
+
+            line = line.decode("utf-8")
+
+            if '"target"' not in line:
+                log_data.append(None)
+                continue
+
+            try:
+                # 64 is the start of the target log in yaml log files
+                # -2 is to cut off the end of log line that yaml format has: "}
+                raw_line = line[64:-2]
+                log_data.append(raw_line)
+            except IndexError:
+                log_data.append(None)
+
+        # Retrieve plain text log
+        logs = '\n'.join([line for line in log_data if line])
 
         attachment_list = ["reproducer", "tux_plan.yaml"]
         attachments = {}
         for name in attachment_list:
+            logger.debug(f"Downloading {name}")
             response = self.fetch_url(job_url + '/', name)
             if response.ok:
                 attachments[name] = ContentFile(response.content)
@@ -413,12 +440,8 @@ class Backend(BaseBackend):
         boot_test_name = 'boot/' + (metadata.get('build_name') or 'boot')
         tests[boot_test_name] = {'result': results['results']['boot']}
 
-        lava_signal = re.compile("^<LAVA_SIGNAL_")
-
         def filter_log(line):
-            return type(line["msg"]) is str \
-                and line["lvl"] == "target" \
-                and not lava_signal.match(line["msg"])
+            return line and not line.startswith("<LAVA_SIGNAL_")
 
         # Really fetch test results
         tests_results = self.fetch_url(job_url + '/', 'results').json()
@@ -446,7 +469,7 @@ class Backend(BaseBackend):
                         else:
                             endtc = starttc + 2
                         log_lines = [
-                            line["msg"].replace("\x00", "")
+                            line.replace("\x00", "")
                             for line in log_data[starttc:endtc]
                             if filter_log(line)
                         ]
@@ -458,15 +481,18 @@ class Backend(BaseBackend):
         return status, completed, metadata, tests, metrics, logs, attachments
 
     def fetch(self, test_job):
+        logger.debug("Fetching Tuxsuite job")
         url = self.job_url(test_job)
 
         settings = self.__resolve_settings__(test_job)
         self.auth_token = settings.get('TUXSUITE_TOKEN', None)
 
         if test_job.input:
+            logger.debug("Fetching results from local storage (results input)")
             results = self.fetch_from_results_input(test_job)
             test_job.input = None
         else:
+            logger.debug(f"Fetching results from {url}")
             results = self.fetch_url(url).json()
 
         if results.get('state') != 'finished':
